@@ -18,13 +18,17 @@ package com.example.android.trackmysleepquality.sleeptracker
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.example.android.trackmysleepquality.database.SleepDatabaseDao
+import androidx.lifecycle.SavedStateHandle
+import com.example.android.trackmysleepquality.database.SleepDatabase
 
-/**
- * ViewModel for SleepTrackerFragment.
- */
 class SleepTrackerViewModel(
-        val database: SleepDatabaseDao,
-        application: Application) : AndroidViewModel(application) {
+        app: Application, state: SavedStateHandle) : AndroidViewModel(app) {
+
+    val dao = SleepDatabase.instance.sleepDatabaseDao
+
+    fun onStart() : Nothing = TODO()
+    fun onStop()  : Nothing = TODO()
+    fun onClear() : Nothing = TODO()
+
 }
 

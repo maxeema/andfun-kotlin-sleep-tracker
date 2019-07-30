@@ -22,6 +22,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.SavedStateViewModelFactory
 import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.databinding.FragmentSleepTrackerBinding
 
@@ -32,18 +34,19 @@ import com.example.android.trackmysleepquality.databinding.FragmentSleepTrackerB
  */
 class SleepTrackerFragment : Fragment() {
 
-    /**
-     * Called when the Fragment is ready to display content to the screen.
-     *
-     * This function uses DataBindingUtil to inflate R.layout.fragment_sleep_quality.
-     */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        // Get a reference to the binding object and inflate the fragment views.
+        val model by viewModels<SleepTrackerViewModel>(
+                factoryProducer = { SavedStateViewModelFactory(this, savedInstanceState) }
+        )
         val binding: FragmentSleepTrackerBinding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_sleep_tracker, container, false)
 
+        binding.lifecycleOwner = this
+        binding.model = model
+
         return binding.root
     }
+
 }
