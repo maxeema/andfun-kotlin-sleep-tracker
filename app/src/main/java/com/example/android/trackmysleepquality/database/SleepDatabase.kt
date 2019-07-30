@@ -15,3 +15,33 @@
  */
 
 package com.example.android.trackmysleepquality.database
+
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import com.example.android.trackmysleepquality.app
+
+const val DB_SLEEP_HISTORY    = "sleep_history_database"
+const val TABLE_SLEEP_QUALITY = "daily_sleep_quality_table"
+
+@Database(
+        entities = [SleepNight::class],
+        version = 1,
+        exportSchema = false
+)
+abstract class SleepDatabase : RoomDatabase() {
+
+    abstract val sleepDatabaseDao: SleepDatabaseDao
+
+    companion object {
+
+        val instance by lazy {
+            Room.databaseBuilder(app, SleepDatabase::class.java, DB_SLEEP_HISTORY).run {
+                fallbackToDestructiveMigration()
+                build()
+            }
+        }
+
+    }
+
+}
