@@ -37,3 +37,6 @@ data class SleepNight(
         var sleepQuality    : Int = -1
 
 )
+
+fun SleepNight.isActive() = startTimeMillis == endTimeMillis
+fun SleepNight.wakeup() { endTimeMillis = System.currentTimeMillis() }
