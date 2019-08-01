@@ -15,3 +15,35 @@
  */
 
 package com.example.android.trackmysleepquality.sleepquality
+
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.android.trackmysleepquality.asImmutable
+import com.example.android.trackmysleepquality.asMutable
+import com.example.android.trackmysleepquality.database.SleepDatabase
+import com.example.android.trackmysleepquality.database.SleepDatabaseDao
+import com.example.android.trackmysleepquality.singleArgViewModelFactory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
+class SleepQualityViewModel(private val sleepNightKey: Long) : ViewModel() {
+
+    companion object {
+        val FACTORY = singleArgViewModelFactory(::SleepQualityViewModel)
+    }
+
+    private val dao = SleepDatabase.instance.sleepDatabaseDao
+
+    val navigateBack = MutableLiveData<Boolean>().asImmutable()
+
+    fun onSetSleepQuality(value: Int) = viewModelScope.launch {
+        val night = dao { get(sleepNightKey) } ?: return@launch
+        night.sleepQuality = value
+        dao { update(night) }
+        navigateBack.asMutable().value = true
+    }
+
+    private suspend fun <T> dao(block: SleepDatabaseDao.()->T) = withContext(Dispatchers.IO) { dao.block() }
+}

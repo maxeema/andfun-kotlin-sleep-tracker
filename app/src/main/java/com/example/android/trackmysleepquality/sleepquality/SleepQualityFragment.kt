@@ -22,8 +22,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.databinding.FragmentSleepQualityBinding
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 
 /**
  * Fragment that displays a list of clickable icons,
@@ -31,22 +36,35 @@ import com.example.android.trackmysleepquality.databinding.FragmentSleepQualityB
  * Once the user taps an icon, the quality is set in the current sleepNight
  * and the database is updated.
  */
-class SleepQualityFragment : Fragment() {
+class SleepQualityFragment : Fragment(), AnkoLogger {
 
-    /**
-     * Called when the Fragment is ready to display content to the screen.
-     *
-     * This function uses DataBindingUtil to inflate R.layout.fragment_sleep_quality.
-     */
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        info("${hashCode()} onCreate")
+    }
 
-        // Get a reference to the binding object and inflate the fragment views.
-        val binding: FragmentSleepQualityBinding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_sleep_quality, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        info("${hashCode()} onCreateView")
 
-        val application = requireNotNull(this.activity).application
+        val model by viewModels<SleepQualityViewModel>(factoryProducer = {
+            SleepQualityViewModel.FACTORY(SleepQualityFragmentArgs.fromBundle(requireArguments()).sleepNightKey)
+        })
+        val binding = DataBindingUtil.inflate<FragmentSleepQualityBinding>(inflater, R.layout.fragment_sleep_quality, container, false)
+
+        binding.lifecycleOwner = this
+        binding.model = model
+
+        model.navigateBack.observe(this, Observer {
+            info("navigateBack observing $it")
+            if (it) findNavController().popBackStack()
+        })
 
         return binding.root
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        info("${hashCode()} onDestroy")
+    }
+
 }

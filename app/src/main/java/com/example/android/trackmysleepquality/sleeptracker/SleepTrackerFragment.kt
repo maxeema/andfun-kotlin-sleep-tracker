@@ -23,30 +23,50 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.SavedStateViewModelFactory
+import androidx.navigation.fragment.findNavController
 import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.databinding.FragmentSleepTrackerBinding
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 
 /**
  * A fragment with buttons to record start and end times for sleep, which are saved in
  * a database. Cumulative data is displayed in a simple scrollable TextView.
- * (Because we have not learned about RecyclerView yet.)
  */
-class SleepTrackerFragment : Fragment() {
+class SleepTrackerFragment : Fragment(), AnkoLogger {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        info("${hashCode()} onCreate")
+    }
 
-        val model by viewModels<SleepTrackerViewModel>(
-                factoryProducer = { SavedStateViewModelFactory(this, savedInstanceState) }
-        )
-        val binding: FragmentSleepTrackerBinding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_sleep_tracker, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        info("${hashCode()} onCreateView, $savedInstanceState")
+
+        val model by viewModels<SleepTrackerViewModel>( factoryProducer = { SavedStateViewModelFactory(this, savedInstanceState) } )
+        val binding = DataBindingUtil.inflate<FragmentSleepTrackerBinding>(inflater, R.layout.fragment_sleep_tracker, container, false)
 
         binding.lifecycleOwner = this
         binding.model = model
 
+        model.tonight.observe(this, Observer {
+            it?.apply { binding.scroll.smoothScrollTo(0, 0) }
+        })
+        model.navigateToSleepQuality.observe(this, Observer { night ->
+            if (night == null) return@Observer
+            binding.scroll.scrollTo(0, 0)
+            findNavController().navigate(SleepTrackerFragmentDirections.actionSleepTrackerFragmentToSleepQualityFragment(night.nightId))
+            model.sleepQualityNavigatingDone()
+        })
+
         return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        info("${hashCode()} onDestroy")
     }
 
 }

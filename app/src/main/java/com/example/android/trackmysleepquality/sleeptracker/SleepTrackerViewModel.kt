@@ -18,6 +18,8 @@ package com.example.android.trackmysleepquality.sleeptracker
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.example.android.trackmysleepquality.asImmutable
+import com.example.android.trackmysleepquality.asMutable
 import com.example.android.trackmysleepquality.database.*
 import com.example.android.trackmysleepquality.formatNights
 import kotlinx.coroutines.Dispatchers
@@ -28,31 +30,37 @@ class SleepTrackerViewModel(private val app: Application, state: SavedStateHandl
 
     private val dao     = SleepDatabase.instance.sleepDatabaseDao
     private val nights  = dao.getAll()
-    private val tonight = MutableLiveData<SleepNight?>()
 
     init {
-        viewModelScope.launch { tonight.value = dao { getTonight()?.takeIf { it.isActive() } } }
+        viewModelScope.launch { tonight.asMutable().value = dao { getTonight()?.takeIf { it.isActive() } } }
     }
 
+    val tonight = MutableLiveData<SleepNight?>().asImmutable()
     val nightsStr = Transformations.map(nights) { nights -> formatNights(nights, app.resources) }
+    val navigateToSleepQuality = MutableLiveData<SleepNight>().asImmutable()
 
     fun onStart() = viewModelScope.launch {
         if (tonight.value != null && tonight.value!!.isActive()) return@launch
         dao { insert(SleepNight()) }
-        tonight.value = dao { getTonight() }
+        tonight.asMutable().value = dao { getTonight() }
     }
     fun onStop() = viewModelScope.launch {
         if (tonight.value == null || !tonight.value!!.isActive()) return@launch
         tonight.value!!.wakeup()
         dao { update(tonight.value!!) }
+        navigateToSleepQuality.asMutable().value = tonight.value
     }
     fun onClear() = viewModelScope.launch {
         if (tonight.value == null) return@launch
         dao { clear() }
-        tonight.value = null
+        tonight.asMutable().value = null
     }
 
     private suspend fun <T> dao(block: SleepDatabaseDao.()->T) = withContext(Dispatchers.IO) { dao.block() }
+
+    fun sleepQualityNavigatingDone() {
+        navigateToSleepQuality.asMutable().value = null
+    }
 
 }
 
