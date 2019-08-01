@@ -17,49 +17,40 @@
 package com.example.android.trackmysleepquality.sleeptracker
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.*
 import com.example.android.trackmysleepquality.database.*
 import com.example.android.trackmysleepquality.formatNights
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SleepTrackerViewModel(private val app: Application, state: SavedStateHandle) : AndroidViewModel(app) {
 
     private val dao     = SleepDatabase.instance.sleepDatabaseDao
-    private val job     = Job()
-    private val scope   = CoroutineScope(Dispatchers.Main + job)
     private val nights  = dao.getAll()
     private val tonight = MutableLiveData<SleepNight?>()
 
     init {
-        scope.launch { tonight.value = getTonight() }
+        viewModelScope.launch { tonight.value = dao { getTonight()?.takeIf { it.isActive() } } }
     }
 
     val nightsStr = Transformations.map(nights) { nights -> formatNights(nights, app.resources) }
 
-    fun onStart() = scope.launch {
-        insert(SleepNight())
-        tonight.value = getTonight()
+    fun onStart() = viewModelScope.launch {
+        if (tonight.value != null && tonight.value!!.isActive()) return@launch
+        dao { insert(SleepNight()) }
+        tonight.value = dao { getTonight() }
     }
-    fun onStop() = scope.launch {
+    fun onStop() = viewModelScope.launch {
+        if (tonight.value == null || !tonight.value!!.isActive()) return@launch
         tonight.value!!.wakeup()
-        update(tonight.value!!)
+        dao { update(tonight.value!!) }
     }
-    fun onClear() = scope.launch {
-        clear(); tonight.value = null
+    fun onClear() = viewModelScope.launch {
+        if (tonight.value == null) return@launch
+        dao { clear() }
+        tonight.value = null
     }
-
-    override fun onCleared() {
-        super.onCleared()
-        job.cancel()
-    }
-
-    private suspend fun getTonight()          = dao { getTonight()?.takeIf { it.isActive() } }
-    private suspend fun insert(n: SleepNight) = dao { insert(n) }
-    private suspend fun update(n: SleepNight) = dao { update(n) }
-    private suspend fun clear()               = dao { clear() }
 
     private suspend fun <T> dao(block: SleepDatabaseDao.()->T) = withContext(Dispatchers.IO) { dao.block() }
 
