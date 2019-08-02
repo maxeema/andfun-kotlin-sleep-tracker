@@ -70,11 +70,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin"
             android:text="@string/start"
-            android:onClick="@{()->model.onStart()}"
+            android:onClick="@{()->model.onDoSleep()}"
             app:layout_constraintBaseline_toBaselineOf="@id/stop_button"
             app:layout_constraintEnd_toStartOf="@+id/stop_button"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:enabled="@{!model.isSleeping}"/>
 
         <Button
             android:id="@+id/stop_button"
@@ -84,10 +85,11 @@
             android:layout_marginTop="@dimen/margin"
             android:layout_marginEnd="@dimen/margin"
             android:text="@string/stop"
-            android:onClick="@{()->model.onStop()}"
+            android:onClick="@{()->model.onWakeUp()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/start_button"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:enabled="@{model.isSleeping}"/>
 
         <Button
             android:id="@+id/clear_button"
@@ -98,10 +100,11 @@
             android:layout_marginEnd="@dimen/margin"
             android:layout_marginBottom="@dimen/margin"
             android:text="@string/clear"
-            android:onClick="@{()->model.onClear()}"
+            android:onClick="@{()->model.onClearData()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:enabled="@{model.hasNights}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

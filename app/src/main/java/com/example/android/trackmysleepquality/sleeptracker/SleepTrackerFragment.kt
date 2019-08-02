@@ -28,19 +28,15 @@ import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.navigation.fragment.findNavController
 import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.databinding.FragmentSleepTrackerBinding
+import com.google.android.material.snackbar.Snackbar
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
 /**
- * A fragment with buttons to record start and end times for sleep, which are saved in
- * a database. Cumulative data is displayed in a simple scrollable TextView.
+ * A fragment with buttons to record start and end times for sleep, which are saved in a database.
+ * Cumulative data is displayed in a simple scrollable TextView.
  */
 class SleepTrackerFragment : Fragment(), AnkoLogger {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        info("${hashCode()} onCreate")
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         info("${hashCode()} onCreateView, $savedInstanceState")
@@ -54,14 +50,24 @@ class SleepTrackerFragment : Fragment(), AnkoLogger {
         model.tonight.observe(this, Observer {
             it?.apply { binding.scroll.smoothScrollTo(0, 0) }
         })
-        model.navigateToSleepQuality.observe(this, Observer { night ->
+        model.qualifyEvent.observe(this, Observer { night ->
             if (night == null) return@Observer
             binding.scroll.scrollTo(0, 0)
             findNavController().navigate(SleepTrackerFragmentDirections.actionSleepTrackerFragmentToSleepQualityFragment(night.nightId))
-            model.sleepQualityNavigatingDone()
+            model.qualifyEventConsumed()
+        })
+        model.messageEvent.observe(this, Observer { msg ->
+            if (msg == null) return@Observer
+            Snackbar.make(binding.root, msg, Snackbar.LENGTH_LONG).show()
+            model.messageEventConsumed()
         })
 
         return binding.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        info("${hashCode()} onCreate")
     }
 
     override fun onDestroy() {
