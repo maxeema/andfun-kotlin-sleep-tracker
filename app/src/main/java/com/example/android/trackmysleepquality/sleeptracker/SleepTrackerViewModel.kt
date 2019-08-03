@@ -28,19 +28,26 @@ import org.jetbrains.anko.AnkoLogger
 
 class SleepTrackerViewModel(private val app: Application, state: SavedStateHandle) : AndroidViewModel(app), AnkoLogger {
 
-    private val dao    = SleepDatabase.instance.sleepDatabaseDao
-    private val nights = dao.getAll()
+    private val dao = SleepDatabase.instance.sleepDatabaseDao
 
-    init { viewModelScope.launch { tonight.asMutable().value = dao { getTonight() } } }
+    val nights  = dao.getAll()
+    val tonight = MutableLiveData<SleepNight?>().asImmutable()
 
-    val tonight   = MutableLiveData<SleepNight?>().asImmutable()
-    val nightsStr = Transformations.map(nights) { formatNights(it, app.resources) }
+    init {
+        action {
+            runCatching {
+                tonight.asMutable().value = dao { getTonight() }
+            }.onFailure { err ->
+                messageEvent.asMutable().value = app.getString(R.string.sorry, err)
+            }
+        }
+    }
 
-    val isSleeping = Transformations.map(tonight) { it != null && it.isActive() }
+    val isSleeping = Transformations.map(tonight) { it?.isActive() ?: false }
     val hasNights  = Transformations.map(nights)  { it.isNotEmpty() }
 
-    val messageEvent = MutableLiveData<CharSequence>().asImmutable()
-    val qualifyEvent = MutableLiveData<SleepNight>().asImmutable()
+    val messageEvent = MutableLiveData<CharSequence?>().asImmutable()
+    val qualifyEvent = MutableLiveData<SleepNight?>().asImmutable()
 
     private var job : Job? = null
     private fun checkIsActive() = job?.isActive?.takeIf { it }
@@ -88,6 +95,7 @@ class SleepTrackerViewModel(private val app: Application, state: SavedStateHandl
         if (checkIsActive()) return
         viewModelScope.launch {
             this.block()
+            messageEvent.asMutable().value = null
         }.apply {
             job = this
         }.invokeOnCompletion {

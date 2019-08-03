@@ -53,6 +53,6 @@
     <!-- Toast to play after Clear button has been pressed -->
     <string name="cleared_message">All your data is gone forever</string>
     <string name="sorry">Sorry, error has occurred\n\n%1$s</string>
-    <string name="please">Please, try a bit later.\nPrevious operation wasn\'t completed.</string>
+    <string name="please">Please, try a bit later</string>
 
 </resources>

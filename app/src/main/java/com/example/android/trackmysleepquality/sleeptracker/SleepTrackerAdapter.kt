@@ -1,24 +1,43 @@
 package com.example.android.trackmysleepquality.sleeptracker
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.trackmysleepquality.database.SleepNight
+import com.example.android.trackmysleepquality.databinding.TextItemViewBinding
 
 class SleepTrackerAdapter : RecyclerView.Adapter<TextItemViewHolder>() {
 
-    private val data = mutableListOf<SleepNight>()
+    init {
+        setHasStableIds(true)
+    }
+
+    var data = listOf<SleepNight>()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun getItemCount() = data.size
 
     override fun onBindViewHolder(holder: TextItemViewHolder, position: Int) {
-        holder.textView.text = data[position].sleepQuality.toString()
+        holder.bind(data[position])
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextItemViewHolder {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return TextItemViewHolder(TextItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
+
+    override fun getItemId(position: Int) = data[position].nightId
 
 }
 
-class TextItemViewHolder(val textView: TextView): RecyclerView.ViewHolder(textView)
+class TextItemViewHolder(private val binding: TextItemViewBinding): RecyclerView.ViewHolder(binding.root) {
+    fun bind(item: SleepNight) {
+        binding.apply {
+            night = item
+            itemView.tag = item
+            executePendingBindings()
+        }
+    }
+}

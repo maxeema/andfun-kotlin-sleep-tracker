@@ -20,28 +20,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.databinding.FragmentSleepQualityBinding
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
-/**
- * Fragment that displays a list of clickable icons,
- * each representing a sleep quality rating.
- * Once the user taps an icon, the quality is set in the current sleepNight
- * and the database is updated.
- */
 class SleepQualityFragment : Fragment(), AnkoLogger {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        info("${hashCode()} onCreate")
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         info("${hashCode()} onCreateView")
@@ -49,7 +36,7 @@ class SleepQualityFragment : Fragment(), AnkoLogger {
         val model by viewModels<SleepQualityViewModel>(factoryProducer = {
             SleepQualityViewModel.FACTORY(SleepQualityFragmentArgs.fromBundle(requireArguments()).sleepNightKey)
         })
-        val binding = DataBindingUtil.inflate<FragmentSleepQualityBinding>(inflater, R.layout.fragment_sleep_quality, container, false)
+        val binding = FragmentSleepQualityBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = this
         binding.model = model
@@ -60,6 +47,11 @@ class SleepQualityFragment : Fragment(), AnkoLogger {
         })
 
         return binding.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        info("${hashCode()} onCreate")
     }
 
     override fun onDestroy() {

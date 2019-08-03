@@ -20,13 +20,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.SavedStateViewModelFactory
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.databinding.FragmentSleepTrackerBinding
 import com.google.android.material.snackbar.Snackbar
 import org.jetbrains.anko.AnkoLogger
@@ -34,33 +32,39 @@ import org.jetbrains.anko.info
 
 /**
  * A fragment with buttons to record start and end times for sleep, which are saved in a database.
- * Cumulative data is displayed in a simple scrollable TextView.
+ * Cumulative data is displayed in a RecyclerView
  */
 class SleepTrackerFragment : Fragment(), AnkoLogger {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         info("${hashCode()} onCreateView, $savedInstanceState")
 
-        val model by viewModels<SleepTrackerViewModel>( factoryProducer = { SavedStateViewModelFactory(this, savedInstanceState) } )
-        val binding = DataBindingUtil.inflate<FragmentSleepTrackerBinding>(inflater, R.layout.fragment_sleep_tracker, container, false)
+        val model by viewModels<SleepTrackerViewModel>(factoryProducer = { SavedStateViewModelFactory(this, savedInstanceState) })
+        val binding = FragmentSleepTrackerBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = this
         binding.model = model
 
-        model.tonight.observe(this, Observer {
+        val adapter = SleepTrackerAdapter()
+        binding.sleepList.adapter = adapter
+
+        model.tonight.observe(viewLifecycleOwner) {
             it?.apply { binding.sleepList.smoothScrollToPosition(0) }
-        })
-        model.qualifyEvent.observe(this, Observer { night ->
-            if (night == null) return@Observer
+        }
+        model.nights.observe(viewLifecycleOwner) { nights ->
+            adapter.data = nights
+        }
+        model.qualifyEvent.observe(viewLifecycleOwner) { night ->
+            night ?: return@observe
             binding.sleepList.scrollToPosition(0)
             findNavController().navigate(SleepTrackerFragmentDirections.actionSleepTrackerFragmentToSleepQualityFragment(night.nightId))
             model.qualifyEventConsumed()
-        })
-        model.messageEvent.observe(this, Observer { msg ->
-            if (msg == null) return@Observer
+        }
+        model.messageEvent.observe(viewLifecycleOwner) { msg ->
+            msg ?: return@observe
             Snackbar.make(binding.root, msg, Snackbar.LENGTH_LONG).show()
             model.messageEventConsumed()
-        })
+        }
 
         return binding.root
     }

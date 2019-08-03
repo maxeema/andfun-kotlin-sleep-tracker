@@ -46,4 +46,5 @@ class SleepQualityViewModel(private val sleepNightKey: Long) : ViewModel() {
     }
 
     private suspend fun <T> dao(block: SleepDatabaseDao.()->T) = withContext(Dispatchers.IO) { dao.block() }
+
 }

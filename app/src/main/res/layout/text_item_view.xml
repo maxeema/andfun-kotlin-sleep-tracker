@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable name="night" type="com.example.android.trackmysleepquality.database.SleepNight" />
+    </data>
+
+    <TextView android:text="@{String.valueOf(night.sleepQuality)}"
+        android:textSize="24sp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</layout>
