@@ -25,6 +25,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.android.trackmysleepquality.databinding.FragmentSleepTrackerBinding
 import com.google.android.material.snackbar.Snackbar
 import org.jetbrains.anko.AnkoLogger
@@ -45,12 +46,17 @@ class SleepTrackerFragment : Fragment(), AnkoLogger {
         binding.lifecycleOwner = this
         binding.model = model
 
-        val adapter = SleepTrackerAdapter()
-        binding.sleepList.adapter = adapter
+        val adapter = SleepTrackerAdapter().apply {
+            binding.sleepList.adapter = this
+            registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
+                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                    binding.sleepList.scrollToPosition(0)
+                }
+            })
+        }
 
         model.nights.observe(viewLifecycleOwner) { nights ->
             adapter.submitList(nights)
-            binding.sleepList.smoothScrollToPosition(0)
         }
         model.qualifyEvent.observe(viewLifecycleOwner) { night ->
             night ?: return@observe
@@ -60,7 +66,7 @@ class SleepTrackerFragment : Fragment(), AnkoLogger {
         }
         model.messageEvent.observe(viewLifecycleOwner) { msg ->
             msg ?: return@observe
-            Snackbar.make(binding.root, msg, Snackbar.LENGTH_LONG).show()
+            Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT).show()
             model.messageEventConsumed()
         }
         return binding.root
