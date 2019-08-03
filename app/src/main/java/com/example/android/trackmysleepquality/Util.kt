@@ -18,31 +18,33 @@ package com.example.android.trackmysleepquality
 
 import android.annotation.SuppressLint
 import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
 import androidx.core.text.HtmlCompat
 import com.example.android.trackmysleepquality.database.SleepNight
+import java.lang.ref.SoftReference
 import java.text.SimpleDateFormat
 
 /**
  * These functions create a formatted string that can be set in a TextView.
  */
 
-/**
- * Returns a string representing the numeric quality rating.
- */
-fun convertNumericQualityToString(quality: Int, resources: Resources): String {
-    var qualityString = resources.getString(R.string.three_ok)
-    when (quality) {
-        -1 -> qualityString = "--"
-        0 -> qualityString = resources.getString(R.string.zero_very_bad)
-        1 -> qualityString = resources.getString(R.string.one_poor)
-        2 -> qualityString = resources.getString(R.string.two_soso)
-        4 -> qualityString = resources.getString(R.string.four_pretty_good)
-        5 -> qualityString = resources.getString(R.string.five_excellent)
-    }
-    return qualityString
+private val qualityStr = arrayOf(
+        R.string.zero_very_bad,   R.string.one_poor,           R.string.two_soso,
+        R.string.three_ok,        R.string.four_pretty_good,   R.string.five_excellent)
+fun convertNumericQualityToString(quality: Int)
+        = if (quality in 0..5) app.getString(qualityStr[quality]) else  "- - -"
+
+private val imsSleepCache = arrayOfNulls<SoftReference<Drawable>>(6)
+private val imgSleepActive by lazy { app.getDrawable(R.drawable.ic_sleep_active)!! }
+fun convertNumericQualityToImage(quality: Int) = when (quality) {
+    in 0..5 -> imsSleepCache[quality]?.get()
+        ?: app.getDrawable(app.resources.getIdentifier("ic_sleep_$quality", "drawable", app.packageName))!!.apply {
+            imsSleepCache[quality] = SoftReference(this)
+        }
+    else -> imgSleepActive
 }
 
 
@@ -86,7 +88,7 @@ fun formatNights(nights: List<SleepNight>, resources: Resources): Spanned {
                 append(resources.getString(R.string.end_time))
                 append(" ${convertLongToDateString(it.endTimeMillis)}<br>")
                 append(resources.getString(R.string.quality))
-                append(" ${convertNumericQualityToString(it.sleepQuality, resources)}<br>")
+                append(" ${convertNumericQualityToString(it.sleepQuality)}<br>")
                 append(resources.getString(R.string.hours_slept))
                 // Hours
                 append(" ${it.endTimeMillis.minus(it.startTimeMillis) / 1000 / 60 / 60}:")

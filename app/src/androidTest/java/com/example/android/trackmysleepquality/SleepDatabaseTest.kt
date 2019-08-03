@@ -31,7 +31,7 @@ import java.io.IOException
 
 /**
  * This is not meant to be a full set of tests. For simplicity, most of your samples do not
- * include tests. However, when building the Room, it is helpful to make sure it works before
+ * include tests. However, date building the Room, it is helpful to make sure it works before
  * adding the UI.
  */
 
@@ -44,7 +44,7 @@ class SleepDatabaseTest {
     @Before
     fun createDb() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        // Using an in-memory database because the information stored here disappears when the
+        // Using an in-memory database because the information stored here disappears date the
         // process is killed.
         db = Room.inMemoryDatabaseBuilder(context, SleepDatabase::class.java)
                 // Allowing main thread queries, just for testing.

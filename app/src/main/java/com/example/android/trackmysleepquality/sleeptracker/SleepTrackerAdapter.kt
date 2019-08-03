@@ -4,7 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.trackmysleepquality.database.SleepNight
-import com.example.android.trackmysleepquality.databinding.TextItemViewBinding
+import com.example.android.trackmysleepquality.database.date
+import com.example.android.trackmysleepquality.database.how
+import com.example.android.trackmysleepquality.database.icon
+import com.example.android.trackmysleepquality.databinding.SleepItemViewBinding
 
 class SleepTrackerAdapter : RecyclerView.Adapter<TextItemViewHolder>() {
 
@@ -25,19 +28,21 @@ class SleepTrackerAdapter : RecyclerView.Adapter<TextItemViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextItemViewHolder {
-        return TextItemViewHolder(TextItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return TextItemViewHolder(SleepItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun getItemId(position: Int) = data[position].nightId
 
 }
 
-class TextItemViewHolder(private val binding: TextItemViewBinding): RecyclerView.ViewHolder(binding.root) {
-    fun bind(item: SleepNight) {
-        binding.apply {
-            night = item
-            itemView.tag = item
-            executePendingBindings()
-        }
+class TextItemViewHolder(private val binding: SleepItemViewBinding): RecyclerView.ViewHolder(binding.root) {
+
+    fun bind(item: SleepNight) = binding.apply {
+        how.text = item.how
+        date.text= item.date
+        icon.setImageDrawable(item.icon)
+        itemView.tag = item
+        executePendingBindings()
     }
+
 }
