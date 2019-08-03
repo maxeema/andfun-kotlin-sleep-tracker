@@ -48,11 +48,11 @@ class SleepTrackerFragment : Fragment(), AnkoLogger {
         binding.model = model
 
         model.tonight.observe(this, Observer {
-            it?.apply { binding.scroll.smoothScrollTo(0, 0) }
+            it?.apply { binding.sleepList.smoothScrollToPosition(0) }
         })
         model.qualifyEvent.observe(this, Observer { night ->
             if (night == null) return@Observer
-            binding.scroll.scrollTo(0, 0)
+            binding.sleepList.scrollToPosition(0)
             findNavController().navigate(SleepTrackerFragmentDirections.actionSleepTrackerFragmentToSleepQualityFragment(night.nightId))
             model.qualifyEventConsumed()
         })
