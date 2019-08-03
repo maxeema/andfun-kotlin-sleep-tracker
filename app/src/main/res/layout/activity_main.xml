@@ -14,7 +14,7 @@
   ~ limitations under the License.
   -->
 
-<!-- The merge tag can be used to eliminate redundant layouts date
+<!-- The merge tag can be used to eliminate redundant layouts logNight
      including layouts, and it's a good idea to use it.
      See: https://developer.android.com/training/improving-layouts/reusing-layouts -->
 

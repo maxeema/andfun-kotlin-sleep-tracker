@@ -16,14 +16,9 @@
 
 package com.example.android.trackmysleepquality.database
 
-import android.text.format.DateUtils.*
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.android.trackmysleepquality.app
-import com.example.android.trackmysleepquality.convertNumericQualityToImage
-import com.example.android.trackmysleepquality.convertNumericQualityToString
-
 
 @Entity(tableName = TABLE_SLEEP_QUALITY)
 data class SleepNight(
@@ -46,8 +41,3 @@ data class SleepNight(
 fun SleepNight.isActive() = startTimeMillis == endTimeMillis
 fun SleepNight.wakeup() { endTimeMillis = System.currentTimeMillis() }
 
-val SleepNight.icon get() = convertNumericQualityToImage(sleepQuality)
-val SleepNight.how  get() = convertNumericQualityToString(sleepQuality)
-val SleepNight.date get() = "%s - %s".format(
-        formatDateTime(app, startTimeMillis, FORMAT_ABBREV_ALL.or(FORMAT_SHOW_DATE).or(FORMAT_SHOW_TIME)),
-            if (isActive()) "..." else formatDateTime(app, endTimeMillis, FORMAT_ABBREV_ALL.or(FORMAT_SHOW_DATE).or(FORMAT_SHOW_TIME)))

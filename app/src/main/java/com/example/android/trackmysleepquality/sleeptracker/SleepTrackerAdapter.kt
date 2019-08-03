@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.trackmysleepquality.database.SleepNight
-import com.example.android.trackmysleepquality.database.date
-import com.example.android.trackmysleepquality.database.how
-import com.example.android.trackmysleepquality.database.icon
 import com.example.android.trackmysleepquality.databinding.SleepItemViewBinding
+import com.example.android.trackmysleepquality.describeNight
+import com.example.android.trackmysleepquality.logNight
+import com.example.android.trackmysleepquality.presentNight
 
 class SleepTrackerAdapter : RecyclerView.Adapter<TextItemViewHolder>() {
 
@@ -38,9 +38,7 @@ class SleepTrackerAdapter : RecyclerView.Adapter<TextItemViewHolder>() {
 class TextItemViewHolder(private val binding: SleepItemViewBinding): RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: SleepNight) = binding.apply {
-        how.text = item.how
-        date.text= item.date
-        icon.setImageDrawable(item.icon)
+        howStr = item.describeNight(); whenStr= item.logNight(); iconImg = item.presentNight()
         itemView.tag = item
         executePendingBindings()
     }
