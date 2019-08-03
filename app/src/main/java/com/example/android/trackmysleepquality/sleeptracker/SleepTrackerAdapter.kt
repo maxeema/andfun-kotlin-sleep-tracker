@@ -2,45 +2,46 @@ package com.example.android.trackmysleepquality.sleeptracker
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.trackmysleepquality.database.SleepNight
-import com.example.android.trackmysleepquality.databinding.SleepItemViewBinding
-import com.example.android.trackmysleepquality.describeNight
-import com.example.android.trackmysleepquality.logNight
-import com.example.android.trackmysleepquality.presentNight
+import com.example.android.trackmysleepquality.databinding.SleepNightItemBinding
+import com.example.android.trackmysleepquality.describeIt
+import com.example.android.trackmysleepquality.logIt
+import com.example.android.trackmysleepquality.presentIt
 
-class SleepTrackerAdapter : RecyclerView.Adapter<TextItemViewHolder>() {
+class SleepTrackerAdapter : ListAdapter<SleepNight, SleepNightViewHolder>(SleepNightItemCallback()) {
 
     init {
         setHasStableIds(true)
     }
 
-    var data = listOf<SleepNight>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
-
-    override fun getItemCount() = data.size
-
-    override fun onBindViewHolder(holder: TextItemViewHolder, position: Int) {
-        holder.bind(data[position])
+    override fun onBindViewHolder(holder: SleepNightViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextItemViewHolder {
-        return TextItemViewHolder(SleepItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SleepNightViewHolder {
+        return SleepNightViewHolder(SleepNightItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
-    override fun getItemId(position: Int) = data[position].nightId
+    override fun getItemId(position: Int) = getItem(position).nightId
 
 }
 
-class TextItemViewHolder(private val binding: SleepItemViewBinding): RecyclerView.ViewHolder(binding.root) {
+class SleepNightViewHolder(private val binding: SleepNightItemBinding): RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: SleepNight) = binding.apply {
-        howStr = item.describeNight(); whenStr= item.logNight(); iconImg = item.presentNight()
-        itemView.tag = item
+    fun bind(night: SleepNight) = binding.apply {
+        howStr = night.describeIt(); whenStr= night.logIt(); iconImg = night.presentIt()
+        itemView.tag = night
         executePendingBindings()
     }
+
+}
+
+class SleepNightItemCallback: DiffUtil.ItemCallback<SleepNight>() {
+
+    override fun areItemsTheSame(oldItem: SleepNight, newItem: SleepNight)    = oldItem.nightId == newItem.nightId
+    override fun areContentsTheSame(oldItem: SleepNight, newItem: SleepNight) = oldItem == newItem
 
 }

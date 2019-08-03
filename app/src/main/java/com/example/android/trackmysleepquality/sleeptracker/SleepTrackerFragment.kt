@@ -32,14 +32,14 @@ import org.jetbrains.anko.info
 
 /**
  * A fragment with buttons to record start and end times for sleep, which are saved in a database.
- * Cumulative data is displayed in a RecyclerView
+ * Cumulative data is displayed in a RecyclerView.
  */
 class SleepTrackerFragment : Fragment(), AnkoLogger {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         info("${hashCode()} onCreateView, $savedInstanceState")
 
-        val model by viewModels<SleepTrackerViewModel>(factoryProducer = { SavedStateViewModelFactory(this, savedInstanceState) })
+        val model : SleepTrackerViewModel by viewModels { SavedStateViewModelFactory(this, savedInstanceState) }
         val binding = FragmentSleepTrackerBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = this
@@ -48,11 +48,9 @@ class SleepTrackerFragment : Fragment(), AnkoLogger {
         val adapter = SleepTrackerAdapter()
         binding.sleepList.adapter = adapter
 
-        model.tonight.observe(viewLifecycleOwner) {
-            it?.apply { binding.sleepList.smoothScrollToPosition(0) }
-        }
         model.nights.observe(viewLifecycleOwner) { nights ->
-            adapter.data = nights
+            adapter.submitList(nights)
+            binding.sleepList.smoothScrollToPosition(0)
         }
         model.qualifyEvent.observe(viewLifecycleOwner) { night ->
             night ?: return@observe
@@ -65,8 +63,12 @@ class SleepTrackerFragment : Fragment(), AnkoLogger {
             Snackbar.make(binding.root, msg, Snackbar.LENGTH_LONG).show()
             model.messageEventConsumed()
         }
-
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        info("${hashCode()} onDestroyView")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

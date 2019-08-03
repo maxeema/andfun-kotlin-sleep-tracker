@@ -43,6 +43,9 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:requiresFadingEdge="vertical" android:fadingEdgeLength="45dp"
+            android:scrollbarStyle="insideOverlay" android:scrollbars="vertical"
+            android:paddingStart="10dp" android:paddingEnd="10dp"
             app:layout_constraintBottom_toTopOf="@+id/clear_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -96,4 +99,5 @@
             android:enabled="@{model.hasNights}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

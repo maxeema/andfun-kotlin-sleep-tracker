@@ -14,48 +14,46 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="80dp"
-        android:paddingStart="24dp"
+        android:paddingStart="8dp"
         android:paddingTop="10dp"
-        android:paddingEnd="24dp"
+        android:paddingEnd="8dp"
         android:paddingBottom="10dp">
 
         <TextView
             android:id="@+id/whenView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="16dp"
+            android:text="@{whenStr}"
             android:textSize="14sp"
-            android:fontFamily="@font/arbutus"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iconView"
-            tools:text="Friday night"
-            android:text="@{whenStr}"/>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Friday night" />
 
         <ImageView
             android:id="@+id/iconView"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:scaleType="centerCrop"
+            android:src="@{iconImg}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_sleep_5"
-            android:src="@{iconImg}"/>
+            tools:src="@drawable/ic_sleep_5" />
 
         <TextView
             android:id="@+id/howView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/whenView"
-            app:layout_constraintEnd_toEndOf="@+id/whenView"
-            app:layout_constraintStart_toEndOf="@+id/iconView"
-            app:layout_constraintStart_toStartOf="@+id/whenView"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Excellent"
+            android:text="@{howStr}"
+            android:textSize="16sp"
             android:textStyle="bold"
-            android:text="@{howStr}"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/whenView"
+            app:layout_constraintStart_toStartOf="@+id/whenView"
+            app:layout_constraintTop_toBottomOf="@+id/whenView"
+            tools:text="@string/five_excellent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
