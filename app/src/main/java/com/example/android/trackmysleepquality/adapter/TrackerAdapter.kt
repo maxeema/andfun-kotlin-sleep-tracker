@@ -22,6 +22,8 @@ class TrackerAdapter : ListAdapter<Night, ViewHolder>(DiffNightCallback()) {
         return ViewHolder(NightItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
+    public override fun getItem(position: Int) = super.getItem(position)
+
 }
 
 class ViewHolder(private val binding: NightItemBinding): RecyclerView.ViewHolder(binding.root) {

@@ -25,8 +25,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.trackmysleepquality.adapter.TrackerAdapter
+import com.example.android.trackmysleepquality.data.isActive
 import com.example.android.trackmysleepquality.databinding.FragmentTrackerBinding
 import com.example.android.trackmysleepquality.viewmodel.TrackerViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -45,20 +47,26 @@ class TrackerFragment : Fragment(), AnkoLogger {
         binding.model = model
 
         val adapter = TrackerAdapter().apply {
-            binding.sleepList.adapter = this
+            binding.list.adapter = this
             registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
                 override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                    binding.sleepList.scrollToPosition(0)
+                    binding.list.scrollToPosition(0)
                 }
             })
         }
-
+        binding.list.layoutManager.let { it as GridLayoutManager }.apply {
+            spanCount = 2
+            spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int)
+                    = adapter.getItem(position).let { if (it.isActive()) spanCount else 1 }
+            }
+        }
         model.nights.observe(viewLifecycleOwner) { nights ->
             adapter.submitList(nights)
         }
         model.qualifyEvent.observe(viewLifecycleOwner) { night ->
             night ?: return@observe
-            binding.sleepList.scrollToPosition(0)
+            binding.list.scrollToPosition(0)
             findNavController().navigate(TrackerFragmentDirections.actionTrackerFragToQualityFrag(night.nightId))
             model.qualifyEventConsumed()
         }
