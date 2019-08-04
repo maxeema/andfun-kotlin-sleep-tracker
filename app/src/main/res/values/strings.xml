@@ -18,8 +18,8 @@
 
     <!-- App title and fragment titles -->
     <string name="app_name">Track My Sleep Quality</string>
-    <string name="sleep_tracker_fragment">SleepTrackerFragment</string>
-    <string name="sleep_quality_fragment">SleepQualityFragment</string>
+    <string name="tracker_fragment">SleepTrackerFragment</string>
+    <string name="quality_fragment">SleepQualityFragment</string>
 
     <!-- Button labels -->
     <string name="start">Start</string>

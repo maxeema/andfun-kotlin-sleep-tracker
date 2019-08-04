@@ -23,14 +23,14 @@
      the whole ViewModel, so that we can access the LiveData,
      click handlers, and state variables. -->
     <data>
-        <variable name="model" type="com.example.android.trackmysleepquality.sleepquality.SleepQualityViewModel" />
+        <variable name="model" type="com.example.android.trackmysleepquality.viewmodel.QualityViewModel" />
     </data>
 
     <!-- Start of the visible fragment layout using ConstraintLayout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".sleepquality.SleepQualityFragment">
+        tools:context=".QualityFragment">
 
         <TextView
             android:id="@+id/title_text"

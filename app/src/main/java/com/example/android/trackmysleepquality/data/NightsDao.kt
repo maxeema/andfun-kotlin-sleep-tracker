@@ -14,33 +14,33 @@
  * limitations under the License.
  */
 
-package com.example.android.trackmysleepquality.database
+package com.example.android.trackmysleepquality.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
-interface SleepDatabaseDao {
+interface NightsDao {
 
     @Insert
-    fun insert(item: SleepNight)
+    fun insert(item: Night)
 
     @Update
-    fun update(item: SleepNight)
+    fun update(item: Night)
 
     @Delete
-    fun delete(item: SleepNight)
+    fun delete(item: Night)
 
-    @Query("DELETE FROM $TABLE_SLEEP_QUALITY")
+    @Query("DELETE FROM nights")
     fun clear() : Int
 
-    @Query("SELECT * from $TABLE_SLEEP_QUALITY WHERE night_id = :id")
-    fun get(id: Long) : SleepNight?
+    @Query("SELECT * from nights WHERE night_id = :id")
+    fun get(id: Long) : Night?
 
-    @Query("SELECT * FROM $TABLE_SLEEP_QUALITY ORDER BY night_id DESC")
-    fun getAll() : LiveData<List<SleepNight>>
+    @Query("SELECT * FROM nights ORDER BY night_id DESC")
+    fun getAll() : LiveData<List<Night>>
 
-    @Query("SELECT * FROM $TABLE_SLEEP_QUALITY ORDER BY night_id DESC LIMIT 1")
-    fun getTonight() : SleepNight?
+    @Query("SELECT * FROM nights ORDER BY night_id DESC LIMIT 1")
+    fun getTonight() : Night?
 
 }

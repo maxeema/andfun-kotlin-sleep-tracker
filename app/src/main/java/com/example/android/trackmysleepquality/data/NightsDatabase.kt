@@ -14,29 +14,27 @@
  * limitations under the License.
  */
 
-package com.example.android.trackmysleepquality.database
+package com.example.android.trackmysleepquality.data
 
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.android.trackmysleepquality.app
-
-const val DB_SLEEP_HISTORY    = "sleep_history_database"
-const val TABLE_SLEEP_QUALITY = "daily_sleep_quality_table"
+import com.example.android.trackmysleepquality.util.DATABASE_NAME
 
 @Database(
-        entities = [SleepNight::class],
+        entities = [Night::class],
         version = 1,
         exportSchema = false
 )
-abstract class SleepDatabase : RoomDatabase() {
+abstract class NightsDatabase : RoomDatabase() {
 
-    abstract val sleepDatabaseDao: SleepDatabaseDao
+    abstract val nightsDao: NightsDao
 
     companion object {
 
         val instance by lazy {
-            Room.databaseBuilder(app, SleepDatabase::class.java, DB_SLEEP_HISTORY).run {
+            Room.databaseBuilder(app, NightsDatabase::class.java, DATABASE_NAME).run {
                 fallbackToDestructiveMigration()
                 build()
             }

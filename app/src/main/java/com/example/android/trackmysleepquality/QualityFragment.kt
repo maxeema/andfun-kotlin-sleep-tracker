@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.trackmysleepquality.sleepquality
+package com.example.android.trackmysleepquality
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,31 +22,37 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import com.example.android.trackmysleepquality.databinding.FragmentSleepQualityBinding
+import com.example.android.trackmysleepquality.databinding.FragmentQualityBinding
+import com.example.android.trackmysleepquality.viewmodel.QualityViewModel
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
-class SleepQualityFragment : Fragment(), AnkoLogger {
+class QualityFragment : Fragment(), AnkoLogger {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         info("${hashCode()} onCreateView")
 
-        val model by viewModels<SleepQualityViewModel>(factoryProducer = {
-            SleepQualityViewModel.FACTORY(SleepQualityFragmentArgs.fromBundle(requireArguments()).sleepNightKey)
-        })
-        val binding = FragmentSleepQualityBinding.inflate(inflater, container, false)
+        val model by viewModels<QualityViewModel> {
+            QualityViewModel.FACTORY(QualityFragmentArgs.fromBundle(requireArguments()).nightId)
+        }
+        val binding = FragmentQualityBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = this
         binding.model = model
 
-        model.navigateBack.observe(this, Observer {
+        model.navigateBack.observe(viewLifecycleOwner) {
             info("navigateBack observing $it")
             if (it) findNavController().popBackStack()
-        })
+        }
 
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        info("${hashCode()} onDestroyView")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

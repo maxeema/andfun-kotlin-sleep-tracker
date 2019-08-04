@@ -14,24 +14,23 @@
  * limitations under the License.
  */
 
-package com.example.android.trackmysleepquality.sleeptracker
+package com.example.android.trackmysleepquality.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.*
 import com.example.android.trackmysleepquality.R
-import com.example.android.trackmysleepquality.asImmutable
-import com.example.android.trackmysleepquality.asMutable
-import com.example.android.trackmysleepquality.database.*
-import com.example.android.trackmysleepquality.formatNights
+import com.example.android.trackmysleepquality.data.*
+import com.example.android.trackmysleepquality.util.asImmutable
+import com.example.android.trackmysleepquality.util.asMutable
 import kotlinx.coroutines.*
 import org.jetbrains.anko.AnkoLogger
 
-class SleepTrackerViewModel(private val app: Application, state: SavedStateHandle) : AndroidViewModel(app), AnkoLogger {
+class TrackerViewModel(private val app: Application, state: SavedStateHandle) : AndroidViewModel(app), AnkoLogger {
 
-    private val dao = SleepDatabase.instance.sleepDatabaseDao
+    private val dao = NightsDatabase.instance.nightsDao
 
     val nights  = dao.getAll()
-    val tonight = MutableLiveData<SleepNight?>().asImmutable()
+    val tonight = MutableLiveData<Night?>().asImmutable()
 
     init {
         action {
@@ -47,7 +46,7 @@ class SleepTrackerViewModel(private val app: Application, state: SavedStateHandl
     val hasNights  = Transformations.map(nights)  { it.isNotEmpty() }
 
     val messageEvent = MutableLiveData<CharSequence?>().asImmutable()
-    val qualifyEvent = MutableLiveData<SleepNight?>().asImmutable()
+    val qualifyEvent = MutableLiveData<Night?>().asImmutable()
 
     private var job : Job? = null
     private fun checkIsActive() = job?.isActive?.takeIf { it }
@@ -55,7 +54,7 @@ class SleepTrackerViewModel(private val app: Application, state: SavedStateHandl
 
     fun onDoSleep() = action {
         val restore = tonight.value
-        tonight.asMutable().value = SleepNight()
+        tonight.asMutable().value = Night()
         tonight.asMutable().value = runCatching {
             dao {
                 insert(tonight.value!!)
@@ -103,7 +102,7 @@ class SleepTrackerViewModel(private val app: Application, state: SavedStateHandl
         }
     }
 
-    private suspend fun <T> dao(block: SleepDatabaseDao.()->T) = withContext(Dispatchers.IO) { dao.block() }
+    private suspend fun <T> dao(block: NightsDao.()->T) = withContext(Dispatchers.IO) { dao.block() }
 
     fun qualifyEventConsumed() { qualifyEvent.asMutable().value = null }
     fun messageEventConsumed() { messageEvent.asMutable().value = null }

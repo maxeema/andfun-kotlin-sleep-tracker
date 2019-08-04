@@ -5,9 +5,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable name="whenStr" type="String" />
-        <variable name="howStr"  type="String" />
-        <variable name="iconImg" type="android.graphics.drawable.Drawable" />
+        <variable name="night" type="com.example.android.trackmysleepquality.data.Night" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,36 +22,36 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@{whenStr}"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iconView"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Friday night" />
+            tools:text="Friday night"
+            nightTimeline="@{night}"/>
 
         <ImageView
             android:id="@+id/iconView"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:scaleType="centerCrop"
-            android:src="@{iconImg}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_sleep_5" />
+            tools:src="@drawable/ic_sleep_5"
+            nightImage="@{night}"/>
 
         <TextView
             android:id="@+id/howView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{howStr}"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/whenView"
             app:layout_constraintStart_toStartOf="@+id/whenView"
             app:layout_constraintTop_toBottomOf="@+id/whenView"
-            tools:text="@string/five_excellent" />
+            tools:text="@string/five_excellent"
+            nightQuality="@{night}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

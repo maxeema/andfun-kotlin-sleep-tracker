@@ -19,9 +19,9 @@ package com.example.android.trackmysleepquality
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.example.android.trackmysleepquality.database.SleepDatabase
-import com.example.android.trackmysleepquality.database.SleepDatabaseDao
-import com.example.android.trackmysleepquality.database.SleepNight
+import com.example.android.trackmysleepquality.data.NightsDatabase
+import com.example.android.trackmysleepquality.data.NightsDao
+import com.example.android.trackmysleepquality.data.Night
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -31,26 +31,26 @@ import java.io.IOException
 
 /**
  * This is not meant to be a full set of tests. For simplicity, most of your samples do not
- * include tests. However, logIt building the Room, it is helpful to make sure it works before
+ * include tests. However, logNight building the Room, it is helpful to make sure it works before
  * adding the UI.
  */
 
 @RunWith(AndroidJUnit4::class)
 class SleepDatabaseTest {
 
-    private lateinit var sleepDao : SleepDatabaseDao
-    private lateinit var db       : SleepDatabase
+    private lateinit var sleepDao : NightsDao
+    private lateinit var db       : NightsDatabase
 
     @Before
     fun createDb() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        // Using an in-memory database because the information stored here disappears logIt the
+        // Using an in-memory database because the information stored here disappears logNight the
         // process is killed.
-        db = Room.inMemoryDatabaseBuilder(context, SleepDatabase::class.java)
+        db = Room.inMemoryDatabaseBuilder(context, NightsDatabase::class.java)
                 // Allowing main thread queries, just for testing.
                 .allowMainThreadQueries()
                 .build()
-        sleepDao = db.sleepDatabaseDao
+        sleepDao = db.nightsDao
     }
 
     @After @Throws(IOException::class)
@@ -67,7 +67,7 @@ class SleepDatabaseTest {
 
     @Test @Throws(Exception::class)
     fun testInsertUpdateDelete() {
-        val night = SleepNight(sleepQuality = 2)
+        val night = Night(sleepQuality = 2)
         sleepDao.insert(night)
         val tonight = sleepDao.getTonight()!!
         assertEquals(tonight.sleepQuality, 2)
@@ -80,9 +80,9 @@ class SleepDatabaseTest {
 
     @Test @Throws(Exception::class)
     fun insertMultipleAndGetTonight() {
-        val nightFirst  = SleepNight(sleepQuality = 5)
-        val nightSecond = SleepNight(sleepQuality = 1)
-        val nightThird  = SleepNight(sleepQuality = 3)
+        val nightFirst  = Night(sleepQuality = 5)
+        val nightSecond = Night(sleepQuality = 1)
+        val nightThird  = Night(sleepQuality = 3)
         sleepDao.insert(nightFirst)
         sleepDao.insert(nightSecond)
         sleepDao.insert(nightThird)

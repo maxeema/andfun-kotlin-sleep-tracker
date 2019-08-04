@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.trackmysleepquality.sleeptracker
+package com.example.android.trackmysleepquality
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -26,7 +26,9 @@ import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.android.trackmysleepquality.databinding.FragmentSleepTrackerBinding
+import com.example.android.trackmysleepquality.adapter.TrackerAdapter
+import com.example.android.trackmysleepquality.databinding.FragmentTrackerBinding
+import com.example.android.trackmysleepquality.viewmodel.TrackerViewModel
 import com.google.android.material.snackbar.Snackbar
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
@@ -35,18 +37,18 @@ import org.jetbrains.anko.info
  * A fragment with buttons to record start and end times for sleep, which are saved in a database.
  * Cumulative data is displayed in a RecyclerView.
  */
-class SleepTrackerFragment : Fragment(), AnkoLogger {
+class TrackerFragment : Fragment(), AnkoLogger {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         info("${hashCode()} onCreateView, $savedInstanceState")
 
-        val model : SleepTrackerViewModel by viewModels { SavedStateViewModelFactory(this, savedInstanceState) }
-        val binding = FragmentSleepTrackerBinding.inflate(inflater, container, false)
+        val model : TrackerViewModel by viewModels { SavedStateViewModelFactory(this, savedInstanceState) }
+        val binding = FragmentTrackerBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = this
         binding.model = model
 
-        val adapter = SleepTrackerAdapter().apply {
+        val adapter = TrackerAdapter().apply {
             binding.sleepList.adapter = this
             registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
                 override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
@@ -61,7 +63,7 @@ class SleepTrackerFragment : Fragment(), AnkoLogger {
         model.qualifyEvent.observe(viewLifecycleOwner) { night ->
             night ?: return@observe
             binding.sleepList.scrollToPosition(0)
-            findNavController().navigate(SleepTrackerFragmentDirections.actionSleepTrackerFragmentToSleepQualityFragment(night.nightId))
+            findNavController().navigate(TrackerFragmentDirections.actionTrackerFragToQualityFrag(night.nightId))
             model.qualifyEventConsumed()
         }
         model.messageEvent.observe(viewLifecycleOwner) { msg ->

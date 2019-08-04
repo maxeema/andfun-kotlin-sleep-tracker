@@ -21,16 +21,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/sleep_tracker_fragment">
+    app:startDestination="@+id/tracker_frag">
 
     <fragment
-        android:id="@+id/sleep_tracker_fragment"
-        android:name="com.example.android.trackmysleepquality.sleeptracker.SleepTrackerFragment"
-        android:label="@string/sleep_tracker_fragment"
-        tools:layout="@layout/fragment_sleep_tracker">
+        android:id="@+id/tracker_frag"
+        android:name="com.example.android.trackmysleepquality.TrackerFragment"
+        android:label="@string/tracker_fragment"
+        tools:layout="@layout/fragment_tracker">
         <action
-            android:id="@+id/action_sleepTrackerFragment_to_sleepQualityFragment"
-            app:destination="@id/sleep_quality_fragment"
+            android:id="@+id/action_TrackerFrag_to_QualityFrag"
+            app:destination="@id/quality_frag"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -38,18 +38,18 @@
     </fragment>
 
     <fragment
-        android:id="@+id/sleep_quality_fragment"
-        android:name="com.example.android.trackmysleepquality.sleepquality.SleepQualityFragment"
-        android:label="@string/sleep_quality_fragment"
-        tools:layout="@layout/fragment_sleep_quality">
+        android:id="@+id/quality_frag"
+        android:name="com.example.android.trackmysleepquality.QualityFragment"
+        android:label="@string/quality_fragment"
+        tools:layout="@layout/fragment_quality">
         <argument
-            android:name="sleepNightKey"
+            android:name="night_id"
             app:argType="long" />
         <action
-            android:id="@+id/action_sleepQualityFragment_to_sleepTrackerFragment"
-            app:destination="@id/sleep_tracker_fragment"
+            android:id="@+id/action_QualityFrag_to_TrackerFrag"
+            app:destination="@id/tracker_frag"
             app:launchSingleTop="false"
-            app:popUpTo="@+id/sleep_tracker_fragment"
+            app:popUpTo="@+id/tracker_frag"
             app:popUpToInclusive="true" />
     </fragment>
 
