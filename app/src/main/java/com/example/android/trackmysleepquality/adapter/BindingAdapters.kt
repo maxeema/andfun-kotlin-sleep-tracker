@@ -1,5 +1,6 @@
 package com.example.android.trackmysleepquality.adapter
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -9,6 +10,11 @@ import com.example.android.trackmysleepquality.data.Night
 import com.example.android.trackmysleepquality.data.describe
 import com.example.android.trackmysleepquality.data.log
 import com.example.android.trackmysleepquality.data.present
+
+@BindingAdapter("isGone")
+fun bindIsGone(view: View, isGone: Boolean) {
+    view.visibility = if (isGone) View.GONE else View.VISIBLE
+}
 
 @BindingAdapter("nightQuality")
 fun bindNightQuality(view: TextView, night: Night?) = night?.apply {
