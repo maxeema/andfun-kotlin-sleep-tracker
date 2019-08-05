@@ -17,9 +17,7 @@
 package com.example.android.trackmysleepquality
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateViewModelFactory
@@ -37,12 +35,17 @@ import org.jetbrains.anko.info
 
 class TrackerFragment : Fragment(), AnkoLogger {
 
+    private lateinit var model : TrackerViewModel
+    private var clear : MenuItem? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         info("${hashCode()} onCreateView, $savedInstanceState")
 
-        val model : TrackerViewModel by viewModels { SavedStateViewModelFactory(this, savedInstanceState) }
-        val binding = FragmentTrackerBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(true)
 
+        model = viewModels<TrackerViewModel>{ SavedStateViewModelFactory(this, savedInstanceState) }.value
+
+        val binding = FragmentTrackerBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.model = model
 
@@ -62,7 +65,9 @@ class TrackerFragment : Fragment(), AnkoLogger {
             }
         }
         model.nights.observe(viewLifecycleOwner) { nights ->
+            info((" nights update to -> $nights"))
             adapter.submitList(nights)
+            clear?.isEnabled = nights.isNotEmpty()
         }
         model.qualifyEvent.observe(viewLifecycleOwner) { night ->
             night ?: return@observe
@@ -76,6 +81,19 @@ class TrackerFragment : Fragment(), AnkoLogger {
             model.messageEventConsumed()
         }
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.tracker_menu, menu)
+        clear = menu.findItem(R.id.clear).apply {
+            isEnabled = model.hasNights.value!!
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when(item.itemId) {
+        R.id.clear  -> { model.onClearData(); item.isEnabled = false; true }
+        else -> super.onOptionsItemSelected(item)
     }
 
     override fun onDestroyView() {
