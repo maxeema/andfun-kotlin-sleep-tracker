@@ -28,10 +28,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.trackmysleepquality.adapter.TrackerAdapter
 import com.example.android.trackmysleepquality.data.isActive
 import com.example.android.trackmysleepquality.databinding.FragmentTrackerBinding
+import com.example.android.trackmysleepquality.util.hash
 import com.example.android.trackmysleepquality.viewmodel.TrackerViewModel
 import com.google.android.material.snackbar.Snackbar
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
+import org.jetbrains.anko.toast
 
 class TrackerFragment : Fragment(), AnkoLogger {
 
@@ -39,7 +41,7 @@ class TrackerFragment : Fragment(), AnkoLogger {
     private var clear : MenuItem? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        info("${hashCode()} onCreateView, $savedInstanceState")
+        info("$hash onCreateView, $savedInstanceState")
 
         setHasOptionsMenu(true)
 
@@ -49,7 +51,9 @@ class TrackerFragment : Fragment(), AnkoLogger {
         binding.lifecycleOwner = this
         binding.model = model
 
-        val adapter = TrackerAdapter().apply {
+        val adapter = TrackerAdapter(View.OnClickListener { v->
+            activity!!.toast(v.tag.toString())
+        }).apply {
             binding.list.adapter = this
             registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
                 override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
@@ -67,7 +71,7 @@ class TrackerFragment : Fragment(), AnkoLogger {
         model.nights.observe(viewLifecycleOwner) { nights ->
             info((" nights update to -> $nights"))
             adapter.submitList(nights)
-            clear?.isEnabled = nights.isNotEmpty()
+            clear?.isVisible = nights.isNotEmpty()
         }
         model.qualifyEvent.observe(viewLifecycleOwner) { night ->
             night ?: return@observe
@@ -87,28 +91,28 @@ class TrackerFragment : Fragment(), AnkoLogger {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.tracker_menu, menu)
         clear = menu.findItem(R.id.clear).apply {
-            isEnabled = model.hasNights.value!!
+            isVisible = model.hasNights.value ?: false
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when(item.itemId) {
-        R.id.clear  -> { model.onClearData(); item.isEnabled = false; true }
+        R.id.clear  -> { model.onClearData(); item.isVisible = false; true }
         else -> super.onOptionsItemSelected(item)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        info("${hashCode()} onDestroyView")
+        info("$hash onDestroyView")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        info("${hashCode()} onCreate")
+        info("$hash onCreate")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        info("${hashCode()} onDestroy")
+        info("$hash onDestroy")
     }
 
 }
