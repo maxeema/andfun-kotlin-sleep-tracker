@@ -6,6 +6,7 @@
 
     <data>
         <variable name="night" type="com.example.android.trackmysleepquality.data.Night" />
+        <variable name="clicklistener" type="android.view.View.OnClickListener"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,14 +17,16 @@
         android:paddingTop="10dp"
         android:paddingEnd="8dp"
         android:paddingBottom="10dp"
-        android:background="@color/colorBackground">
+        android:background="@color/colorBackground"
+        android:onClick="@{clicklistener}">
 
         <TextView
             android:id="@+id/whenView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="@dimen/margin"
             android:textSize="14sp"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iconView"
             app:layout_constraintTop_toTopOf="parent"
@@ -32,8 +35,8 @@
 
         <ImageView
             android:id="@+id/iconView"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

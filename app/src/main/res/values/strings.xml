@@ -17,9 +17,9 @@
 <resources>
 
     <!-- App title and fragment titles -->
-    <string name="app_name">Track My Sleep Quality</string>
-    <string name="tracker_fragment">SleepTrackerFragment</string>
-    <string name="quality_fragment">SleepQualityFragment</string>
+    <string name="app_name">My Sleep Tracking</string>
+    <string name="tracker_fragment">@string/app_name</string>
+    <string name="quality_fragment">How was sleep?</string>
 
     <!-- Button labels -->
     <string name="start">Start</string>
@@ -42,7 +42,6 @@
     <string name="hours_slept"><![CDATA[<b>Hours:Minutes:Seconds</b>]]></string>
 
     <!-- Sleep quality strings -->
-    <string name="how_was_hour_sleep">How was your sleep?</string>
     <string name="zero_very_bad">Very bad</string>
     <string name="one_poor">Poor</string>
     <string name="two_soso">So-so</string>

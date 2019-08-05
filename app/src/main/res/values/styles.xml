@@ -21,17 +21,31 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
         <item name="android:windowBackground">@color/colorBackground</item>
+
         <item name="fontFamily">@font/amita</item>
-        <item name="snackbarStyle">@style/snackStyle</item>
+
+        <item name="actionBarTheme">@style/actionbarTheme</item>
+        <item name="actionOverflowButtonStyle">@style/actionbarOverflowButton</item>
+
+        <item name="snackbarStyle">@style/snackbar</item>
     </style>
 
-    <style name="snackStyle" parent="Widget.MaterialComponents.Snackbar">
-        <item name="android:layout_margin">8dp</item>
+    <style name="actionbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorPrimary">@color/colorBackground</item>
+        <item name="android:textColorPrimary">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/colorAccent</item>
+    </style>
+    <style name="actionbarOverflowButton" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:contentDescription"></item>
     </style>
 
-    <style name="SleepButtons" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:textColor">@color/white_text_color</item>
+    <style name="snackbar" parent="Widget.MaterialComponents.Snackbar">
+        <item name="android:layout_margin">@dimen/snacks_margin</item>
+    </style>
+
+    <style name="button" parent="Widget.AppCompat.Button.Colored">
         <item name="android:textStyle">bold</item>
     </style>
 

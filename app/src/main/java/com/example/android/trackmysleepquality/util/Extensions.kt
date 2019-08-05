@@ -19,3 +19,5 @@ fun <T : ViewModel, A> singleArgViewModelFactory(constructor: (A) -> T):
         }
     }
 }
+
+val Any.hash get() = hashCode()

@@ -16,11 +16,14 @@
 
 <resources>
 
-    <color name="colorPrimary">#880E4F</color>
+    <color name="colorPrimary">#3949AB</color>
     <color name="colorPrimaryDark">#222</color>
-    <color name="colorAccent">#880E4F</color>
+    <color name="colorAccent">#BF360C</color>
+
+    <color name="textColorPrimary">#bbb</color>
     <color name="colorBackground">#222</color>
 
-    <color name="white_text_color">#f0f0f0</color>
+    <color name="colorFace">#444</color>
+    <color name="colorFaceSleep">@color/colorAccent</color>
 
 </resources>
