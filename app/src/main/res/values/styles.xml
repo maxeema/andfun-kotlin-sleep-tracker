@@ -23,9 +23,13 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="fontFamily">@font/amita</item>
+        <item name="snackbarStyle">@style/snackStyle</item>
     </style>
 
-    <!-- Basic styling for the buttons. -->
+    <style name="snackStyle" parent="Widget.MaterialComponents.Snackbar">
+        <item name="android:layout_margin">8dp</item>
+    </style>
+
     <style name="SleepButtons" parent="Widget.AppCompat.Button.Colored">
         <item name="android:textColor">@color/white_text_color</item>
         <item name="android:textStyle">bold</item>
