@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.trackmysleepquality.data.Night
 import com.example.android.trackmysleepquality.databinding.NightItemBinding
 
-class TrackerAdapter(private val onClickListener: View.OnClickListener) : ListAdapter<Night, ViewHolder>(DiffNightCallback()) {
+class TrackerAdapter : ListAdapter<Night, ViewHolder>(DiffNightCallback()) {
+
+    var onItemClick : View.OnClickListener? = null
 
     init {
         setHasStableIds(true)
@@ -17,20 +19,19 @@ class TrackerAdapter(private val onClickListener: View.OnClickListener) : ListAd
     override fun getItemId(position: Int) = getItem(position).nightId
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), onItemClick)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(NightItemBinding.inflate(LayoutInflater.from(parent.context), parent, false), onClickListener)
+        return ViewHolder(NightItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     public override fun getItem(position: Int) = super.getItem(position)
 
 }
 
-class ViewHolder(private val binding: NightItemBinding, private val onClickListener: View.OnClickListener)
-        : RecyclerView.ViewHolder(binding.root) {
+class ViewHolder(private val binding: NightItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: Night) = binding.apply {
+    fun bind(item: Night, onClickListener: View.OnClickListener?) = binding.apply {
         night = item
         clicklistener = onClickListener
         itemView.tag = item

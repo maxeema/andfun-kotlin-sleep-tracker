@@ -20,25 +20,12 @@
         android:background="@color/colorBackground"
         android:onClick="@{clicklistener}">
 
-        <TextView
-            android:id="@+id/whenView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin"
-            android:textSize="14sp"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iconView"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Friday night"
-            nightTimeline="@{night}"/>
-
         <ImageView
             android:id="@+id/iconView"
             android:layout_width="@dimen/icon_size"
             android:layout_height="@dimen/icon_size"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_sleep_5"
@@ -46,14 +33,14 @@
 
         <TextView
             android:id="@+id/howView"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="@dimen/quality_text_size"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/whenView"
-            app:layout_constraintStart_toStartOf="@+id/whenView"
-            app:layout_constraintTop_toBottomOf="@+id/whenView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iconView"
             tools:text="@string/five_excellent"
             nightQuality="@{night}"/>
 

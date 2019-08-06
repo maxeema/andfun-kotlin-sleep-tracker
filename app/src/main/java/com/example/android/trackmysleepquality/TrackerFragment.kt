@@ -26,6 +26,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.trackmysleepquality.adapter.TrackerAdapter
+import com.example.android.trackmysleepquality.data.Night
 import com.example.android.trackmysleepquality.data.isActive
 import com.example.android.trackmysleepquality.databinding.FragmentTrackerBinding
 import com.example.android.trackmysleepquality.util.hash
@@ -33,7 +34,6 @@ import com.example.android.trackmysleepquality.viewmodel.TrackerViewModel
 import com.google.android.material.snackbar.Snackbar
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
-import org.jetbrains.anko.toast
 
 class TrackerFragment : Fragment(), AnkoLogger {
 
@@ -51,18 +51,19 @@ class TrackerFragment : Fragment(), AnkoLogger {
         binding.lifecycleOwner = this
         binding.model = model
 
-        val adapter = TrackerAdapter(View.OnClickListener { v->
-            activity!!.toast(v.tag.toString())
-        }).apply {
+        val adapter = TrackerAdapter().apply {
             binding.list.adapter = this
-            registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
-                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                    binding.list.scrollToPosition(0)
-                }
-            })
         }
+        adapter.onItemClick = View.OnClickListener { val night = it.tag as Night
+            findNavController().navigate(TrackerFragmentDirections.actionTrackerFragToDetailsFrag(night.nightId))
+        }
+        adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                binding.list.scrollToPosition(0)
+            }
+        })
         binding.list.layoutManager.let { it as GridLayoutManager }.apply {
-            spanCount = 2
+            spanCount = resources.getInteger(R.integer.grid_span_count)
             spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int)
                     = adapter.getItem(position).let { if (it.isActive()) spanCount else 1 }

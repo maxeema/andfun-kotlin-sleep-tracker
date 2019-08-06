@@ -23,12 +23,17 @@ import com.example.android.trackmysleepquality.data.NightsDao
 import com.example.android.trackmysleepquality.data.NightsDatabase
 import com.example.android.trackmysleepquality.util.asImmutable
 import com.example.android.trackmysleepquality.util.asMutable
+import com.example.android.trackmysleepquality.util.hash
 import com.example.android.trackmysleepquality.util.singleArgViewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 
-class QualityViewModel(private val sleepNightKey: Long) : ViewModel() {
+class QualityViewModel(private val nightId: Long) : ViewModel(), AnkoLogger {
+
+    init { info("$hash new instance") }
 
     companion object {
         val FACTORY = singleArgViewModelFactory(::QualityViewModel)
@@ -36,13 +41,13 @@ class QualityViewModel(private val sleepNightKey: Long) : ViewModel() {
 
     private val dao = NightsDatabase.instance.nightsDao
 
-    val navigateBack = MutableLiveData<Boolean>().asImmutable()
+    val completeEvent = MutableLiveData<Boolean>().asImmutable()
 
     fun onSetSleepQuality(value: Int) = viewModelScope.launch {
-        val night = dao { get(sleepNightKey) } ?: return@launch
+        val night = dao { get(nightId) } ?: return@launch
         night.sleepQuality = value
         dao { update(night) }
-        navigateBack.asMutable().value = true
+        completeEvent.asMutable().value = true
     }
 
     private suspend fun <T> dao(block: NightsDao.()->T) = withContext(Dispatchers.IO) { dao.block() }

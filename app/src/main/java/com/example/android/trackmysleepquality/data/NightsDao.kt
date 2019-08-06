@@ -37,6 +37,9 @@ interface NightsDao {
     @Query("SELECT * from nights WHERE night_id = :id")
     fun get(id: Long) : Night?
 
+    @Query("SELECT * from nights WHERE night_id = :id")
+    fun getAsLive(id: Long) : LiveData<Night>
+
     @Query("SELECT * FROM nights ORDER BY night_id DESC")
     fun getAll() : LiveData<List<Night>>
 

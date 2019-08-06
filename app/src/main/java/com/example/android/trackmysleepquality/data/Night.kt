@@ -49,7 +49,7 @@ private val qualityNames = arrayOf(
         R.string.three_ok, R.string.four_pretty_good, R.string.five_excellent)
 fun Night.describe() =
         if (sleepQuality in qualityNames.indices) app.getString(qualityNames[sleepQuality])
-        else  "- - -"
+        else if (isActive()) "zzz...  " else "- - -    "
 
 private val qualityImages = arrayOf(
         R.drawable.ic_sleep_0, R.drawable.ic_sleep_1, R.drawable.ic_sleep_2,

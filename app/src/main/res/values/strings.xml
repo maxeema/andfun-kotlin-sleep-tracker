@@ -20,11 +20,13 @@
     <string name="app_name">My Sleep Tracking</string>
     <string name="tracker_fragment">@string/app_name</string>
     <string name="quality_fragment">How was sleep?</string>
+    <string name="details_fragment">Night Info</string>
 
     <!-- Button labels -->
     <string name="start">Start</string>
     <string name="stop">Stop</string>
     <string name="clear">Clear</string>
+    <string name="close">Close</string>
 
     <!-- contentDescription strings for quality icons -->
     <string name="quality_0">Sleep Quality 0</string>

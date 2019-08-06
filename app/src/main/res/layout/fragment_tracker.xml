@@ -29,7 +29,6 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list"
-            isGone="@{!model.hasNights}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
@@ -45,6 +44,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/start_button"
+            isGone="@{!model.hasNights}"
             />
 
         <TextView android:id="@+id/empty"

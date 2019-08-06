@@ -35,16 +35,14 @@ class QualityFragment : Fragment(), AnkoLogger {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         info("$hash onCreateView")
 
-        val model by viewModels<QualityViewModel> {
-            QualityViewModel.FACTORY(QualityFragmentArgs.fromBundle(requireArguments()).nightId)
-        }
+        val model by viewModels<QualityViewModel> { QualityViewModel.FACTORY(QualityFragmentArgs.fromBundle(requireArguments()).nightId) }
         val binding = FragmentQualityBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = this
         binding.model = model
 
-        model.navigateBack.observe(viewLifecycleOwner) {
-            info("navigateBack observing $it")
+        model.completeEvent.observe(viewLifecycleOwner) {
+            info("completeEvent observing $it")
             if (it) findNavController().popBackStack()
         }
 

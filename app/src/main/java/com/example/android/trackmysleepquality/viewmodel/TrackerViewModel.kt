@@ -22,10 +22,14 @@ import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.data.*
 import com.example.android.trackmysleepquality.util.asImmutable
 import com.example.android.trackmysleepquality.util.asMutable
+import com.example.android.trackmysleepquality.util.hash
 import kotlinx.coroutines.*
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 
 class TrackerViewModel(private val app: Application, state: SavedStateHandle) : AndroidViewModel(app), AnkoLogger {
+
+    init { info("$hash new instance") }
 
     private val dao = NightsDatabase.instance.nightsDao
 
@@ -64,7 +68,6 @@ class TrackerViewModel(private val app: Application, state: SavedStateHandle) : 
             messageEvent.asMutable().value = app.getString(R.string.sorry, err)
         }.getOrElse { restore }
     }
-
     fun onWakeUp() = action {
         val restore = tonight.value!!.copy()
         runCatching {
