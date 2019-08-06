@@ -21,6 +21,7 @@ import android.content.res.Resources
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
+import android.text.format.DateUtils.*
 import androidx.core.text.HtmlCompat
 import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.data.Night
@@ -62,19 +63,19 @@ fun formatNights(nights: List<Night>, resources: Resources): Spanned {
         nights.forEach {
             append("<br>")
             append(resources.getString(R.string.start_time))
-            append(" ${convertLongToDateString(it.startTimeMillis)}<br>")
-            if (it.endTimeMillis != it.startTimeMillis) {
+            append(" ${convertLongToDateString(it.period.startTime)}<br>")
+            if (it.period.endTime != it.period.startTime) {
                 append(resources.getString(R.string.end_time))
-                append(" ${convertLongToDateString(it.endTimeMillis)}<br>")
+                append(" ${convertLongToDateString(it.period.endTime)}<br>")
                 append(resources.getString(R.string.quality))
                 append(" ${it.describe()}<br>")
                 append(resources.getString(R.string.hours_slept))
                 // Hours
-                append(" ${it.endTimeMillis.minus(it.startTimeMillis) / 1000 / 60 / 60}:")
+                append(" ${it.period.endTime.minus(it.period.startTime) / HOUR_IN_MILLIS}:")
                 // Minutes
-                append("${it.endTimeMillis.minus(it.startTimeMillis) / 1000 / 60}:")
+                append("${it.period.endTime.minus(it.period.startTime) / MINUTE_IN_MILLIS}:")
                 // Seconds
-                append("${it.endTimeMillis.minus(it.startTimeMillis) / 1000}<br><br>")
+                append("${it.period.endTime.minus(it.period.startTime) / SECOND_IN_MILLIS}<br><br>")
             }
         }
     }
