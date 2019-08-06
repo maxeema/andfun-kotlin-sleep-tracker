@@ -17,7 +17,7 @@
         android:paddingTop="10dp"
         android:paddingEnd="8dp"
         android:paddingBottom="10dp"
-        android:background="@color/colorBackground"
+        android:background="?android:selectableItemBackground"
         android:onClick="@{clicklistener}">
 
         <ImageView
