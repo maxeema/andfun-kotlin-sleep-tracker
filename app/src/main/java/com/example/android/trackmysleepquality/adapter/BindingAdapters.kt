@@ -12,9 +12,9 @@ import com.example.android.trackmysleepquality.data.log
 import com.example.android.trackmysleepquality.data.present
 
 @BindingAdapter("isGone")
-fun bindIsGone(view: View, isGone: Boolean) {
-    view.visibility = if (isGone) View.GONE else View.VISIBLE
-}
+fun bindIsGone(view: View, value: Boolean) { view.visibility = if (value) View.GONE else View.VISIBLE }
+@BindingAdapter("isInvisible")
+fun bindIsVisible(view: View, value: Boolean) { view.visibility = if (value) View.INVISIBLE else View.VISIBLE }
 
 @BindingAdapter("nightQuality")
 fun bindNightQuality(view: TextView, night: Night?) = night?.apply {

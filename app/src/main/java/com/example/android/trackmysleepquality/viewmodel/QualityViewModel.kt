@@ -40,13 +40,17 @@ class QualityViewModel(private val nightId: Long) : ViewModel(), AnkoLogger {
     }
 
     private val dao = NightsDatabase.instance.nightsDao
-
     val completeEvent = MutableLiveData<Boolean>().asImmutable()
 
-    fun onSetSleepQuality(value: Int) = viewModelScope.launch {
-        val night = dao { get(nightId) } ?: return@launch
-        night.sleepQuality = value
-        dao { update(night) }
+    fun onSetQuality(value: Int) = viewModelScope.launch {
+        runCatching {
+            dao {
+                get(nightId)?.apply {
+                    quality = value
+                    update(this)
+                }
+            }
+        }
         completeEvent.asMutable().value = true
     }
 

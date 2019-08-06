@@ -38,7 +38,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_sleep_0"
-            android:onClick="@{()->model.onSetSleepQuality(0)}"/>
+            android:onClick="@{()->model.onSetQuality(0)}" />
 
         <ImageView
             android:id="@+id/quality_one_image"
@@ -49,7 +49,7 @@
             app:layout_constraintEnd_toStartOf="@+id/quality_two_image"
             app:layout_constraintStart_toEndOf="@+id/quality_zero_image"
             app:srcCompat="@drawable/ic_sleep_1"
-            android:onClick="@{()->model.onSetSleepQuality(1)}"/>
+            android:onClick="@{()->model.onSetQuality(1)}"/>
 
         <ImageView
             android:id="@+id/quality_two_image"
@@ -60,7 +60,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/quality_one_image"
             app:srcCompat="@drawable/ic_sleep_2"
-            android:onClick="@{()->model.onSetSleepQuality(2)}"/>
+            android:onClick="@{()->model.onSetQuality(2)}"/>
 
         <ImageView
             android:id="@+id/quality_three_image"
@@ -75,7 +75,7 @@
             app:layout_constraintTop_toBottomOf="@+id/quality_zero_image"
             app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/ic_sleep_3"
-            android:onClick="@{()->model.onSetSleepQuality(3)}"/>
+            android:onClick="@{()->model.onSetQuality(3)}"/>
 
         <ImageView
             android:id="@+id/quality_four_image"
@@ -87,7 +87,7 @@
             app:layout_constraintStart_toEndOf="@+id/quality_three_image"
             app:layout_constraintTop_toTopOf="@+id/quality_three_image"
             app:srcCompat="@drawable/ic_sleep_4"
-            android:onClick="@{()->model.onSetSleepQuality(4)}"/>
+            android:onClick="@{()->model.onSetQuality(4)}"/>
 
         <ImageView
             android:id="@+id/quality_five_image"
@@ -99,7 +99,7 @@
             app:layout_constraintStart_toEndOf="@+id/quality_four_image"
             app:layout_constraintTop_toTopOf="@+id/quality_four_image"
             app:srcCompat="@drawable/ic_sleep_5"
-            android:onClick="@{()->model.onSetSleepQuality(5)}"/>
+            android:onClick="@{()->model.onSetQuality(5)}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

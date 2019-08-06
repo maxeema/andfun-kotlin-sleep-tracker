@@ -37,7 +37,7 @@ data class Night(
         var endTimeMillis   : Long = startTimeMillis,
 
         @ColumnInfo(name = "quality_rating")
-        var sleepQuality    : Int = -1
+        var quality    : Int = -1
 
 )
 
@@ -48,15 +48,15 @@ private val qualityNames = arrayOf(
         R.string.zero_very_bad, R.string.one_poor, R.string.two_soso,
         R.string.three_ok, R.string.four_pretty_good, R.string.five_excellent)
 fun Night.describe() =
-        if (sleepQuality in qualityNames.indices) app.getString(qualityNames[sleepQuality])
+        if (quality in qualityNames.indices) app.getString(qualityNames[quality])
         else if (isActive()) "zzz...  " else "- - -    "
 
 private val qualityImages = arrayOf(
         R.drawable.ic_sleep_0, R.drawable.ic_sleep_1, R.drawable.ic_sleep_2,
         R.drawable.ic_sleep_3, R.drawable.ic_sleep_4, R.drawable.ic_sleep_5
 )
-fun Night.present() = when (sleepQuality) {
-        in qualityImages.indices -> qualityImages[sleepQuality]
+fun Night.present() = when (quality) {
+        in qualityImages.indices -> qualityImages[quality]
         else -> if (isActive()) R.drawable.ic_sleep_active else R.drawable.ic_sleep_unspecified
 }
 

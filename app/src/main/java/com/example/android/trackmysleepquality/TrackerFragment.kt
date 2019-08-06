@@ -27,7 +27,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.trackmysleepquality.adapter.TrackerAdapter
 import com.example.android.trackmysleepquality.data.Night
-import com.example.android.trackmysleepquality.data.isActive
 import com.example.android.trackmysleepquality.databinding.FragmentTrackerBinding
 import com.example.android.trackmysleepquality.util.hash
 import com.example.android.trackmysleepquality.viewmodel.TrackerViewModel
@@ -43,8 +42,6 @@ class TrackerFragment : Fragment(), AnkoLogger {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         info("$hash onCreateView, $savedInstanceState")
 
-        setHasOptionsMenu(true)
-
         model = viewModels<TrackerViewModel>{ SavedStateViewModelFactory(this, savedInstanceState) }.value
 
         val binding = FragmentTrackerBinding.inflate(inflater, container, false)
@@ -52,31 +49,27 @@ class TrackerFragment : Fragment(), AnkoLogger {
         binding.model = model
 
         val adapter = TrackerAdapter().apply {
-            binding.list.adapter = this
+            binding.recycler.adapter = this
         }
         adapter.onItemClick = View.OnClickListener { val night = it.tag as Night
             findNavController().navigate(TrackerFragmentDirections.actionTrackerFragToDetailsFrag(night.nightId))
         }
         adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                binding.list.scrollToPosition(0)
+                binding.recycler.scrollToPosition(0)
             }
         })
-        binding.list.layoutManager.let { it as GridLayoutManager }.apply {
+        binding.recycler.layoutManager.let { it as GridLayoutManager }.apply {
             spanCount = resources.getInteger(R.integer.grid_span_count)
-            spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
-                override fun getSpanSize(position: Int)
-                    = adapter.getItem(position).let { if (it.isActive()) spanCount else 1 }
-            }
         }
         model.nights.observe(viewLifecycleOwner) { nights ->
             info((" nights update to -> $nights"))
-            adapter.submitList(nights)
+            adapter.submitList(nights.takeIf { it.isNotEmpty()}) // take null to clear instead of empty list
             clear?.isVisible = nights.isNotEmpty()
         }
         model.qualifyEvent.observe(viewLifecycleOwner) { night ->
             night ?: return@observe
-            binding.list.scrollToPosition(0)
+            binding.recycler.scrollToPosition(0)
             findNavController().navigate(TrackerFragmentDirections.actionTrackerFragToQualityFrag(night.nightId))
             model.qualifyEventConsumed()
         }
@@ -109,6 +102,7 @@ class TrackerFragment : Fragment(), AnkoLogger {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         info("$hash onCreate")
+        setHasOptionsMenu(true)
     }
 
     override fun onDestroy() {

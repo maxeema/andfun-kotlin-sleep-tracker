@@ -33,8 +33,9 @@ class TrackerViewModel(private val app: Application, state: SavedStateHandle) : 
 
     private val dao = NightsDatabase.instance.nightsDao
 
-    val nights  = dao.getAll()
-    val tonight = MutableLiveData<Night?>().asImmutable()
+    val nights = dao.getAll()
+
+    private val tonight = MutableLiveData<Night?>().asImmutable()
 
     init {
         action {

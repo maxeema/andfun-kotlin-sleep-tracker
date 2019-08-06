@@ -56,5 +56,6 @@
     <string name="sorry">Sorry, error has occurred\n\n%1$s</string>
     <string name="please">Please, try a bit later</string>
     <string name="no_nights_yet">Your nights tracking journal \n is empty</string>
+    <string name="loading_nights">Loading journal...</string>
 
 </resources>
