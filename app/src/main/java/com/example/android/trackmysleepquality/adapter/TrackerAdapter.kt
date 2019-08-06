@@ -16,7 +16,7 @@ class TrackerAdapter : ListAdapter<Night, ViewHolder>(DiffNightCallback()) {
     init {
         setHasStableIds(true)
     }
-    override fun getItemId(position: Int) = getItem(position).nightId
+    override fun getItemId(position: Int) = getItem(position).id!!
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position), onItemClick)
@@ -42,7 +42,7 @@ class ViewHolder(private val binding: NightItemBinding) : RecyclerView.ViewHolde
 
 class DiffNightCallback: DiffUtil.ItemCallback<Night>() {
 
-    override fun areItemsTheSame   (oldItem: Night, newItem: Night) = oldItem.nightId == newItem.nightId
+    override fun areItemsTheSame   (oldItem: Night, newItem: Night) = oldItem.id == newItem.id
     override fun areContentsTheSame(oldItem: Night, newItem: Night) = oldItem == newItem
 
 }

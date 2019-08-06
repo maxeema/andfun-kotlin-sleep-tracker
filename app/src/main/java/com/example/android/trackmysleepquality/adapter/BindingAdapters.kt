@@ -7,9 +7,9 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.android.trackmysleepquality.data.Night
-import com.example.android.trackmysleepquality.data.describe
-import com.example.android.trackmysleepquality.data.log
-import com.example.android.trackmysleepquality.data.present
+import com.example.android.trackmysleepquality.util.describe
+import com.example.android.trackmysleepquality.util.log
+import com.example.android.trackmysleepquality.util.present
 
 @BindingAdapter("isGone")
 fun bindIsGone(view: View, value: Boolean) { view.visibility = if (value) View.GONE else View.VISIBLE }
@@ -21,8 +21,8 @@ fun bindNightQuality(view: TextView, night: Night?) = night?.apply {
     view.text = night.describe()
 }
 
-@BindingAdapter("nightTimeline")
-fun bindNightTimeline(view: TextView, night: Night?) = night?.apply {
+@BindingAdapter("nightPeriod")
+fun bindNightPeriod(view: TextView, night: Night?) = night?.apply {
     view.text = night.log()
 }
 

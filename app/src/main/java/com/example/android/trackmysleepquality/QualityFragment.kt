@@ -1,19 +1,3 @@
-/*
- * Copyright 2018, The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.example.android.trackmysleepquality
 
 import android.os.Bundle
@@ -26,8 +10,13 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.example.android.trackmysleepquality.databinding.FragmentQualityBinding
 import com.example.android.trackmysleepquality.util.hash
+import com.example.android.trackmysleepquality.util.prepareDetailedError
+import com.example.android.trackmysleepquality.viewmodel.BaseViewModel.MessageEvent.Error
+import com.example.android.trackmysleepquality.viewmodel.BaseViewModel.MessageEvent.Info
 import com.example.android.trackmysleepquality.viewmodel.QualityViewModel
+import com.google.android.material.snackbar.Snackbar
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.info
 
 class QualityFragment : Fragment(), AnkoLogger {
@@ -35,7 +24,7 @@ class QualityFragment : Fragment(), AnkoLogger {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         info("$hash onCreateView")
 
-        val model by viewModels<QualityViewModel> { QualityViewModel.FACTORY(QualityFragmentArgs.fromBundle(requireArguments()).nightId) }
+        val model by viewModels<QualityViewModel>{ QualityViewModel.FACTORY(QualityFragmentArgs.fromBundle(requireArguments()).nightId) }
         val binding = FragmentQualityBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = this
@@ -44,6 +33,17 @@ class QualityFragment : Fragment(), AnkoLogger {
         model.completeEvent.observe(viewLifecycleOwner) {
             info("completeEvent observing $it")
             if (it) findNavController().popBackStack()
+        }
+        model.messageEvent.observe(viewLifecycleOwner) { msg ->
+            msg ?: return@observe
+            when (msg) {
+                is Info -> Snackbar.make(binding.root, msg.msg, Snackbar.LENGTH_SHORT).show()
+                is Error ->
+                    Snackbar.make(binding.root, msg.msg, Snackbar.LENGTH_LONG).apply {
+                        setAction(R.string.details) { requireActivity().alert(prepareDetailedError(msg.msg, msg.err)).show() }
+                    }.show()
+            }
+            model.messageEventConsumed()
         }
 
         return binding.root

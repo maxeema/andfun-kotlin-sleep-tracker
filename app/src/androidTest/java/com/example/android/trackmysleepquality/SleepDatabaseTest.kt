@@ -75,7 +75,7 @@ class SleepDatabaseTest {
         sleepDao.update(tonight)
         assertEquals(sleepDao.getTonight()!!.sleepQuality, 4)
         sleepDao.delete(tonight)
-        assertEquals(sleepDao.get(tonight.nightId), null)
+        assertEquals(sleepDao.get(tonight.id), null)
     }
 
     @Test @Throws(Exception::class)

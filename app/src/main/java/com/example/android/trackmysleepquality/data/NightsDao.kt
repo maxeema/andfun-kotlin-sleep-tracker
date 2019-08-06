@@ -23,27 +23,33 @@ import androidx.room.*
 interface NightsDao {
 
     @Insert
-    fun insert(item: Night)
+    fun insert(item: Night) : Long
 
     @Update
-    fun update(item: Night)
+    fun update(item: Night) : Int
 
     @Delete
-    fun delete(item: Night)
+    fun delete(vararg item: Night) : Int
 
     @Query("DELETE FROM nights")
     fun clear() : Int
 
-    @Query("SELECT * from nights WHERE night_id = :id")
-    fun get(id: Long) : Night?
+    @Query("SELECT * from nights WHERE id = :nightId")
+    fun get(nightId: Long) : Night?
 
-    @Query("SELECT * from nights WHERE night_id = :id")
-    fun getAsLive(id: Long) : LiveData<Night>
+    @Query("SELECT * from nights WHERE id = :nightId")
+    fun getAsLive(nightId: Long) : LiveData<Night>
 
-    @Query("SELECT * FROM nights ORDER BY night_id DESC")
+    @Query("SELECT * FROM nights ORDER BY id DESC")
     fun getAll() : LiveData<List<Night>>
 
-    @Query("SELECT * FROM nights ORDER BY night_id DESC LIMIT 1")
+    @Query("UPDATE nights SET quality = :quality WHERE id = :nightId")
+    fun updateQuality(nightId: Long, quality: Int) : Int
+
+    @Query("SELECT * FROM nights ORDER BY id DESC LIMIT 1")
     fun getTonight() : Night?
+
+    @Query("SELECT * FROM nights ORDER BY id DESC LIMIT 1")
+    fun getTonightLive() : LiveData<Night?>
 
 }

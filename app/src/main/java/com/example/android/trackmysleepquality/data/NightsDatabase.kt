@@ -24,7 +24,7 @@ import com.example.android.trackmysleepquality.util.DATABASE_NAME
 
 @Database(
         entities = [Night::class],
-        version = 1,
+        version = 13,
         exportSchema = false
 )
 abstract class NightsDatabase : RoomDatabase() {

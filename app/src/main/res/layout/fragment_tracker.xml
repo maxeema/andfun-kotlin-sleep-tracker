@@ -31,13 +31,10 @@
             android:id="@+id/recycler"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/margin"
             android:fadingEdgeLength="45dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
             android:requiresFadingEdge="vertical"
-            android:scrollbarStyle="insideOverlay"
+            android:scrollbarStyle="insideInset"
             android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
@@ -46,20 +43,24 @@
             app:layout_constraintBottom_toTopOf="@id/start_button"
             isInvisible="@{!model.hasNights}"/>
 
-        <TextView android:id="@+id/empty"
-            android:text="@string/no_nights_yet"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <TextView
+            android:id="@+id/empty"
+            isGone="@{model.hasNights}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center"
+            android:text="@string/no_nights_yet"
             android:textSize="15sp"
-            isGone="@{model.hasNights}"/>
+            app:layout_constraintBottom_toBottomOf="@id/recycler"
+            app:layout_constraintTop_toTopOf="@+id/recycler"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <Button
             android:id="@+id/stop_button"
             style="@style/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin"
             android:text="@string/stop"
             android:onClick="@{()->model.onWakeUp()}"
             app:layout_constraintBaseline_toBaselineOf="@id/start_button"

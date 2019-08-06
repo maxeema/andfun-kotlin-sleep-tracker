@@ -1,19 +1,3 @@
-/*
- * Copyright 2018, The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.example.android.trackmysleepquality
 
 import android.os.Bundle
@@ -28,10 +12,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.trackmysleepquality.adapter.TrackerAdapter
 import com.example.android.trackmysleepquality.data.Night
 import com.example.android.trackmysleepquality.databinding.FragmentTrackerBinding
+import com.example.android.trackmysleepquality.util.Prefs
 import com.example.android.trackmysleepquality.util.hash
+import com.example.android.trackmysleepquality.util.prepareDetailedError
+import com.example.android.trackmysleepquality.viewmodel.BaseViewModel.MessageEvent.Error
+import com.example.android.trackmysleepquality.viewmodel.BaseViewModel.MessageEvent.Info
 import com.example.android.trackmysleepquality.viewmodel.TrackerViewModel
 import com.google.android.material.snackbar.Snackbar
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.info
 
 class TrackerFragment : Fragment(), AnkoLogger {
@@ -52,7 +41,7 @@ class TrackerFragment : Fragment(), AnkoLogger {
             binding.recycler.adapter = this
         }
         adapter.onItemClick = View.OnClickListener { val night = it.tag as Night
-            findNavController().navigate(TrackerFragmentDirections.actionTrackerFragToDetailsFrag(night.nightId))
+            findNavController().navigate(TrackerFragmentDirections.actionTrackerFragToDetailsFrag(night.id!!))
         }
         adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
@@ -62,20 +51,29 @@ class TrackerFragment : Fragment(), AnkoLogger {
         binding.recycler.layoutManager.let { it as GridLayoutManager }.apply {
             spanCount = resources.getInteger(R.integer.grid_span_count)
         }
+        binding.empty.setText(Prefs.lastNight?.let { R.string.loading_nights } ?: R.string.no_nights_yet)
         model.nights.observe(viewLifecycleOwner) { nights ->
             info((" nights update to -> $nights"))
-            adapter.submitList(nights.takeIf { it.isNotEmpty()}) // take null to clear instead of empty list
+            adapter.submitList(nights.takeIf { it.isNotEmpty()})
             clear?.isVisible = nights.isNotEmpty()
+            if (nights.isEmpty())
+                binding.empty.setText(R.string.no_nights_yet)
         }
         model.qualifyEvent.observe(viewLifecycleOwner) { night ->
             night ?: return@observe
             binding.recycler.scrollToPosition(0)
-            findNavController().navigate(TrackerFragmentDirections.actionTrackerFragToQualityFrag(night.nightId))
+            findNavController().navigate(TrackerFragmentDirections.actionTrackerFragToQualityFrag(night.id!!))
             model.qualifyEventConsumed()
         }
         model.messageEvent.observe(viewLifecycleOwner) { msg ->
             msg ?: return@observe
-            Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT).show()
+            when (msg) {
+                is Info -> Snackbar.make(binding.root, msg.msg, Snackbar.LENGTH_SHORT).show()
+                is Error ->
+                    Snackbar.make(binding.root, msg.msg, Snackbar.LENGTH_LONG).apply {
+                        setAction(R.string.details) { requireActivity().alert(prepareDetailedError(msg.msg, msg.err)).show() }
+                    }.show()
+            }
             model.messageEventConsumed()
         }
         return binding.root
@@ -89,8 +87,14 @@ class TrackerFragment : Fragment(), AnkoLogger {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) = when(item.itemId) {
-        R.id.clear  -> { model.onClearData(); item.isVisible = false; true }
+    override fun onOptionsItemSelected(item: MenuItem) = when(item) {
+        clear -> requireActivity().alert(R.string.confirm_clearing) {
+            positiveButton(R.string.yes) {
+                model.onClearData(); clear?.isVisible = false
+            }
+            negativeButton(R.string.cancel) { it.dismiss() }
+            show()
+        }.let { true }
         else -> super.onOptionsItemSelected(item)
     }
 
