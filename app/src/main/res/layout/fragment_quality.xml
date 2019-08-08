@@ -1,18 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright 2018, The Android Open Source Project
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~     http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
+<?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -20,91 +6,158 @@
 
     <data>
         <variable name="model" type="com.example.android.trackmysleepquality.viewmodel.QualityViewModel" />
+        <import type="com.example.android.trackmysleepquality.data.Night.Quality"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="@dimen/margin"
         tools:context=".QualityFragment"
-        android:padding="@dimen/margin">
+        tools:ignore="ContentDescription">
 
         <ImageView
-            android:id="@+id/quality_zero_image"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:contentDescription="@string/quality_0"
-            app:layout_constraintEnd_toStartOf="@+id/quality_one_image"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_sleep_0"
+            android:id="@+id/bad_img"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:padding="10dp"
             android:background="?android:selectableItemBackground"
-            android:onClick="@{()->model.onSetQuality(0)}"/>
+            nightQualityImage="@{Quality.VERY_BAD}"
+            app:onClickListener="@{(v)->model.onSetQuality(Quality.VERY_BAD)}"
+            tools:src="@drawable/very_bad"
+            app:layout_constraintBottom_toTopOf="@+id/ok_img"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toStartOf="@+id/poor_img"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toTopOf="@+id/guideline_top"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <ImageView
-            android:id="@+id/quality_one_image"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:contentDescription="@string/quality_1"
-            app:layout_constraintBottom_toBottomOf="@+id/quality_zero_image"
-            app:layout_constraintEnd_toStartOf="@+id/quality_two_image"
-            app:layout_constraintStart_toEndOf="@+id/quality_zero_image"
-            app:srcCompat="@drawable/ic_sleep_1"
+            android:id="@+id/poor_img"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:padding="10dp"
             android:background="?android:selectableItemBackground"
-            android:onClick="@{()->model.onSetQuality(1)}"/>
+            nightQualityImage="@{Quality.POOR}"
+            app:onClickListener="@{(v)->model.onSetQuality(Quality.POOR)}"
+            tools:src="@drawable/poor"
+            app:layout_constraintBottom_toBottomOf="@+id/bad_img"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toStartOf="@+id/so_so_img"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toEndOf="@+id/bad_img" />
 
         <ImageView
-            android:id="@+id/quality_two_image"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:contentDescription="@string/quality_2"
-            app:layout_constraintBottom_toBottomOf="@+id/quality_one_image"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/quality_one_image"
-            app:srcCompat="@drawable/ic_sleep_2"
+            android:id="@+id/so_so_img"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="10dp"
             android:background="?android:selectableItemBackground"
-            android:onClick="@{()->model.onSetQuality(2)}"/>
+            nightQualityImage="@{Quality.SO_SO}"
+            app:onClickListener="@{(v)->model.onSetQuality(Quality.SO_SO)}"
+            tools:src="@drawable/so_so"
+            app:layout_constraintBottom_toBottomOf="@+id/poor_img"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toEndOf="@+id/poor_img" />
 
         <ImageView
-            android:id="@+id/quality_three_image"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:layout_marginTop="@dimen/margin"
-            android:layout_marginBottom="@dimen/margin"
-            android:contentDescription="@string/quality_3"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/quality_four_image"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/quality_zero_image"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/ic_sleep_3"
+            android:id="@+id/ok_img"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="10dp"
             android:background="?android:selectableItemBackground"
-            android:onClick="@{()->model.onSetQuality(3)}"/>
+            nightQualityImage="@{Quality.OK}"
+            app:onClickListener="@{(v)->model.onSetQuality(Quality.OK)}"
+            tools:src="@drawable/ok"
+            app:layout_constraintBottom_toTopOf="@+id/period"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toStartOf="@+id/pretty_good_img"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/bad_img"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <ImageView
-            android:id="@+id/quality_four_image"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:contentDescription="@string/quality_4"
-            app:layout_constraintBottom_toBottomOf="@+id/quality_three_image"
-            app:layout_constraintEnd_toStartOf="@+id/quality_five_image"
-            app:layout_constraintStart_toEndOf="@+id/quality_three_image"
-            app:layout_constraintTop_toTopOf="@+id/quality_three_image"
-            app:srcCompat="@drawable/ic_sleep_4"
+            android:id="@+id/pretty_good_img"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:padding="10dp"
             android:background="?android:selectableItemBackground"
-            android:onClick="@{()->model.onSetQuality(4)}"/>
+            nightQualityImage="@{Quality.PRETTY_GOOD}"
+            app:onClickListener="@{(v)->model.onSetQuality(Quality.PRETTY_GOOD)}"
+            tools:src="@drawable/pretty_good"
+            app:layout_constraintBottom_toBottomOf="@+id/ok_img"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toStartOf="@+id/excellent_img"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toEndOf="@+id/ok_img"
+            app:layout_constraintTop_toTopOf="@+id/ok_img" />
 
         <ImageView
-            android:id="@+id/quality_five_image"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:contentDescription="@string/quality_5"
-            app:layout_constraintBottom_toBottomOf="@+id/quality_four_image"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/quality_four_image"
-            app:layout_constraintTop_toTopOf="@+id/quality_four_image"
-            app:srcCompat="@drawable/ic_sleep_5"
+            android:id="@+id/excellent_img"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="10dp"
             android:background="?android:selectableItemBackground"
-            android:onClick="@{()->model.onSetQuality(5)}"/>
+            nightQualityImage="@{Quality.EXCELLENT}"
+            app:onClickListener="@{(v)->model.onSetQuality(Quality.EXCELLENT)}"
+            tools:src="@drawable/excellent"
+            app:layout_constraintBottom_toBottomOf="@+id/pretty_good_img"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toEndOf="@+id/pretty_good_img"
+            app:layout_constraintTop_toTopOf="@+id/pretty_good_img" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.81" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".95" />
+
+        <TextView
+            android:id="@+id/period"
+            nightPeriod="@{model.night}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/colorInfo"
+            android:textSize="@dimen/text_size"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            tools:text="A Super Night" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

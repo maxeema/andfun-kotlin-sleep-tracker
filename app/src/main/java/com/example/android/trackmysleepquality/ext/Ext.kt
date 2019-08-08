@@ -1,11 +1,15 @@
-package com.example.android.trackmysleepquality.misc
+package com.example.android.trackmysleepquality.ext
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.android.trackmysleepquality.misc.Utils
+import com.example.android.trackmysleepquality.misc.app
+
+/**
+ * Extensions
+ */
 
 val Any.hash get() = hashCode()
 
@@ -25,8 +29,6 @@ fun <T : ViewModel, A> singleArgViewModelFactory(constructor: (A) -> T):
         }
     }
 }
-
-fun <T : RecyclerView.LayoutManager> T?.grid() = this as GridLayoutManager
 
 fun Int.asString() = app.getString(this)
 fun Int.asDrawable() = app.getDrawable(this)

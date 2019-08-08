@@ -1,24 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright 2018, The Android Open Source Project
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~     http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
+<?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
+        <import type="com.example.android.trackmysleepquality.misc.Prefs"/>
         <variable name="model" type="com.example.android.trackmysleepquality.viewmodel.TrackerViewModel" />
     </data>
 
@@ -29,57 +17,50 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
+            android:visibility="@{model.hasNights ? View.VISIBLE : View.INVISIBLE}"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/margin"
             android:fadingEdgeLength="45dp"
             android:requiresFadingEdge="vertical"
             android:scrollbarStyle="insideInset"
             android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/start_button"
-            isInvisible="@{!model.hasNights}"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/empty"
-            isGone="@{model.hasNights}"
+            android:text="@{Prefs.INSTANCE.hasData ? @string/loading_nights : @string/no_nights_yet}"
+            android:visibility="@{!model.hasNights ? View.VISIBLE : View.GONE}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin"
             android:gravity="center"
-            android:text="@string/no_nights_yet"
             android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="@id/recycler"
-            app:layout_constraintTop_toTopOf="@+id/recycler"
+            tools:text="Journal is empty"
+            android:textColor="@color/colorInfo"
+            app:layout_constraintBottom_toBottomOf="@+id/recycler"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <Button
-            android:id="@+id/stop_button"
-            style="@style/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/stop"
-            android:onClick="@{()->model.onWakeUp()}"
-            app:layout_constraintBaseline_toBaselineOf="@id/start_button"
-            app:layout_constraintEnd_toStartOf="@+id/start_button"
             app:layout_constraintStart_toStartOf="parent"
-            android:enabled="@{model.isSleeping}"/>
+            app:layout_constraintTop_toTopOf="@+id/recycler"
+            app:layout_constraintVertical_bias="0.45" />
 
-        <Button
-            android:id="@+id/start_button"
-            style="@style/button"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/sleep"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin"
-            android:text="@string/start"
-            android:onClick="@{()->model.onDoSleep()}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/stop_button"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
+            android:onClick="@{(view)->model.onDoSleep()}"
+            android:src="@drawable/hotel"
+            app:fabCustomSize="64dp"
+            app:fabSize="auto"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:enabled="@{!model.isSleeping}"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:maxImageSize="32dp"
+            app:useCompatPadding="true" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

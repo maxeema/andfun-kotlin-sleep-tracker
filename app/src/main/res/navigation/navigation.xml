@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/sleepingFrag">
+    app:startDestination="@id/navigation_frag">
 
     <fragment
         android:id="@+id/trackerFrag"
@@ -12,13 +12,12 @@
         android:label="@string/tracker_fragment"
         tools:layout="@layout/fragment_tracker">
         <action
-            android:id="@+id/actionTrackerFragToQualityFrag"
-            app:destination="@id/qualityFrag" />
+            android:id="@+id/action_tracker_frag_to_details_frag"
+            app:destination="@id/detailsFrag" />
         <action
-            android:id="@+id/actionTrackerFragToDetailsFrag"
-            app:destination="@id/detailsFrag"
-            app:popUpTo="@+id/navigation"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_trackerFrag_to_sleepingFrag"
+            app:destination="@id/sleepingFrag"
+            app:popUpTo="@+id/navigation" />
     </fragment>
 
     <fragment
@@ -32,8 +31,7 @@
         <action
             android:id="@+id/actionQualityFragToTrackerFrag"
             app:destination="@id/trackerFrag"
-            app:popUpTo="@+id/navigation"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@+id/navigation" />
     </fragment>
     <fragment
         android:id="@+id/detailsFrag"
@@ -42,21 +40,30 @@
         <argument
             android:name="nightId"
             app:argType="long" />
-        <action
-            android:id="@+id/actionDetailsFragToTrackerFrag"
-            app:destination="@id/trackerFrag"
-            app:popUpTo="@+id/navigation"
-            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/sleepingFrag"
         android:name="com.example.android.trackmysleepquality.SleepingFragment"
-        android:label="@string/sleeping_fragment" >
+        android:label="@string/sleeping_fragment">
         <action
             android:id="@+id/actionSleepingFragToQualityFrag"
             app:destination="@id/qualityFrag"
-            app:popUpTo="@+id/navigation"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@+id/navigation" />
+        <argument
+            android:name="nightId"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_frag"
+        android:name="com.example.android.trackmysleepquality.BaseFragment">
+        <action
+            android:id="@+id/actionNavigationFragToTrackerFrag"
+            app:destination="@id/trackerFrag"
+            app:popUpTo="@+id/navigation" />
+        <action
+            android:id="@+id/actionNavigationFragToSleepingFrag"
+            app:destination="@id/sleepingFrag"
+            app:popUpTo="@+id/navigation" />
     </fragment>
 
 </navigation>

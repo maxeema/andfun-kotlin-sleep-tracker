@@ -24,6 +24,7 @@
     <color name="colorBackground">#222</color>
 
     <color name="colorFace">#444</color>
-    <color name="colorFaceSleep">@color/colorAccent</color>
+    <color name="colorFaceSleep">#BF360C</color>
+    <color name="colorInfo">#888</color>
 
 </resources>

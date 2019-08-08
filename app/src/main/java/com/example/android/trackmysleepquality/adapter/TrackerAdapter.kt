@@ -25,7 +25,7 @@ class TrackerAdapter : ListAdapter<Night, ViewHolder>(DiffNightCallback()) {
         return ViewHolder(NightItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
-    public override fun getItem(position: Int) = super.getItem(position)
+    public override fun getItem(position: Int) : Night = super.getItem(position)
 
 }
 

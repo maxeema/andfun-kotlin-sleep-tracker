@@ -6,12 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.android.trackmysleepquality.misc.Prefs
-import com.example.android.trackmysleepquality.misc.hash
+import com.example.android.trackmysleepquality.ext.hash
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
-class Activity : AppCompatActivity(), AnkoLogger {
+class MainActivity : AppCompatActivity(), AnkoLogger {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         info("$hash onCreate ${savedInstanceState?.run { ", savedInstanceState: $this"} ?: ""} ")

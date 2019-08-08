@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.data.NightsDao
 import com.example.android.trackmysleepquality.data.NightsDatabase
-import com.example.android.trackmysleepquality.util.asImmutable
-import com.example.android.trackmysleepquality.util.asMutable
-import com.example.android.trackmysleepquality.util.hash
+import com.example.android.trackmysleepquality.ext.asImmutable
+import com.example.android.trackmysleepquality.ext.asMutable
+import com.example.android.trackmysleepquality.ext.hash
 import kotlinx.coroutines.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
@@ -17,7 +17,8 @@ open class BaseViewModel : ViewModel(), AnkoLogger {
 
     init { info("$hash new instance") }
 
-    val messageEvent = MutableLiveData<MessageEvent?>().asImmutable()
+    var onComplete : (()->Unit)? = null
+    val messageEvent  = MutableLiveData<MessageEvent?>().asImmutable()
 
     protected val dao = NightsDatabase.instance.nightsDao
 
@@ -44,9 +45,9 @@ open class BaseViewModel : ViewModel(), AnkoLogger {
 
     fun messageEventConsumed() { messageEvent.asMutable().value = null }
 
-    sealed class MessageEvent {
-        class Info(val msg: Int) : MessageEvent()
-        class Error(val msg: Int, val err: Throwable) : MessageEvent()
+    sealed class MessageEvent(val msg: Int) {
+        class Info(msg: Int) : MessageEvent(msg)
+        class Error(msg: Int, val err: Throwable) : MessageEvent(msg)
     }
 
 }

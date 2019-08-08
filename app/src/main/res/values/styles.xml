@@ -27,8 +27,10 @@
 
         <item name="fontFamily">@font/amita</item>
 
+        <item name="action">@style/actionbarTheme</item>
         <item name="actionBarTheme">@style/actionbarTheme</item>
         <item name="actionOverflowButtonStyle">@style/actionbarOverflowButton</item>
+<!--        <item name="actionBarStyle">@style/actionbarStyle</item>-->
 
         <item name="snackbarStyle">@style/snackbar</item>
     </style>
@@ -38,21 +40,25 @@
         <item name="android:textColorPrimary">@color/colorAccent</item>
         <item name="colorControlNormal">@color/colorAccent</item>
     </style>
+<!--    <style name="actionbarStyle" parent="Widget.AppCompat.ActionBar.Solid">-->
+<!--        <item name="titleTextStyle">@style/actionbarTitleStyle</item>-->
+<!--    </style>-->
+<!--    <style name="actionbarTitleStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">-->
+<!--    </style>-->
     <style name="actionbarOverflowButton" parent="Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:contentDescription"></item>
+        <item name="android:contentDescription"/>
     </style>
 
     <style name="snackbar" parent="Widget.MaterialComponents.Snackbar">
-        <item name="android:layout_margin">@dimen/snacks_margin</item>
+        <item name="android:layout_margin"/>
+        <item name="android:layout_marginTop">@dimen/snackbar_margin_horizontal</item>
+        <item name="android:layout_marginBottom">@dimen/snackbar_margin_horizontal</item>
+        <item name="android:layout_marginStart">@dimen/snackbar_margin_vertical</item>
+        <item name="android:layout_marginEnd">@dimen/snackbar_margin_vertical</item>
     </style>
 
     <style name="text" parent="TextAppearance.AppCompat">
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:textSize">@dimen/text_size</item>
-    </style>
-    <style name="button" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/button_text_size</item>
     </style>
 
 </resources>

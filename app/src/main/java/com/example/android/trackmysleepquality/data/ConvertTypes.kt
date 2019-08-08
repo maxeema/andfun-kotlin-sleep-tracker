@@ -8,6 +8,6 @@ class ConvertTypes {
     fun qualityFrom(quality: Night.Quality) = quality.id
 
     @TypeConverter
-    fun qualityTo(quality: Night.Quality) = quality.id
+    fun qualityTo(qualityId: Int) = Night.Quality.of(qualityId)
 
 }

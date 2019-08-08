@@ -1,10 +1,9 @@
-package com.example.android.trackmysleepquality.data
+package com.example.android.trackmysleepquality.ext
 
 import android.text.format.DateUtils.*
 import com.example.android.trackmysleepquality.R
+import com.example.android.trackmysleepquality.data.Night
 import com.example.android.trackmysleepquality.misc.app
-import com.example.android.trackmysleepquality.misc.asDrawable
-import com.example.android.trackmysleepquality.misc.asString
 
 /**
  * Night extensions
@@ -18,12 +17,12 @@ fun Night.wakeup() { period.endTime = System.currentTimeMillis() }
 fun Night.describe() = when {
         isActive() -> R.string.zzz
               else -> quality.label
-}.asString()
+}
 
 fun Night.present() = when {
         isActive() -> R.drawable.ic_sleep_active
               else -> quality.img
-}.asDrawable()
+}
 
 fun Night.log() = formatDateRange(app, period.startTime, period.endTime, LOG_FLAGS).let {
     it + (if (isActive()) " - …" else "")

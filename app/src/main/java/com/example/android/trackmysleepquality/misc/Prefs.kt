@@ -1,8 +1,7 @@
-package com.example.android.trackmysleepquality.util
+package com.example.android.trackmysleepquality.misc
 
 import androidx.core.content.edit
 import androidx.databinding.ObservableBoolean
-import com.example.android.trackmysleepquality.app
 import org.jetbrains.anko.defaultSharedPreferences
 
 object Prefs {

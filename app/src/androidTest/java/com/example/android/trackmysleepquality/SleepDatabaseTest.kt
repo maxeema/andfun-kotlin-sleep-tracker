@@ -60,7 +60,7 @@ class SleepDatabaseTest {
 
     @Test @Throws(Exception::class)
     fun checkOnEmpty() {
-        val tonight = sleepDao.getTonight()
+        val tonight = sleepDao.tonight()
         println(" tonight is $tonight")
         assertEquals(tonight, null)
     }
@@ -69,11 +69,11 @@ class SleepDatabaseTest {
     fun testInsertUpdateDelete() {
         val night = Night(sleepQuality = 2)
         sleepDao.insert(night)
-        val tonight = sleepDao.getTonight()!!
+        val tonight = sleepDao.tonight()!!
         assertEquals(tonight.sleepQuality, 2)
         tonight.sleepQuality = 4
         sleepDao.update(tonight)
-        assertEquals(sleepDao.getTonight()!!.sleepQuality, 4)
+        assertEquals(sleepDao.tonight()!!.sleepQuality, 4)
         sleepDao.delete(tonight)
         assertEquals(sleepDao.get(tonight.id), null)
     }
@@ -86,7 +86,7 @@ class SleepDatabaseTest {
         sleepDao.insert(nightFirst)
         sleepDao.insert(nightSecond)
         sleepDao.insert(nightThird)
-        val tonight = sleepDao.getTonight()
+        val tonight = sleepDao.tonight()
         println("tonight is $tonight")
         assertEquals(tonight!!.sleepQuality, 3)
     }

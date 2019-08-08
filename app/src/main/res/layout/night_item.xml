@@ -18,30 +18,32 @@
         android:paddingEnd="8dp"
         android:paddingBottom="10dp"
         android:background="?android:selectableItemBackground"
-        android:onClick="@{clicklistener}">
+        android:onClick="@{clicklistener}"
+        tools:ignore="ContentDescription">
 
         <ImageView
             android:id="@+id/iconView"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
+            android:layout_width="@dimen/item_icon_size"
+            android:layout_height="@dimen/item_icon_size"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_sleep_5"
+            tools:src="@drawable/excellent"
             nightImage="@{night}"/>
 
         <TextView
             android:id="@+id/howView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/text"
+            android:textSize="@dimen/text_size_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iconView"
-            tools:text="@string/five_excellent"
-            nightQuality="@{night}"/>
+            tools:text="@string/excellent"
+            nightQuality="@{night}"
+            android:singleLine="true" android:ellipsize="end" android:marqueeRepeatLimit="1"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
