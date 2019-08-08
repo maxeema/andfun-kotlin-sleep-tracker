@@ -1,6 +1,6 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="@dimen/icon_size"
-    android:height="@dimen/icon_size"
+    android:width="@dimen/sleep_icon_src_size"
+    android:height="@dimen/sleep_icon_src_size"
     android:viewportWidth="512"
     android:viewportHeight="512">
     <path android:fillColor="@color/colorFace" android:pathData="M181.16,316.18m-181.7,0a181.7,181.7 0,1 1,363.4 0a181.7,181.7 0,1 1,-363.4 0"/>

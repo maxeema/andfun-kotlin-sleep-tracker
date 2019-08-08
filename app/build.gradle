@@ -40,6 +40,13 @@ android {
     dataBinding {
         enabled = true
     }
+    compileOptions {
+        sourceCompatibility "1.8"
+        targetCompatibility "1.8"
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
     buildToolsVersion = '29.0.1'
 }
 
@@ -60,6 +67,7 @@ dependencies {
     implementation "androidx.room:room-runtime:2.1.0"
     implementation "com.github.bumptech.glide:glide:4.9.0"
     implementation "org.jetbrains.anko:anko-commons:0.10.8"
+    implementation "org.jetbrains.anko:anko-design:0.10.8"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.1"

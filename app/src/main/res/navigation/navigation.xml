@@ -4,37 +4,59 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@+id/tracker_frag">
+    app:startDestination="@id/sleepingFrag">
 
     <fragment
-        android:id="@+id/tracker_frag"
+        android:id="@+id/trackerFrag"
         android:name="com.example.android.trackmysleepquality.TrackerFragment"
         android:label="@string/tracker_fragment"
         tools:layout="@layout/fragment_tracker">
         <action
-            android:id="@+id/action_TrackerFrag_to_QualityFrag"
-            app:destination="@id/quality_frag" />
+            android:id="@+id/actionTrackerFragToQualityFrag"
+            app:destination="@id/qualityFrag" />
         <action
-            android:id="@+id/action_TrackerFrag_to_DetailsFrag"
-            app:destination="@id/details_frag" />
+            android:id="@+id/actionTrackerFragToDetailsFrag"
+            app:destination="@id/detailsFrag"
+            app:popUpTo="@+id/navigation"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
-        android:id="@+id/quality_frag"
+        android:id="@+id/qualityFrag"
         android:name="com.example.android.trackmysleepquality.QualityFragment"
         android:label="@string/quality_fragment"
         tools:layout="@layout/fragment_quality">
         <argument
             android:name="nightId"
             app:argType="long" />
+        <action
+            android:id="@+id/actionQualityFragToTrackerFrag"
+            app:destination="@id/trackerFrag"
+            app:popUpTo="@+id/navigation"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
-        android:id="@+id/details_frag"
+        android:id="@+id/detailsFrag"
         android:name="com.example.android.trackmysleepquality.DetailsFragment"
         android:label="@string/details_fragment" >
         <argument
             android:name="nightId"
             app:argType="long" />
+        <action
+            android:id="@+id/actionDetailsFragToTrackerFrag"
+            app:destination="@id/trackerFrag"
+            app:popUpTo="@+id/navigation"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/sleepingFrag"
+        android:name="com.example.android.trackmysleepquality.SleepingFragment"
+        android:label="@string/sleeping_fragment" >
+        <action
+            android:id="@+id/actionSleepingFragToQualityFrag"
+            app:destination="@id/qualityFrag"
+            app:popUpTo="@+id/navigation"
+            app:popUpToInclusive="true" />
     </fragment>
 
 </navigation>

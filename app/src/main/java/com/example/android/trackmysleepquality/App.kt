@@ -2,12 +2,12 @@ package com.example.android.trackmysleepquality
 
 import android.app.Application
 
-val app = App.instance
+val app = NightsApp.instance
 
-class App : Application() {
+class NightsApp : Application() {
 
     companion object {
-        private var initializer : (()-> App)? = null
+        private var initializer : (()-> NightsApp)? = null
         val instance by lazy { requireNotNull(initializer).apply{ initializer = null }()  }
     }
 
