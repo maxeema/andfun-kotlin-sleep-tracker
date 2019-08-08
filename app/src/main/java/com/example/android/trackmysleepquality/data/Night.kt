@@ -15,7 +15,7 @@ data class Night(
         var id                  : Long? = null, // let SQLite provide ID
 
         @ColumnInfo(name = "quality")
-        var quality             : Quality   = Quality.UNDEFINED,
+        var quality             : Quality = Quality.UNDEFINED,
 
         @Embedded(prefix = "period_")
         val period              : Period = Period()

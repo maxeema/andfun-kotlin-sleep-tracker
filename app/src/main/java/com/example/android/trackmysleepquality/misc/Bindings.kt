@@ -7,18 +7,12 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.android.trackmysleepquality.data.Night
-import com.example.android.trackmysleepquality.ext.describe
 import com.example.android.trackmysleepquality.ext.fromHtml
-import com.example.android.trackmysleepquality.ext.log
+import com.example.android.trackmysleepquality.ext.logPeriod
 
 @BindingAdapter("nightQuality")
 fun bindNightQuality(view: TextView, night: Night?) = night?.apply {
-    view.setText(night.describe())
-}
-
-@BindingAdapter("nightPeriod")
-fun bindNightPeriod(view: TextView, night: Night?) = night?.apply {
-    view.text = night.log()
+    view.setText(quality.label)
 }
 
 @BindingAdapter("nightImage")
@@ -32,6 +26,11 @@ fun bindNightQualityImage(view: ImageView, quality: Night.Quality?) = quality?.a
         .load(quality.img)
         .transition(DrawableTransitionOptions.withCrossFade())
         .into(view)
+}
+
+@BindingAdapter("nightPeriod")
+fun bindNightPeriod(view: TextView, night: Night?) = night?.apply {
+    view.text = night.logPeriod()
 }
 
 @BindingAdapter("textHtml")
