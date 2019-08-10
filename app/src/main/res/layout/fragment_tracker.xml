@@ -8,21 +8,23 @@
         <import type="android.view.View"/>
         <import type="com.example.android.trackmysleepquality.misc.Prefs"/>
         <variable name="model" type="com.example.android.trackmysleepquality.viewmodel.TrackerViewModel" />
+        <variable name="loaded" type="androidx.databinding.ObservableBoolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".TrackerFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
-            android:visibility="@{model.hasNights ? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{model.hasNights &amp;&amp; loaded ? View.VISIBLE : View.GONE}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:fadingEdgeLength="45dp"
             android:requiresFadingEdge="vertical"
-            android:scrollbarStyle="insideInset"
+            android:scrollbarStyle="insideOverlay"
             android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -32,8 +34,8 @@
 
         <TextView
             android:id="@+id/empty"
-            android:text="@{Prefs.INSTANCE.hasData ? @string/loading_nights : @string/no_nights_yet}"
-            android:visibility="@{!model.hasNights ? View.VISIBLE : View.GONE}"
+            android:text="@{Prefs.hasData ? @string/loading_nights : @string/no_nights_yet}"
+            android:visibility="@{!loaded || !model.hasNights ? View.VISIBLE : View.GONE}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin"
@@ -51,15 +53,17 @@
             android:id="@+id/sleep"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginBottom="18dp"
             android:onClick="@{(view)->model.onDoSleep()}"
-            android:src="@drawable/hotel"
             app:fabCustomSize="64dp"
             app:fabSize="auto"
+            app:layout_constrainedHeight="true"
+            app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:maxImageSize="32dp"
+            app:srcCompat="@drawable/hotel"
             app:useCompatPadding="true" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
