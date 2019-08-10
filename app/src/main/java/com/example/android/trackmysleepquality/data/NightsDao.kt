@@ -22,10 +22,10 @@ interface NightsDao {
     fun get(nightId: Long) : Night?
 
     @Query("SELECT * from nights WHERE id = :nightId")
-    fun getAsLive(nightId: Long) : LiveData<Night>
+    fun getAsLive(nightId: Long) : LiveData<Night?>
 
     @Query("SELECT * FROM nights ORDER BY id DESC")
-    fun getAll() : LiveData<List<Night>>
+    fun getAll() : LiveData<List<Night>?>
 
     @Query("UPDATE nights SET quality = :quality WHERE id = :nightId")
     fun updateQuality(nightId: Long, quality: Night.Quality) : Int

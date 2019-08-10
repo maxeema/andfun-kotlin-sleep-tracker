@@ -1,17 +1,18 @@
 package com.example.android.trackmysleepquality.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.Transformations
 import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.data.Night
-import com.example.android.trackmysleepquality.misc.Prefs
 import com.example.android.trackmysleepquality.ext.asMutable
+import com.example.android.trackmysleepquality.misc.Prefs
 import org.jetbrains.anko.info
 
 class TrackerViewModel(state: SavedStateHandle) : BaseViewModel() {
 
     val nights = dao.getAll()
-    val hasNights  = Transformations.map(nights) { it.isNotEmpty() }
+    val hasNights : LiveData<Boolean?> = Transformations.map(nights) { !it.isNullOrEmpty() }
 
     fun onDoSleep() = action {
         val inserted = dao { insert(Night()) }
