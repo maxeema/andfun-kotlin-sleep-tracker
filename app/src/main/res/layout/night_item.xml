@@ -12,11 +12,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="70dp"
         android:paddingStart="8dp"
-        android:paddingTop="10dp"
+        android:paddingTop="20dp"
         android:paddingEnd="8dp"
-        android:paddingBottom="10dp"
+        android:paddingBottom="12dp"
         android:background="?android:selectableItemBackground"
         android:onClick="@{clicklistener}"
         tools:ignore="ContentDescription">
@@ -30,7 +29,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/excellent"
-            nightImage="@{night}"/>
+            srcOfNight="@{night}"/>
 
         <TextView
             android:id="@+id/howView"
@@ -42,7 +41,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iconView"
             tools:text="@string/excellent"
-            nightQuality="@{night}"
+            android:text="@{night.quality.label}"
             android:singleLine="true" android:ellipsize="end" android:marqueeRepeatLimit="1"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
