@@ -1,5 +1,7 @@
 package com.example.android.trackmysleepquality.ext
 
+import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,6 +20,8 @@ fun String.fromHtml() = Utils.fromHtml(this)
 fun <T> MutableLiveData<T>.asImmutable() = this as LiveData<T>
 fun <T> LiveData<T>.asMutable()          = this as MutableLiveData<T>
 
+fun <T : Activity> T?.compat() = this as AppCompatActivity
+
 fun <T : ViewModel, A> singleArgViewModelFactory(constructor: (A) -> T):
         (A) -> ViewModelProvider.NewInstanceFactory {
     return { arg: A ->
@@ -32,6 +36,3 @@ fun <T : ViewModel, A> singleArgViewModelFactory(constructor: (A) -> T):
 
 fun Int.asString() = app.getString(this)
 fun Int.asDrawable() = app.getDrawable(this)
-
-fun asString(code: ()->Int) = code().asString()
-fun asDrawable(code: ()->Int) = code().asDrawable()
