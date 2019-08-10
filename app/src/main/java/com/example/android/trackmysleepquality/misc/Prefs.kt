@@ -11,6 +11,7 @@ object Prefs {
 
     private val prefs = app.defaultSharedPreferences
 
+    @JvmStatic
     val hasData = ObservableBoolean(lastNightId != null)
 
     var lastNightId
