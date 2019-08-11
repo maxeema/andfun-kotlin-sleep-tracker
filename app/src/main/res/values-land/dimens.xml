@@ -16,7 +16,7 @@
 
 <resources>
     <dimen name="margin">12dp</dimen>
-    <dimen name="item_icon_size">40dp</dimen>
+    <dimen name="item_icon_size">52dp</dimen>
     <dimen name="snackbar_margin_horizontal">10dp</dimen>
     <dimen name="snackbar_margin_vertical">30dp</dimen>
     <dimen name="text_size">14sp</dimen>

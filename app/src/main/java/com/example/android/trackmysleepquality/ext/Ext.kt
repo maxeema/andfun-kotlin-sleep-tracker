@@ -1,6 +1,7 @@
 package com.example.android.trackmysleepquality.ext
 
 import android.app.Activity
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -36,3 +37,4 @@ fun <T : ViewModel, A> singleArgViewModelFactory(constructor: (A) -> T):
 
 fun Int.asString() = app.getString(this)
 fun Int.asDrawable() = app.getDrawable(this)
+fun Int.asColorDrawable() = app.resources.getColor(this).let { ColorDrawable(it)}

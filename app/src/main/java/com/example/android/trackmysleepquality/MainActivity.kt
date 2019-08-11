@@ -5,13 +5,13 @@ import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import com.example.android.trackmysleepquality.misc.Prefs
 import com.example.android.trackmysleepquality.ext.hash
+import com.example.android.trackmysleepquality.misc.Prefs
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
-class MainActivity : AppCompatActivity(), AnkoLogger {
+class AppCompatActivityMainActivity : AppCompatActivity(), AnkoLogger {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         info("$hash onCreate ${savedInstanceState?.run { ", savedInstanceState: $this"} ?: ""} ")
@@ -45,5 +45,10 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
 
     private val currentFrag get() =
         runCatching { (navHostFrag as NavHostFragment).childFragmentManager.fragments.first() as BaseFragment }.getOrNull()
+
+
+    override fun onDestroy() { super.onDestroy()
+        info("$hash onDestroy")
+    }
 
 }

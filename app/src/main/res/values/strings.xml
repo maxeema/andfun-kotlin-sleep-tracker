@@ -10,7 +10,7 @@
     <string name="tracker_fragment">@string/app_name</string>
     <string name="quality_fragment">How Was the Sleep?</string>
     <string name="details_fragment">Sleep Info</string>
-    <string name="sleeping_fragment">@string/zzz</string>
+    <string name="sleeping_fragment"/>
 
     <!-- Sleep quality -->
     <string name="undefined">"﹖   "</string>

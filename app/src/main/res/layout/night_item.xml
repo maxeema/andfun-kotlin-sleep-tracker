@@ -12,37 +12,42 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?android:selectableItemBackground"
+        android:onClick="@{clicklistener}"
         android:paddingStart="8dp"
         android:paddingTop="20dp"
         android:paddingEnd="8dp"
         android:paddingBottom="12dp"
-        android:background="?android:selectableItemBackground"
-        android:onClick="@{clicklistener}"
         tools:ignore="ContentDescription">
 
         <ImageView
-            android:id="@+id/iconView"
+            android:id="@+id/icon"
+            srcOfNightCached="@{night}"
             android:layout_width="@dimen/item_icon_size"
             android:layout_height="@dimen/item_icon_size"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/excellent"
-            srcOfNight="@{night}"/>
+            tools:src="@drawable/excellent" />
 
         <TextView
-            android:id="@+id/howView"
+            android:id="@+id/info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:marqueeRepeatLimit="1"
+            android:singleLine="true"
+            textOfNightPeriodEnd="@{night}"
             android:textSize="@dimen/text_size_small"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="@color/colorInfo"
+            app:layout_constrainedHeight="true"
+            app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iconView"
-            tools:text="@string/excellent"
-            android:text="@{night.quality.label}"
-            android:singleLine="true" android:ellipsize="end" android:marqueeRepeatLimit="1"/>
+            app:layout_constraintTop_toBottomOf="@+id/icon"
+            tools:text="Aug 11, 6:41 am" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

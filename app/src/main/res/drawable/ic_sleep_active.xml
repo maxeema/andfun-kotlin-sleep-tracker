@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@drawable/ic_sleep_active_4" android:duration="@integer/sleep_ani_interval"/>

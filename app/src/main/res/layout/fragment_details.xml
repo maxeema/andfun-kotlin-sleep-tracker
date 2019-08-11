@@ -5,6 +5,7 @@
 
     <data>
         <variable name="model" type="com.example.android.trackmysleepquality.viewmodel.DetailsViewModel" />
+        <import type="com.example.android.trackmysleepquality.data.Converter"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,21 +15,23 @@
 
         <ImageView
             android:id="@+id/sleepingImage"
+            srcOfNight="@{model.night}"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:background="?android:selectableItemBackground"
-            nightImage="@{model.night}"
             android:onClick="@{() -> model.onComplete.invoke()}"
-            tools:src="@drawable/pretty_good"
             android:padding="10dp"
             app:layout_constraintBottom_toTopOf="@+id/sleep_quality"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end"
             app:layout_constraintHeight_percent=".35"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/sleep_period"
+            app:layout_constraintTop_toBottomOf="@+id/sleeping_period"
             app:layout_constraintVertical_bias="0.4"
-            app:layout_constraintWidth_default="spread" />
+            app:layout_constraintWidth_default="spread"
+            tools:src="@drawable/pretty_good" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_top"
@@ -47,8 +50,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/sleep_period"
-            nightPeriod="@{model.night}"
+            android:id="@+id/sleeping_period"
+            android:text="@{Converter.nightToPeriodText(model.night)}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/textColorPrimary"
@@ -62,8 +65,8 @@
             android:id="@+id/sleep_quality"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            nightQuality="@{model.night}"
-            tools:text="Pretty Goood =)"
+            android:text="@{Converter.nightToQualityText(model.night)}"
+            tools:text="Pretty Good =)"
             android:textColor="@color/textColorPrimary"
             android:textSize="@dimen/text_size_large"
             app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"

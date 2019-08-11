@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
-import com.example.android.trackmysleepquality.misc.Utils
 import com.example.android.trackmysleepquality.ext.hash
+import com.example.android.trackmysleepquality.misc.Utils
 import com.example.android.trackmysleepquality.viewmodel.BaseViewModel
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.alert

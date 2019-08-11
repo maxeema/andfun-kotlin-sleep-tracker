@@ -1,36 +1,39 @@
 package com.example.android.trackmysleepquality.misc
 
-import android.annotation.SuppressLint
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.android.trackmysleepquality.data.Night
+import com.example.android.trackmysleepquality.ext.asString
 import com.example.android.trackmysleepquality.ext.fromHtml
 import com.example.android.trackmysleepquality.ext.logPeriod
+import com.example.android.trackmysleepquality.ext.logPeriodEnd
+import com.example.android.trackmysleepquality.misc.Utils.loadNightImage
 
-@BindingAdapter("nightQuality")
-fun bindNightQuality(view: TextView, night: Night?) = night?.apply {
-    view.setText(quality.label)
+@BindingAdapter("srcOfNight")
+fun bindSrcOfNight(view: ImageView, night: Night?) = night?.apply {
+    loadNightImage(view, quality)
+}
+@BindingAdapter("srcOfNightQuality")
+fun bindSrcOfNightQuality(view: ImageView, quality: Night.Quality?) = quality?.apply {
+    loadNightImage(view, quality)
+}
+@BindingAdapter("srcOfNightCached")
+fun bindSrcOfNightCached(view: ImageView, night: Night?) = night?.apply {
+    loadNightImage(view, quality, true)
 }
 
-@BindingAdapter("nightImage")
-fun bindNightImage(view: ImageView, night: Night?) = night?.apply {
-    bindNightQualityImage(view, quality)
+@BindingAdapter("textOfNightPeriod")
+fun bindTextOfNightPeriod(view: TextView, night: Night?) = night?.apply {
+    view.text = logPeriod()
 }
-
-@BindingAdapter("nightQualityImage") @SuppressLint("ResourceType")
-fun bindNightQualityImage(view: ImageView, quality: Night.Quality?) = quality?.apply {
-    Glide.with(view.context)
-        .load(quality.img)
-        .transition(DrawableTransitionOptions.withCrossFade())
-        .into(view)
+@BindingAdapter("textOfNightPeriodEnd")
+fun bindTextOfNightPeriodEnd(view: TextView, night: Night?) = night?.apply {
+    view.text = logPeriodEnd()
 }
-
-@BindingAdapter("nightPeriod")
-fun bindNightPeriod(view: TextView, night: Night?) = night?.apply {
-    view.text = night.logPeriod()
+@BindingAdapter("textOfNightQuality")
+fun bindTextOfNightQuality(view: TextView, night: Night?) = night?.apply {
+    view.text = quality.label.asString()
 }
 
 @BindingAdapter("textHtml")

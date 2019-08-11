@@ -9,35 +9,10 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".SleepingFragment">
-
-        <ImageView
-            android:id="@+id/sleepingImage"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="?android:selectableItemBackground"
-            android:onClick="@{()->model.onTap.invoke()}"
-            android:onLongClick="@{()->model.onWakeUp()}"
-            android:padding="10dp"
-            android:src="@drawable/ic_sleep_active"
-            app:layout_constraintBottom_toTopOf="@+id/tip"
-            app:layout_constraintDimensionRatio="1"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-            app:layout_constraintHeight_percent=".35"
-            app:layout_constraintStart_toStartOf="@+id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/sleep_period"
-            app:layout_constraintVertical_bias="0.4"
-            app:layout_constraintWidth_default="spread" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_top"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".05"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_bottom"
@@ -47,28 +22,13 @@
             app:layout_constraintGuide_percent=".95"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/sleep_period"
-            nightPeriod="@{model.night}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorInfo"
-            android:textSize="@dimen/text_size"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-            app:layout_constraintStart_toStartOf="@+id/guideline_start"
-            app:layout_constraintTop_toTopOf="@id/guideline_top"
-            tools:text="Friday night" />
-
-        <TextView
-            android:id="@+id/tip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            textHtml="@{@string/on_waking_up}"
-            android:textColor="@color/colorInfo"
-            android:textSize="@dimen/text_size"
-            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-            app:layout_constraintStart_toStartOf="@+id/guideline_start" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_top"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".05"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_end"
@@ -84,5 +44,54 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent=".05" />
 
+        <TextView
+            android:id="@+id/sleeping_period"
+            textOfNightPeriod="@{model.night}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constrainedWidth="true"
+            app:layout_constrainedHeight="true"
+            android:textColor="@color/colorInfo"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toTopOf="@id/guideline_top"
+            tools:text="Friday night" />
+
+        <ImageView
+            android:visibility="invisible"
+            tools:visibility="visible"
+            android:id="@+id/sleepingImage"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?android:selectableItemBackground"
+            android:onClick="@{()->model.onTap.invoke()}"
+            android:onLongClick="@{()->model.onWakeUp()}"
+            android:padding="10dp"
+            android:src="@drawable/ic_sleep_active"
+            tools:src="@drawable/ic_sleep_active"
+            app:layout_constraintBottom_toTopOf="@+id/tip"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintHeight_percent=".35"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/sleeping_period"
+            app:layout_constraintVertical_bias="0.4"
+            app:layout_constraintWidth_default="spread" />
+
+        <TextView
+            android:id="@+id/tip"
+            textHtml="@{@string/on_waking_up}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constrainedWidth="true"
+            app:layout_constrainedHeight="true"
+            android:textColor="@color/colorInfo"
+            android:textSize="@dimen/text_size"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            tools:text="@string/on_waking_up" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

@@ -16,9 +16,9 @@
 
 <resources>
 
-    <color name="colorPrimary">#BF360C</color>
-    <color name="colorPrimaryDark">#222</color>
-    <color name="colorAccent">@color/colorPrimary</color>
+    <color name="colorPrimary">#AF320C</color>
+    <color name="colorPrimaryDark">#701313</color>
+    <color name="colorAccent">#DD2C00</color>
 
     <color name="textColorPrimary">#bbb</color>
     <color name="colorBackground">#222</color>

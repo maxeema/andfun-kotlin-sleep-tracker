@@ -16,7 +16,7 @@
 
 <resources>
     <dimen name="margin">16dp</dimen>
-    <dimen name="item_icon_size">50dp</dimen>
+    <dimen name="item_icon_size">66dp</dimen>
     <dimen name="sleep_icon_src_size">1000dp</dimen>
     <dimen name="snackbar_margin_horizontal">16dp</dimen>
     <dimen name="snackbar_margin_vertical">12dp</dimen>

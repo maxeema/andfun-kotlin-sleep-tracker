@@ -22,29 +22,16 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@color/colorBackground</item>
 
         <item name="fontFamily">@font/amita</item>
 
-        <item name="action">@style/actionbarTheme</item>
-        <item name="actionBarTheme">@style/actionbarTheme</item>
         <item name="actionOverflowButtonStyle">@style/actionbarOverflowButton</item>
-<!--        <item name="actionBarStyle">@style/actionbarStyle</item>-->
 
         <item name="snackbarStyle">@style/snackbar</item>
     </style>
 
-    <style name="actionbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="colorPrimary">@color/colorBackground</item>
-        <item name="android:textColorPrimary">@color/colorAccent</item>
-        <item name="colorControlNormal">@color/colorAccent</item>
-    </style>
-<!--    <style name="actionbarStyle" parent="Widget.AppCompat.ActionBar.Solid">-->
-<!--        <item name="titleTextStyle">@style/actionbarTitleStyle</item>-->
-<!--    </style>-->
-<!--    <style name="actionbarTitleStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">-->
-<!--    </style>-->
     <style name="actionbarOverflowButton" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="android:contentDescription"/>
     </style>
