@@ -8,7 +8,7 @@
     <path android:fillColor="#fff" android:pathData="M217.037,269.907L282.009,264.223A5.49,5.49 130,0 1,287.956 269.213L287.961,269.263A5.49,5.49 130,0 1,282.97 275.211L217.998,280.895A5.49,5.49 130,0 1,212.051 275.904L212.046,275.855A5.49,5.49 130,0 1,217.037 269.907z"/>
     <path android:fillColor="#00000000"
         android:pathData="M92.91,395.3c19.86,-26.3 54.92,-43.94 87.69,-43.94 33.08,0 68.5,18 88.26,44.69"
-        android:strokeColor="#77ffffff" android:strokeLineCap="round" android:strokeWidth="20"/>
+        android:strokeColor="@color/colorMouth" android:strokeLineCap="round" android:strokeWidth="20"/>
     <path android:fillColor="#444" android:pathData="M398.31,101.69m-101.69,0a101.69,101.69 0,1 1,203.38 0a101.69,101.69 0,1 1,-203.38 0"/>
     <path android:fillColor="#444" android:pathData="M267.86,57.09m-24.76,0a24.76,24.76 0,1 1,49.52 0a24.76,24.76 0,1 1,-49.52 0"/>
     <path android:fillColor="#444" android:pathData="M224.93,85.36m-16.33,0a16.33,16.33 0,1 1,32.66 0a16.33,16.33 0,1 1,-32.66 0"/>
