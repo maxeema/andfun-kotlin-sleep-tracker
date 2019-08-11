@@ -7,9 +7,11 @@ import androidx.core.os.postDelayed
 import androidx.databinding.ObservableBoolean
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.*
 import com.example.android.trackmysleepquality.adapter.TrackerAdapter
@@ -32,12 +34,15 @@ class TrackerFragment : BaseFragment() {
 
     override val model by viewModels<TrackerViewModel> { SavedStateViewModelFactory(app, this) }
     private lateinit var binding : FragmentTrackerBinding
-    private lateinit var loaded : ObservableBoolean
+
+    private val loaded = ObservableBoolean()
+    private var inserting = false to null as Long?
+
+    private val navigateToSleepEvent = MutableLiveData<Long?>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         info("$hash onCreateView, savedInstanceState: $savedInstanceState")
 
-        loaded = ObservableBoolean(false)
         binding = FragmentTrackerBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = this
@@ -48,6 +53,13 @@ class TrackerFragment : BaseFragment() {
         if (startUpKey == context!!.hash)
             doLoad()
 
+        navigateToSleepEvent.observe(viewLifecycleOwner) { nightId ->
+            nightId ?: return@observe
+            navigateToSleepEvent.removeObservers(viewLifecycleOwner)
+            if (activity?.isFinishing != true)
+                findNavController().navigate(TrackerFragmentDirections.actionTrackerFragToSleepingFrag(nightId))
+        }
+
         return binding.root
     }
 
@@ -55,8 +67,18 @@ class TrackerFragment : BaseFragment() {
         val adapter = TrackerAdapter()
         binding.recycler.adapter = adapter
         binding.recycler.layoutManager.grid().spanCount = resources.getInteger(R.integer.grid_span_count)
-
+        binding.recycler.itemAnimator = object: DefaultItemAnimator() {
+            override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
+                if (inserting.first && viewHolder.itemId == inserting.second)
+                    navigateToSleepEvent.value = inserting.second
+            }
+        }
+        binding.sleep.setOnClickListener {
+            if (inserting.first) return@setOnClickListener
+            model.onDoSleep()
+        }
         adapter.onItemClick = View.OnClickListener { val night = it.tag as Night
+            if (inserting.first) return@OnClickListener
             findNavController().navigate(when (night.isActive()) {
                 true -> TrackerFragmentDirections.actionTrackerFragToSleepingFrag(night.id!!)
                 else -> TrackerFragmentDirections.actionTrackerFragToDetailsFrag(night.id!!)
@@ -69,9 +91,9 @@ class TrackerFragment : BaseFragment() {
                     binding.recycler.scrollToPosition(0)
             }
         })
-        model.onComplete = {
-            findNavController().navigate(TrackerFragmentDirections.actionTrackerFragToSleepingFrag(Prefs.lastNightId!!))
-            model.onComplete = null
+        model.onComplete = { model.onComplete = null
+            inserting = true to Prefs.lastNightId
+            binding.recycler.scrollToPosition(0)
         }
         model.nights.observe(viewLifecycleOwner) { nights ->
             info((" nights update to -> $nights"))
@@ -84,8 +106,7 @@ class TrackerFragment : BaseFragment() {
         info(" loaded: ${loaded.get()}")
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onResume() { super.onResume()
         preLoad()
     }
 
@@ -127,12 +148,13 @@ class TrackerFragment : BaseFragment() {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.tracker_menu, menu)
         clear = menu.findItem(R.id.clear).apply {
-            isVisible = loaded.get() && model.hasNights.value == true ?: false
+            isVisible = loaded.get() && model.hasNights.value == true
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) = when(item) {
-        clear -> requireActivity().alert(R.string.confirm_clearing) {
+    override fun onOptionsItemSelected(item: MenuItem) = when {
+        inserting.first -> false
+        item == clear -> requireActivity().alert(R.string.confirm_clearing) {
             positiveButton(R.string.yes) {
                 model.onClearData(); clear?.isVisible = false
             }
