@@ -4,38 +4,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/navigation_frag">
+    app:startDestination="@id/navigationFrag">
 
     <fragment
-        android:id="@+id/trackerFrag"
-        android:name="com.example.android.trackmysleepquality.TrackerFragment"
-        android:label="@string/tracker_fragment"
-        tools:layout="@layout/fragment_tracker">
+        android:id="@+id/journalFrag"
+        android:name="maxeem.america.sleeping_journal.JournalFragment"
+        android:label="@string/journal_fragment"
+        tools:layout="@layout/fragment_journal">
         <action
-            android:id="@+id/action_tracker_frag_to_details_frag"
+            android:id="@+id/action_journal_frag_to_details_frag"
             app:destination="@id/detailsFrag" />
         <action
-            android:id="@+id/action_trackerFrag_to_sleepingFrag"
+            android:id="@+id/action_JournalFrag_to_sleepingFrag"
             app:destination="@id/sleepingFrag"
             app:popUpTo="@+id/navigation" />
     </fragment>
 
     <fragment
         android:id="@+id/qualityFrag"
-        android:name="com.example.android.trackmysleepquality.QualityFragment"
+        android:name="maxeem.america.sleeping_journal.QualityFragment"
         android:label="@string/quality_fragment"
         tools:layout="@layout/fragment_quality">
         <argument
             android:name="nightId"
             app:argType="long" />
         <action
-            android:id="@+id/actionQualityFragToTrackerFrag"
-            app:destination="@id/trackerFrag"
+            android:id="@+id/actionQualityFragToJournalFrag"
+            app:destination="@id/journalFrag"
             app:popUpTo="@+id/navigation" />
     </fragment>
     <fragment
         android:id="@+id/detailsFrag"
-        android:name="com.example.android.trackmysleepquality.DetailsFragment"
+        android:name="maxeem.america.sleeping_journal.DetailsFragment"
         android:label="@string/details_fragment" >
         <argument
             android:name="nightId"
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/sleepingFrag"
-        android:name="com.example.android.trackmysleepquality.SleepingFragment"
+        android:name="maxeem.america.sleeping_journal.SleepingFragment"
         android:label="@string/sleeping_fragment">
         <action
             android:id="@+id/actionSleepingFragToQualityFrag"
@@ -54,15 +54,19 @@
             app:argType="long" />
     </fragment>
     <fragment
-        android:id="@+id/navigation_frag"
-        android:name="com.example.android.trackmysleepquality.BaseFragment">
+        android:id="@+id/navigationFrag"
+        android:name="maxeem.america.sleeping_journal.BaseFragment">
         <action
-            android:id="@+id/actionNavigationFragToTrackerFrag"
-            app:destination="@id/trackerFrag"
+            android:id="@+id/actionNavigationFragToJournalFrag"
+            app:destination="@id/journalFrag"
             app:popUpTo="@+id/navigation" />
         <action
             android:id="@+id/actionNavigationFragToSleepingFrag"
             app:destination="@id/sleepingFrag"
+            app:popUpTo="@+id/navigation" />
+        <action
+            android:id="@+id/action_navigationFrag_to_qualityFrag"
+            app:destination="@id/qualityFrag"
             app:popUpTo="@+id/navigation" />
     </fragment>
 

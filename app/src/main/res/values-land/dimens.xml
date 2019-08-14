@@ -21,5 +21,6 @@
     <dimen name="snackbar_margin_vertical">30dp</dimen>
     <dimen name="text_size">14sp</dimen>
     <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_item">12sp</dimen>
     <dimen name="text_size_large">16sp</dimen>
 </resources>

@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="model" type="com.example.android.trackmysleepquality.viewmodel.DetailsViewModel" />
-        <import type="com.example.android.trackmysleepquality.data.Converter"/>
+        <variable name="model" type="maxeem.america.sleeping_journal.viewmodel.DetailsViewModel" />
+        <import type="maxeem.america.sleeping_journal.data.Converter"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +21,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:background="?android:selectableItemBackground"
-            android:onClick="@{() -> model.onComplete.invoke()}"
+            android:onClick="@{() -> model.onComplete.invoke(0)}"
             android:padding="10dp"
             app:layout_constraintBottom_toTopOf="@+id/sleep_quality"
             app:layout_constraintDimensionRatio="1"
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".05"
+            app:layout_constraintGuide_percent="0.1"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -46,20 +46,21 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".95"
+            app:layout_constraintGuide_percent="0.9"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/sleeping_period"
-            android:text="@{Converter.nightToPeriodText(model.night)}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{Converter.nightToPeriodText(model.night)}"
+            android:textAlignment="center"
             android:textColor="@color/textColorPrimary"
             android:textSize="@dimen/text_size"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
             app:layout_constraintTop_toTopOf="@id/guideline_top"
-            tools:text="Saturday night" />
+            tools:text="Friday night - Saturday morning" />
 
         <TextView
             android:id="@+id/sleep_quality"

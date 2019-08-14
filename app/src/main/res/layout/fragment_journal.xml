@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <import type="maxeem.america.sleeping_journal.misc.Prefs"/>
+        <variable name="model" type="maxeem.america.sleeping_journal.viewmodel.JournalViewModel" />
+        <variable name="loaded" type="androidx.databinding.ObservableBoolean" />
+        <variable name="busy" type="androidx.databinding.ObservableBoolean" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".JournalFragment"
+        app:statusBarBackground="@null"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                app:layout_scrollFlags="scroll|snap"
+                app:titleTextColor="@color/colorAccent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </androidx.appcompat.widget.Toolbar>
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:id="@+id/recycler"
+            android:visibility="@{busy || (model.hasNights &amp;&amp; loaded) ? View.VISIBLE : View.GONE}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fadingEdgeLength="45dp"
+            android:requiresFadingEdge="vertical"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
+
+        <TextView
+            android:id="@+id/empty"
+            android:visibility="@{!busy &amp;&amp; (!loaded || !model.hasNights) ? View.VISIBLE : View.GONE}"
+            android:text="@{Prefs.hasData ? @string/loading_nights : @string/no_nights_yet}"
+            tools:text="Journal is empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:textColor="@color/colorInfo" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/sleep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:elevation="8dp"
+            android:src="@drawable/hotel"
+            app:fabCustomSize="64dp"
+            app:fabSize="auto"
+            app:maxImageSize="32dp"
+            android:layout_gravity="bottom|center_horizontal"
+            app:useCompatPadding="true" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

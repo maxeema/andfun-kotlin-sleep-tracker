@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="model" type="com.example.android.trackmysleepquality.viewmodel.QualityViewModel" />
-        <import type="com.example.android.trackmysleepquality.data.Night.Quality"/>
+        <variable name="model" type="maxeem.america.sleeping_journal.viewmodel.QualityViewModel" />
+        <import type="maxeem.america.sleeping_journal.data.Night.Quality"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,24 +16,37 @@
         tools:context=".QualityFragment"
         tools:ignore="ContentDescription">
 
+        <TextView
+            android:id="@+id/when"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/colorInfo"
+            android:textSize="@dimen/text_size"
+            textOfNightPeriod="@{model.night}"
+            tools:text="A Wonderful Night"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toTopOf="@+id/guideline_top" />
+
         <ImageView
             android:id="@+id/bad_img"
+            srcOfNightQuality="@{Quality.VERY_BAD}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:padding="10dp"
             android:background="?android:selectableItemBackground"
-            srcOfNightQuality="@{Quality.VERY_BAD}"
-            app:onClickListener="@{(v)->model.onSetQuality(Quality.VERY_BAD)}"
-            tools:src="@drawable/very_bad"
+            android:padding="10dp"
             app:layout_constraintBottom_toTopOf="@+id/ok_img"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toStartOf="@+id/poor_img"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
-            app:layout_constraintTop_toTopOf="@+id/guideline_top"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintTop_toBottomOf="@+id/when"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:onClickListener="@{(v)->model.onSetQuality(Quality.VERY_BAD)}"
+            tools:src="@drawable/very_bad" />
 
         <ImageView
             android:id="@+id/poor_img"
@@ -69,21 +82,21 @@
 
         <ImageView
             android:id="@+id/ok_img"
+            srcOfNightQuality="@{Quality.OK}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="16dp"
             android:background="?android:selectableItemBackground"
             android:padding="10dp"
-            srcOfNightQuality="@{Quality.OK}"
-            app:onClickListener="@{(v)->model.onSetQuality(Quality.OK)}"
-            tools:src="@drawable/ok"
-            app:layout_constraintBottom_toTopOf="@+id/sleeping_period"
+            app:layout_constraintBottom_toTopOf="@+id/how"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toStartOf="@+id/pretty_good_img"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/bad_img"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintVertical_chainStyle="packed"
+            app:onClickListener="@{(v)->model.onSetQuality(Quality.OK)}"
+            tools:src="@drawable/ok" />
 
         <ImageView
             android:id="@+id/pretty_good_img"
@@ -119,19 +132,31 @@
             app:layout_constraintStart_toEndOf="@+id/pretty_good_img"
             app:layout_constraintTop_toTopOf="@+id/pretty_good_img" />
 
+        <TextView
+            android:id="@+id/how"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quality_fragment"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/text_size_large"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.05" />
+            app:layout_constraintGuide_percent="0.1" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.86" />
+            app:layout_constraintGuide_percent="0.9" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"
@@ -146,19 +171,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent=".95" />
-
-        <TextView
-            android:id="@+id/sleeping_period"
-            textOfNightPeriod="@{model.night}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textColor="@color/colorInfo"
-            android:textSize="@dimen/text_size"
-            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-            app:layout_constraintStart_toStartOf="@+id/guideline_start"
-            tools:text="A Super Night" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

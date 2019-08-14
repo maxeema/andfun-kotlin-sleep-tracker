@@ -5,21 +5,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="model" type="com.example.android.trackmysleepquality.viewmodel.SleepingViewModel" />
+        <variable name="model" type="maxeem.america.sleeping_journal.viewmodel.SleepingViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".SleepingFragment">
+        tools:context=".SleepingFragment"
+        android:background="@color/black">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_bottom"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".95"
+            app:layout_constraintGuide_percent="0.9"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -27,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".05"
+            app:layout_constraintGuide_percent="0.1"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -44,27 +45,27 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent=".05" />
 
-        <TextView
+        <TextView android:visibility="gone"
             android:id="@+id/sleeping_period"
             textOfNightPeriod="@{model.night}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constrainedWidth="true"
-            app:layout_constrainedHeight="true"
+            android:textAlignment="center"
             android:textColor="@color/colorInfo"
+            android:textSize="@dimen/text_size"
+            app:layout_constrainedHeight="true"
+            app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
             app:layout_constraintTop_toTopOf="@id/guideline_top"
-            tools:text="Friday night" />
+            tools:text="Friday night ... -" />
 
-        <ImageView
-            android:visibility="invisible"
+        <ImageView android:visibility="invisible"
             tools:visibility="visible"
-            android:id="@+id/sleepingImage"
+            android:id="@+id/sleeping_image"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?android:selectableItemBackground"
-            android:onClick="@{()->model.onTap.invoke()}"
             android:onLongClick="@{()->model.onWakeUp()}"
             android:padding="10dp"
             android:src="@drawable/ic_sleep_active"
@@ -80,12 +81,14 @@
 
         <TextView
             android:id="@+id/tip"
+            android:visibility="invisible"
+            tools:visibility="visible"
             textHtml="@{@string/on_waking_up}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constrainedWidth="true"
             app:layout_constrainedHeight="true"
-            android:textColor="@color/colorInfo"
+            android:textColor="@color/colorAccent"
             android:textSize="@dimen/text_size"
             app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end"

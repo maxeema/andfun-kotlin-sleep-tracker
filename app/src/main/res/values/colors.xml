@@ -24,8 +24,8 @@
     <color name="colorBackground">#202124</color>
 
     <color name="colorFace">#444</color>
-    <color name="colorFaceSleep">#BF360C</color>
-    <color name="colorMouth">@color/colorAccent</color>
+    <color name="colorFaceSleep">#444</color>
+    <color name="colorMouth">#77ffffff</color>
     <color name="colorInfo">#888</color>
 
     <color name="black">#000000</color>

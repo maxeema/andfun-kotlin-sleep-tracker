@@ -1,8 +1,8 @@
 
-<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/ic_sleep_active_4" android:duration="@integer/sleep_ani_interval"/>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" android:oneshot="true">
     <item android:drawable="@drawable/ic_sleep_active_0" android:duration="@integer/sleep_ani_interval"/>
     <item android:drawable="@drawable/ic_sleep_active_1" android:duration="@integer/sleep_ani_interval"/>
     <item android:drawable="@drawable/ic_sleep_active_2" android:duration="@integer/sleep_ani_interval"/>
     <item android:drawable="@drawable/ic_sleep_active_3" android:duration="@integer/sleep_ani_interval"/>
+    <item android:drawable="@drawable/ic_sleep_active_4" android:duration="@integer/sleep_ani_interval"/>
 </animation-list>
