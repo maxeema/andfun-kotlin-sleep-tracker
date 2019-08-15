@@ -33,7 +33,7 @@ object Utils {
             into(view)
         }
 
-    fun dimClockView(dim: Boolean, clockView: View) {
+    fun dim(dim: Boolean, clockView: View) {
         val paint = Paint()
         paint.color = Color.WHITE
         paint.colorFilter = PorterDuffColorFilter(if (dim) 0x40FFFFFF else 0xC0FFFFFF.toInt(), Mode.MULTIPLY)

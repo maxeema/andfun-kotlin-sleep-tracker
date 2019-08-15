@@ -1,8 +1,10 @@
 package maxeem.america.sleeping_journal.ext
 
+import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.postDelayed
 import androidx.recyclerview.widget.GridLayoutManager
@@ -33,3 +35,5 @@ val invisibleFadeOutDelayed : View.(Long)->Unit = { delay ->
         animFadeOut()
     }
 }
+
+fun ImageView.animationDrawable() = drawable as AnimationDrawable
