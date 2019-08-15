@@ -10,7 +10,7 @@ android {
     compileSdkVersion 29
     defaultConfig {
         resConfigs "en"
-        applicationId "maxeem.america.sleeping_journal"
+        applicationId "maxeem.america.sleep"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1

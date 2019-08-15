@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="model" type="maxeem.america.sleeping_journal.viewmodel.QualityViewModel" />
-        <import type="maxeem.america.sleeping_journal.data.Night.Quality"/>
+        <variable name="model" type="maxeem.america.sleep.viewmodel.QualityViewModel" />
+        <import type="maxeem.america.sleep.data.Night.Quality"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

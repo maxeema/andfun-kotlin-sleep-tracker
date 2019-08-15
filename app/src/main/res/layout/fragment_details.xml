@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="model" type="maxeem.america.sleeping_journal.viewmodel.DetailsViewModel" />
-        <import type="maxeem.america.sleeping_journal.data.Converter"/>
+        <variable name="model" type="maxeem.america.sleep.viewmodel.DetailsViewModel" />
+        <import type="maxeem.america.sleep.data.Converter"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

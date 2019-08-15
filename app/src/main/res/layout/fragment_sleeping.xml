@@ -6,7 +6,7 @@
     tools:context=".SleepingFragment">
 
     <data>
-        <variable name="model" type="maxeem.america.sleeping_journal.viewmodel.SleepingViewModel" />
+        <variable name="model" type="maxeem.america.sleep.viewmodel.SleepingViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

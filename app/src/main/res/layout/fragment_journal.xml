@@ -6,8 +6,8 @@
 
     <data>
         <import type="android.view.View"/>
-        <import type="maxeem.america.sleeping_journal.misc.Prefs"/>
-        <variable name="model" type="maxeem.america.sleeping_journal.viewmodel.JournalViewModel" />
+        <import type="maxeem.america.sleep.misc.Prefs"/>
+        <variable name="model" type="maxeem.america.sleep.viewmodel.JournalViewModel" />
         <variable name="loaded" type="androidx.databinding.ObservableBoolean" />
         <variable name="busy" type="androidx.databinding.ObservableBoolean" />
     </data>

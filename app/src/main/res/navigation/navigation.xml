@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/journalFrag"
-        android:name="maxeem.america.sleeping_journal.JournalFragment"
+        android:name="maxeem.america.sleep.JournalFragment"
         android:label="@string/journal_fragment"
         tools:layout="@layout/fragment_journal">
         <action
@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/qualityFrag"
-        android:name="maxeem.america.sleeping_journal.QualityFragment"
+        android:name="maxeem.america.sleep.QualityFragment"
         android:label="@string/quality_fragment"
         tools:layout="@layout/fragment_quality">
         <argument
@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailsFrag"
-        android:name="maxeem.america.sleeping_journal.DetailsFragment"
+        android:name="maxeem.america.sleep.DetailsFragment"
         android:label="@string/details_fragment" >
         <argument
             android:name="nightId"
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/sleepingFrag"
-        android:name="maxeem.america.sleeping_journal.SleepingFragment"
+        android:name="maxeem.america.sleep.SleepingFragment"
         android:label="@string/sleeping_fragment">
         <action
             android:id="@+id/actionSleepingFragToQualityFrag"
@@ -55,7 +55,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigationFrag"
-        android:name="maxeem.america.sleeping_journal.BaseFragment">
+        android:name="maxeem.america.sleep.BaseFragment">
         <action
             android:id="@+id/actionNavigationFragToJournalFrag"
             app:destination="@id/journalFrag"
