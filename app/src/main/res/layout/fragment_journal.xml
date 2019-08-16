@@ -53,6 +53,7 @@
             android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="@integer/grid_span_count"
+            tools:listitem="@layout/journal_item" tools:itemCount="12"
             />
 
         <TextView
