@@ -1,5 +1,6 @@
 package maxeem.america.sleep.data
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
@@ -31,7 +32,7 @@ data class Night(
 
         )
 
-        enum class Quality(val id: Int, @StringRes val label: Int, @StringRes val img: Int) {
+        enum class Quality(val id: Int, @StringRes val label: Int, @DrawableRes val img: Int) {
                 UNDEFINED(-1, R.string.undefined, R.drawable.undefined),
                 VERY_BAD(0, R.string.very_bad, R.drawable.very_bad),
                 POOR(1, R.string.poor, R.drawable.poor),
