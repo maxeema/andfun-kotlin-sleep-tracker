@@ -72,7 +72,6 @@ class JournalFragment : BaseFragment() {
         val adapter = JournalAdapter()
         binding.recycler.adapter = adapter
         binding.recycler.layoutManager.grid().apply {
-            spanCount = resources.getInteger(R.integer.grid_span_count)
             spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int) = when {
                     adapter.isVirtualAt(position) -> spanCount
