@@ -27,7 +27,7 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
-                app:layout_scrollFlags="scroll|snap"
+                app:layout_scrollFlags="scroll|snap|enterAlways"
                 app:titleTextColor="@color/colorAccent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
