@@ -16,12 +16,7 @@ import androidx.transition.*
 import maxeem.america.sleep.adapter.JournalAdapter
 import maxeem.america.sleep.data.Night
 import maxeem.america.sleep.databinding.FragmentJournalBinding
-import maxeem.america.sleep.ext.compatActivity
-import maxeem.america.sleep.ext.grid
-import maxeem.america.sleep.ext.hash
-import maxeem.america.sleep.ext.isActive
-import maxeem.america.sleep.misc.app
-import maxeem.america.sleep.misc.delayed
+import maxeem.america.sleep.ext.*
 import maxeem.america.sleep.misc.timeMillis
 import maxeem.america.sleep.viewmodel.JournalViewModel
 import org.jetbrains.anko.alert

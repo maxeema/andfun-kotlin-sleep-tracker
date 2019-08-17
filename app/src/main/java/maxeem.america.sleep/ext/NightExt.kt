@@ -1,8 +1,8 @@
 package maxeem.america.sleep.ext
 
 import android.text.format.DateUtils.*
+import maxeem.america.sleep.app
 import maxeem.america.sleep.data.Night
-import maxeem.america.sleep.misc.app
 
 /**
  * Night extensions

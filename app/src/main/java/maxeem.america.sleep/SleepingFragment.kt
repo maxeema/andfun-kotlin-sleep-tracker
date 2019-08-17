@@ -13,7 +13,7 @@ import androidx.transition.*
 import maxeem.america.sleep.databinding.FragmentSleepingBinding
 import maxeem.america.sleep.ext.*
 import maxeem.america.sleep.misc.Utils
-import maxeem.america.sleep.misc.delayed
+import maxeem.america.sleep.ext.delayed
 import maxeem.america.sleep.viewmodel.SleepingViewModel
 import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.dip

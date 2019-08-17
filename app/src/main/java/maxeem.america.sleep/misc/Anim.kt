@@ -4,6 +4,7 @@ import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.animation.AnimationUtils
+import maxeem.america.sleep.app
 
 object Anim {
 

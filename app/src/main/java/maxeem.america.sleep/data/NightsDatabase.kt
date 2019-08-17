@@ -5,7 +5,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import maxeem.america.sleep.misc.DATABASE_NAME
-import maxeem.america.sleep.misc.app
+import maxeem.america.sleep.app
 
 @Database(
         entities = [Night::class],

@@ -2,6 +2,7 @@ package maxeem.america.sleep.misc
 
 import androidx.core.content.edit
 import androidx.databinding.ObservableBoolean
+import maxeem.america.sleep.app
 import org.jetbrains.anko.defaultSharedPreferences
 
 object Prefs {
