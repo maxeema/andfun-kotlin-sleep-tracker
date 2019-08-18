@@ -72,7 +72,6 @@ sealed class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         companion object {
             fun of(parent: ViewGroup) = HeaderHolder(
                 LayoutInflater.from(parent.context).inflate(R.layout.journal_header, parent, false)
-//                        .apply { setBackgroundColor(Color.YELLOW) }
             )
         }
     }
@@ -80,8 +79,9 @@ sealed class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     class FooterHolder private constructor (view: View) : ViewHolder(view) {
         companion object {
             fun of(parent: ViewGroup) = FooterHolder(
-                JournalItemBinding.inflate(LayoutInflater.from(parent.context), parent, false).root
-//                        .apply { setBackgroundColor(Color.GREEN) }
+                JournalItemBinding.inflate(LayoutInflater.from(parent.context), parent, false).root.apply {
+                    isEnabled = false
+                }
             )
         }
     }

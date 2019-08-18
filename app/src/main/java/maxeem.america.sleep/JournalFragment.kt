@@ -11,7 +11,6 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.*
 import maxeem.america.sleep.adapter.JournalAdapter
 import maxeem.america.sleep.data.Night
@@ -97,13 +96,6 @@ class JournalFragment : BaseFragment() {
             }
             true
         }
-        adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
-            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                info(" onItemRangeInserted: start: $positionStart, count: $itemCount}")
-                if (loaded.get())
-                    binding.recycler.scrollToPosition(0)
-            }
-        })
         model.onComplete = { val newNightId = it as Long
             busy.set(true)
             inserting = true to newNightId

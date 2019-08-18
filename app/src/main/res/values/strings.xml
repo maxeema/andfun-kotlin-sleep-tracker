@@ -3,7 +3,7 @@
 <resources>
 
     <string name="zzz">zzz…</string>
-    <string name="clear">Clear</string>
+    <string name="clear">Clear Journal</string>
 
     <!-- App title and fragment titles -->
     <string name="app_name">Sleeping Journal</string>
