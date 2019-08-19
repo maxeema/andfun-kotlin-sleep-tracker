@@ -133,8 +133,7 @@ class JournalFragment : BaseFragment() {
     private fun preLoad() {
         info(" preLoad")
         binding.sleep.apply { scaleX = 0f; scaleY = 0f }
-        compatActivity()?.delayed(200) {
-            if (lifecycle.currentState < Lifecycle.State.STARTED) return@delayed
+        compatActivity()?.delayed(200, Lifecycle.State.STARTED) {
             TransitionManager.beginDelayedTransition(binding.root, TransitionSet().apply {
                 ordering = TransitionSet.ORDERING_SEQUENTIAL
                 addTransition(Slide(Gravity.START)) // empty text will disappeared to start
