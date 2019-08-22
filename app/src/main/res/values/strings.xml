@@ -6,8 +6,8 @@
     <string name="clear">Clear Journal</string>
 
     <!-- App title and fragment titles -->
-    <string name="app_name">Sleeping Journal</string>
-    <string name="journal_fragment">@string/app_name</string>
+    <string name="app_name">Sleep</string>
+    <string name="journal_fragment">Sleeping Journal</string>
     <string name="quality_fragment">How Was the Sleep?</string>
     <string name="details_fragment">Sleep Info</string>
     <string name="sleeping_fragment"/>
