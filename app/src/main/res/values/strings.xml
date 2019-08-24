@@ -6,8 +6,9 @@
     <string name="clear">Clear Journal</string>
 
     <!-- App title and fragment titles -->
-    <string name="app_name">Sleep</string>
-    <string name="journal_fragment">Sleeping Journal</string>
+    <string name="app_name">Sleep Journal</string>
+    <string name="app_label">Sleep</string>
+    <string name="journal_fragment">@string/app_name</string>
     <string name="quality_fragment">How Was the Sleep?</string>
     <string name="details_fragment">Sleep Info</string>
     <string name="sleeping_fragment"/>
@@ -24,9 +25,9 @@
     <string name="cleared_data_message">All the sleeping data is gone</string>
     <string name="sorry">Sorry, error has occurred</string>
     <string name="wait">Please, try a bit later</string>
-    <string name="no_nights_yet">Your sleeping journal \n is empty</string>
+    <string name="no_nights_yet">Your sleep journal \n is empty</string>
     <string name="loading_nights">Loading the journal…</string>
-    <string name="confirm_clearing">Clear the sleeping journal. Really?</string>
+    <string name="confirm_clearing">Clear the sleep journal. Really?</string>
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
     <string name="details">Details</string>
