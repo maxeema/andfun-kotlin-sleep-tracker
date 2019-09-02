@@ -15,6 +15,8 @@ import maxeem.america.sleep.misc.timeMillis
 fun View.animFadeIn() = Anim.fadeInOn(this)
 fun View.animFadeOut() = Anim.fadeOutOn(this)
 
+fun View.onClick(l: ()->Unit) = setOnClickListener { l() }
+
 fun Drawable?.startIfItAnimatable() { Anim.startOn(this) }
 //fun Drawable?.stopIfItAnimatable() { Anim.stopOn(this) }
 //fun Drawable?.restartIfItAnimatable() { Anim.restartOn(this) }

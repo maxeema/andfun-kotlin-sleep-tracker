@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
+        build.text = app.packageInfo.versionName.substringAfter('-').toUpperCase()
 
         navHostFrag.findNavController().apply {
             info(" startOn ${graph.startDestination}, cur ${currentDestination?.id}")

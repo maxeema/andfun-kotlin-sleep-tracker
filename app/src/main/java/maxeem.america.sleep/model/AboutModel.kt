@@ -8,7 +8,7 @@ import maxeem.america.sleep.packageInfo
 class AboutModel : BaseModel() {
 
     val author = app.getString(R.string.app_author)
-    val version = app.packageInfo.versionName
+    val version = app.packageInfo.versionName.substringBefore('-')
     val description = app.getString(R.string.app_description).fromHtml()
 
 }

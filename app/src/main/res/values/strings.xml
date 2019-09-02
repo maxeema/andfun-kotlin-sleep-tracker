@@ -13,6 +13,7 @@
             App <a href="https://github.com/maxeema/andfun-kotlin-sleep-tracker/tree/work">GitHub page</a>
         ]]>
     </string>
+    <string name="app_on_google_play">See on Google Play</string>
     <string name="about">About</string>
 
     <!-- Sleep quality -->
@@ -46,5 +47,6 @@
 
     <string name="zzz">zzz…</string>
     <string name="clear">Clear Journal</string>
+    <string name="skip">Skip</string>
 
 </resources>

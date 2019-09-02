@@ -105,22 +105,32 @@
             tools:text="1.0" />
 
         <TextView
-            movementMethod="@{ LinkMovementMethod.getInstance() }"
             android:id="@+id/description"
+            movementMethod="@{ LinkMovementMethod.getInstance() }"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="16dp"
             android:text="@{ model.description }"
             android:textAlignment="center"
             android:textSize="@dimen/text_small"
-            app:layout_constraintTop_toBottomOf="@+id/name"
             app:layout_constrainedHeight="true"
             app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toStartOf="@+id/well_end"
             app:layout_constraintHeight_default="wrap"
+            app:layout_constraintStart_toStartOf="@+id/well_start"
+            app:layout_constraintTop_toBottomOf="@+id/name"
+            tools:text="@string/app_description" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/google_play"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/app_on_google_play"
             app:layout_constraintEnd_toStartOf="@+id/well_end"
             app:layout_constraintStart_toStartOf="@+id/well_start"
-            tools:text="@string/app_description" />
+            app:layout_constraintTop_toBottomOf="@+id/description" />
 
         <TextView
             android:id="@+id/author"

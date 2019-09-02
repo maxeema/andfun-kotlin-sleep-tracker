@@ -19,6 +19,7 @@ open class BaseModel : ViewModel(), AnkoLogger {
     init { info("$hash new instance") }
 
     var onComplete : ((Any)->Unit)? = null
+
     val messageEvent = MutableLiveData<MessageEvent?>().asImmutable()
 
     protected val dao = NightsDatabase.instance.nightsDao

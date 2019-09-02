@@ -53,17 +53,19 @@
             android:background="?android:selectableItemBackground"
             android:onLongClick="@{ ()->model.onWakeUp() }"
             android:padding="10dp"
-            app:srcCompat="@drawable/ic_sleep_active" android:scaleType="fitXY"
+            android:scaleType="fitXY"
             app:layout_constrainedHeight="true"
             app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toTopOf="@+id/tip"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintHeight_max="130dp"
             app:layout_constraintHeight_percent=".25"
             app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
             app:layout_constraintTop_toTopOf="@+id/guideline_top"
-            app:layout_constraintVertical_bias="0.483" />
+            app:layout_constraintVertical_bias="0.483"
+            app:srcCompat="@drawable/ic_sleep_active" />
 
         <TextView
             android:id="@+id/tip"
