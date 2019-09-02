@@ -1,14 +1,13 @@
-package maxeem.america.sleep.viewmodel
+package maxeem.america.sleep.model
 
-import maxeem.america.sleep.ext.singleArgViewModelFactory
 import maxeem.america.sleep.ext.wakeup
 import maxeem.america.sleep.misc.Prefs
 import org.jetbrains.anko.info
 
-class SleepingViewModel(private val nightId: Long) : BaseViewModel() {
+class SleepingModel(private val nightId: Long) : BaseModel() {
 
     companion object {
-        val FACTORY = singleArgViewModelFactory(::SleepingViewModel)
+        val FACTORY = singleArgViewModelFactory(::SleepingModel)
     }
 
     val night = dao.getAsLive(nightId)

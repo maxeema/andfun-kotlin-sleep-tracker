@@ -2,38 +2,54 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".QualityFragment">
 
     <data>
-        <variable name="model" type="maxeem.america.sleep.viewmodel.QualityViewModel" />
+        <variable name="model" type="maxeem.america.sleep.model.QualityModel" />
         <import type="maxeem.america.sleep.data.Night.Quality"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/margin"
-        tools:context=".QualityFragment"
         tools:ignore="ContentDescription">
 
         <TextView
-            android:id="@+id/when"
+            android:id="@+id/how"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/how_it_was"
             android:textAlignment="center"
-            android:textColor="@color/colorInfo"
-            android:textSize="@dimen/text_size"
-            textOfNightPeriod="@{model.night}"
-            tools:text="A Wonderful Night"
+            android:textColor="@color/secondary"
+            android:textSize="@dimen/text_large"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toTopOf="@+id/guideline_top"
+            app:layout_constraintVertical_bias="0.06999999"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{ model.date }"
+            android:textAlignment="center"
+            android:textColor="@color/face"
+            android:textSize="@dimen/text_small"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
-            app:layout_constraintTop_toTopOf="@+id/guideline_top" />
+            app:layout_constraintTop_toBottomOf="@+id/how"
+            tools:text="Aug, 31 4:22 AM - 7:35 AM" />
 
         <ImageView
             android:id="@+id/bad_img"
-            srcOfNightQuality="@{Quality.VERY_BAD}"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:background="?android:selectableItemBackground"
@@ -41,136 +57,123 @@
             app:layout_constraintBottom_toTopOf="@+id/ok_img"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toStartOf="@+id/poor_img"
+            app:layout_constraintHeight_max="110dp"
+            app:layout_constraintWidth_max="110dp"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/when"
+            app:layout_constraintTop_toBottomOf="@+id/date"
+            app:layout_constraintVertical_bias="0.45"
             app:layout_constraintVertical_chainStyle="packed"
             app:onClickListener="@{(v)->model.onSetQuality(Quality.VERY_BAD)}"
-            tools:src="@drawable/very_bad" />
+            app:srcCompat="@drawable/very_bad" />
 
         <ImageView
             android:id="@+id/poor_img"
+            app:onClickListener="@{(v)->model.onSetQuality(Quality.POOR)}"
+            app:srcCompat="@drawable/poor"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:padding="10dp"
             android:background="?android:selectableItemBackground"
-            srcOfNightQuality="@{Quality.POOR}"
-            app:onClickListener="@{(v)->model.onSetQuality(Quality.POOR)}"
-            tools:src="@drawable/poor"
+            android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/bad_img"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toStartOf="@+id/so_so_img"
-            app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toEndOf="@+id/bad_img" />
 
         <ImageView
             android:id="@+id/so_so_img"
+            app:onClickListener="@{(v)->model.onSetQuality(Quality.SO_SO)}"
+            app:srcCompat="@drawable/so_so"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:padding="10dp"
+            android:layout_marginEnd="16dp"
             android:background="?android:selectableItemBackground"
-            srcOfNightQuality="@{Quality.SO_SO}"
-            app:onClickListener="@{(v)->model.onSetQuality(Quality.SO_SO)}"
-            tools:src="@drawable/so_so"
+            android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/poor_img"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-            app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toEndOf="@+id/poor_img" />
 
         <ImageView
             android:id="@+id/ok_img"
-            srcOfNightQuality="@{Quality.OK}"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
             android:background="?android:selectableItemBackground"
             android:padding="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/how"
+            app:layout_constraintHeight_max="110dp"
+            app:layout_constraintWidth_max="110dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toStartOf="@+id/pretty_good_img"
-            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/bad_img"
-            app:layout_constraintVertical_chainStyle="packed"
             app:onClickListener="@{(v)->model.onSetQuality(Quality.OK)}"
-            tools:src="@drawable/ok" />
+            app:srcCompat="@drawable/ok" />
 
         <ImageView
             android:id="@+id/pretty_good_img"
+            app:onClickListener="@{(v)->model.onSetQuality(Quality.PRETTY_GOOD)}"
+            app:srcCompat="@drawable/pretty_good"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:padding="10dp"
             android:background="?android:selectableItemBackground"
-            srcOfNightQuality="@{Quality.PRETTY_GOOD}"
-            app:onClickListener="@{(v)->model.onSetQuality(Quality.PRETTY_GOOD)}"
-            tools:src="@drawable/pretty_good"
+            android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/ok_img"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toStartOf="@+id/excellent_img"
-            app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toEndOf="@+id/ok_img"
             app:layout_constraintTop_toTopOf="@+id/ok_img" />
 
         <ImageView
             android:id="@+id/excellent_img"
+            app:onClickListener="@{(v)->model.onSetQuality(Quality.EXCELLENT)}"
+            app:srcCompat="@drawable/excellent"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:padding="10dp"
+            android:layout_marginEnd="16dp"
             android:background="?android:selectableItemBackground"
-            srcOfNightQuality="@{Quality.EXCELLENT}"
-            app:onClickListener="@{(v)->model.onSetQuality(Quality.EXCELLENT)}"
-            tools:src="@drawable/excellent"
+            android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/pretty_good_img"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-            app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toEndOf="@+id/pretty_good_img"
             app:layout_constraintTop_toTopOf="@+id/pretty_good_img" />
-
-        <TextView
-            android:id="@+id/how"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/quality_fragment"
-            android:textAlignment="center"
-            android:textColor="@color/colorAccent"
-            android:textSize="@dimen/text_size_large"
-            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-            app:layout_constraintStart_toStartOf="@+id/guideline_start" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.1" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.9" />
+            app:layout_constraintGuide_percent="0.85"
+            app:layout_constraintHeight_min="48dp"
+            app:layout_constraintWidth_min="48dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.06" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent=".05" />
+            app:layout_constraintGuide_percent="0.05" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent=".95" />
+            app:layout_constraintGuide_percent="0.95" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

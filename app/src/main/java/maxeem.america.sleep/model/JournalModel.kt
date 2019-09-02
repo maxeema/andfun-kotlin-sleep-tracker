@@ -1,7 +1,6 @@
-package maxeem.america.sleep.viewmodel
+package maxeem.america.sleep.model
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.Transformations
 import maxeem.america.sleep.R
 import maxeem.america.sleep.data.Night
@@ -9,10 +8,12 @@ import maxeem.america.sleep.ext.asMutable
 import maxeem.america.sleep.misc.Prefs
 import org.jetbrains.anko.info
 
-class JournalViewModel(state: SavedStateHandle) : BaseViewModel() {
+class JournalModel : BaseModel() {
 
     val nights = dao.getAll()
     val hasNights : LiveData<Boolean?> = Transformations.map(nights) { !it.isNullOrEmpty() }
+
+    val hasData = Prefs.hasData
 
     fun doSleep() = action {
         val inserted = dao { insert(Night()) }
@@ -25,6 +26,7 @@ class JournalViewModel(state: SavedStateHandle) : BaseViewModel() {
         }
         onComplete?.invoke(inserted)
     }
+
     fun deleteItem(item: Night) = action {
         val size = nights.value!!.size
         val deleted = dao { delete(item) }
@@ -34,6 +36,7 @@ class JournalViewModel(state: SavedStateHandle) : BaseViewModel() {
             Prefs.lastNightId = null
         messageEvent.asMutable().value = MessageEvent.Info(R.string.deleted_item_message)
     }
+
     fun clearData() = action {
         val size = nights.value!!.size
         val cleared = dao { clear() }

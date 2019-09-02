@@ -1,11 +1,7 @@
 package maxeem.america.sleep.ext
 
-import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.postDelayed
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +20,7 @@ fun Drawable?.startIfItAnimatable() { Anim.startOn(this) }
 //fun Drawable?.restartIfItAnimatable() { Anim.restartOn(this) }
 
 fun <T : RecyclerView.LayoutManager> T?.grid() = this as GridLayoutManager
-fun <T : ViewGroup.LayoutParams> T.constraint() = this as ConstraintLayout.LayoutParams
+//fun <T : ViewGroup.LayoutParams> T.constraint() = this as ConstraintLayout.LayoutParams
 
 val invisibleFadeOutDelayed : View.(Long)->Unit = { delay ->
     val t = timeMillis
@@ -35,5 +31,3 @@ val invisibleFadeOutDelayed : View.(Long)->Unit = { delay ->
         animFadeOut()
     }
 }
-
-fun ImageView.animationDrawable() = drawable as AnimationDrawable

@@ -1,16 +1,21 @@
-package maxeem.america.sleep.viewmodel
+package maxeem.america.sleep.model
 
+import androidx.lifecycle.map
 import maxeem.america.sleep.data.Night
-import maxeem.america.sleep.ext.singleArgViewModelFactory
+import maxeem.america.sleep.ext.logPeriod
 import maxeem.america.sleep.misc.Prefs
 
-class QualityViewModel(private val nightId: Long) : BaseViewModel() {
+class QualityModel(private val nightId: Long) : BaseModel() {
 
     companion object {
-        val FACTORY = singleArgViewModelFactory(::QualityViewModel)
+        val FACTORY = singleArgViewModelFactory(::QualityModel)
     }
 
-    val night = dao.tonightAsLive()
+    val night = dao.getAsLive(nightId)
+
+    val hasData = night.map { it != null }
+
+    val date = night.map { it?.logPeriod() }
 
     fun onSetQuality(quality: Night.Quality) = action {
         val updated = dao { updateQuality(nightId, quality) }

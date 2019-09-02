@@ -5,6 +5,7 @@ import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import kotlinx.android.synthetic.main.activity_main.*
 import maxeem.america.sleep.ext.hash
 import maxeem.america.sleep.misc.Prefs
@@ -18,26 +19,26 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        info("$hash onCreate ${savedInstanceState?.run { ", savedInstanceState: $this"} ?: ""} ")
+        info("$hash onCreate ${savedInstanceState ?: ""}")
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
 
         navHostFrag.findNavController().apply {
             info(" startOn ${graph.startDestination}, cur ${currentDestination?.id}")
-//            addOnDestinationChangedListener { nc, nd, args ->
-//                info(" dest changed to ${nd.id}, ${nc.currentDestination?.id}, ${nd.label}, ${nd.navigatorName}")
-//                title = nd.label
-//            }
             if (graph.startDestination == currentDestination?.id) when {
-                Prefs.lastNightActive -> BaseFragmentDirections.actionNavigationFragToSleepingFrag(requireNotNull(Prefs.lastNightId))
-                else -> when {
-                    Prefs.run { hasData.get() && !lastNightQualified } -> BaseFragmentDirections.actionNavigationFragToQualityFrag(requireNotNull(Prefs.lastNightId))
-                    else -> BaseFragmentDirections.actionNavigationFragToJournalFrag()
-                }
-            }.also { navigate(it) }
+                Prefs.run { hasData.get() && !lastNightQualified }
+                    -> BaseFragmentDirections.actionNavigationFragToQualityFrag(requireNotNull(Prefs.lastNightId))
+                else -> BaseFragmentDirections.actionNavigationFragToJournalFrag()
+            }.let { navigate(it) }
+            addOnDestinationChangedListener { nc, nd, args ->
+                println("dest changed, cur: ${nd.id}, ${nd.label}}, start is: ${graph.startDestination}")
+            }
         }
     }
+
+    override fun onSupportNavigateUp()
+            = NavigationUI.navigateUp(navHostFrag.findNavController(), null)
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {

@@ -15,19 +15,25 @@
   -->
 
 <resources>
-
-    <color name="colorPrimary">#2a2b2e</color>
-    <color name="colorPrimaryDark">#2a2b2e</color>
-    <color name="colorAccent">#87c0f3</color>
-
-    <color name="textColorPrimary">#bbb</color>
-    <color name="colorBackground">#202124</color>
-
-    <color name="colorFace">#444</color>
-    <color name="colorFaceSleep">#444</color>
-    <color name="colorMouth">#77ffffff</color>
-    <color name="colorInfo">#888</color>
-
+    <color name="background">#202124</color>
+    <color name="primary">#00E5FF</color>
+    <color name="primary_variant">#00b2cc</color>
+    <color name="primary_dark">#202124</color>
+    <color name="on_primary">#000000</color>
+    <color name="accent">#00E5FF</color>
+    <color name="secondary">#f50057</color>
+    <color name="secondary_variant">#ff5983</color>
+    <color name="on_secondary">#000000</color>
+    <color name="surface">#202124</color>
+    <color name="on_surface">#00b2cc</color>
+    <!---->
+    <color name="text">#bbb</color>
+    <color name="face">#444</color>
+    <color name="faceSleep">#444</color>
+    <color name="mouth">#77ffffff</color>
+    <color name="info">#888</color>
     <color name="black">#000000</color>
-
+    <!---->
+    <color name="z_small">#6600b2cc</color>
+    <color name="z_large">#aa00b2cc</color>
 </resources>

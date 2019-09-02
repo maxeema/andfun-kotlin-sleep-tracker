@@ -2,23 +2,30 @@ package maxeem.america.sleep
 
 import android.os.Bundle
 import android.view.*
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.databinding.ObservableBoolean
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.*
+import com.google.android.material.appbar.AppBarLayout
 import maxeem.america.sleep.adapter.JournalAdapter
+import maxeem.america.sleep.adapter.JournalAdapterDecoration
+import maxeem.america.sleep.adapter.hasOnlyOneRealItem
+import maxeem.america.sleep.adapter.isVirtualAt
 import maxeem.america.sleep.data.Night
 import maxeem.america.sleep.databinding.FragmentJournalBinding
-import maxeem.america.sleep.ext.*
+import maxeem.america.sleep.ext.delayed
+import maxeem.america.sleep.ext.grid
+import maxeem.america.sleep.ext.hash
+import maxeem.america.sleep.ext.materialAlert
 import maxeem.america.sleep.misc.timeMillis
-import maxeem.america.sleep.viewmodel.JournalViewModel
-import org.jetbrains.anko.alert
+import maxeem.america.sleep.model.JournalModel
+import org.jetbrains.anko.contentView
 import org.jetbrains.anko.info
 
 class JournalFragment : BaseFragment() {
@@ -27,7 +34,7 @@ class JournalFragment : BaseFragment() {
         private var startKey : Int? = null
     }
 
-    override val model by viewModels<JournalViewModel> { SavedStateViewModelFactory(app, this) }
+    override val model by viewModels<JournalModel>()
     private lateinit var binding : FragmentJournalBinding
 
     private val loaded = ObservableBoolean()
@@ -36,14 +43,15 @@ class JournalFragment : BaseFragment() {
 
     private val navigateToSleepEvent = MutableLiveData<Long?>()
 
+    private var clear : MenuItem? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         info("$hash onCreateView, savedInstanceState: $savedInstanceState")
 
         binding = FragmentJournalBinding.inflate(inflater, container, false)
+        binding.toolbar.menu
 
-        compatActivity()?.setSupportActionBar(binding.toolbar)
-
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.model = model
         binding.loaded = loaded
         binding.busy = busy
@@ -58,43 +66,62 @@ class JournalFragment : BaseFragment() {
             if (activity?.isFinishing != true)
                 findNavController().navigate(JournalFragmentDirections.actionJournalFragToSleepingFrag(nightId))
         }
-
+        binding.appbar.addOnLayoutChangeListener { v, _,_,_,_,_,_,_,_ ->
+            (v.layoutParams as CoordinatorLayout.LayoutParams).behavior?.let {
+                if (it is AppBarLayout.Behavior) it.setDragCallback(appbarCantDrag)
+            }
+        }
+        binding.toolbar.apply {
+            clear = menu.findItem(R.id.clearMenuItem).apply {
+                isEnabled = loaded.get() && model.hasNights.value == true
+            }
+            setOnMenuItemClickListener { when {
+                busy.get() -> false
+                it == clear -> materialAlert(R.string.confirm_clearing) {
+                    setPositiveButton(R.string.yes) { d, w ->
+                        model.clearData(); clear?.isEnabled = false
+                    }
+                    setNegativeButton(R.string.cancel) { d, w -> }
+                }.let { true }
+                it.itemId == R.id.aboutFragment -> findNavController().navigate(JournalFragmentDirections.toAbout()).let { true }
+                else -> false
+            }}
+        }
         return binding.root
     }
 
     private fun doLoad() {
-        val adapter = JournalAdapter()
-        binding.recycler.adapter = adapter
-        binding.recycler.layoutManager.grid().apply {
-            spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
-                override fun getSpanSize(position: Int) = when {
-                    adapter.isVirtualAt(position) -> spanCount
-                    else -> 1
+        val adapter = JournalAdapter().apply {
+            onItemClick = View.OnClickListener { val night = it.tag as Night
+                if (busy.get()) return@OnClickListener
+                findNavController().navigate(JournalFragmentDirections.actionJournalFragToDetailsFrag(night.id!!))
+            }
+            onItemLongClick = View.OnLongClickListener { val night = it.tag as Night
+                if (busy.get()) return@OnLongClickListener true
+                materialAlert(R.string.confirm_deleting) {
+                    setPositiveButton(R.string.yes) { _, _ -> model.deleteItem(night) }
+                    setNegativeButton(R.string.cancel) { _, _ -> }
                 }
+                true
             }
         }
-        binding.recycler.itemAnimator = DefaultItemAnimator()
-        binding.sleep.setOnClickListener {
+        binding.recycler.apply {
+            this.adapter = adapter
+            layoutManager.grid().apply {
+                spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
+                    override fun getSpanSize(position: Int) = when {
+                        adapter.isVirtualAt(position) -> spanCount
+                        adapter.hasOnlyOneRealItem -> spanCount
+                        else -> 1
+                    }
+                }
+            }
+            addItemDecoration(JournalAdapterDecoration(R.color.face))
+            itemAnimator = DefaultItemAnimator()
+        }
+        binding.fab.setOnClickListener {
             if (busy.get()) return@setOnClickListener
             model.doSleep()
-        }
-        adapter.onItemClick = View.OnClickListener { val night = it.tag as Night
-            if (busy.get()) return@OnClickListener
-            findNavController().navigate(when (night.isActive()) {
-                true -> JournalFragmentDirections.actionJournalFragToSleepingFrag(night.id!!)
-                else -> JournalFragmentDirections.actionJournalFragToDetailsFrag(night.id!!)
-            })
-        }
-        adapter.onItemLongClick = View.OnLongClickListener { val night = it.tag as Night
-            if (busy.get()) return@OnLongClickListener true
-            requireActivity().alert(R.string.confirm_deleting) {
-                positiveButton(R.string.yes) {
-                    model.deleteItem(night)
-                }
-                negativeButton(R.string.cancel) { it.dismiss() }
-                show()
-            }
-            true
         }
         model.onComplete = { val newNightId = it as Long
             busy.set(true)
@@ -102,20 +129,25 @@ class JournalFragment : BaseFragment() {
             binding.recycler.scrollToPosition(0)
         }
         model.nights.observe(viewLifecycleOwner) { nights ->
-            info((" nights update to -> $nights"))
+            info(" nights update to -> $nights")
             nights ?: return@observe
-            adapter.submitList(nights)
+
+            adapter.submitData(nights)
             busy.set(true)
-            compatActivity()?.delayed(500) {
+            viewLifecycleOwner.delayed(500) {
                 binding.recycler.itemAnimator?.isRunning {
+                    if (lifecycle.currentState < Lifecycle.State.CREATED)
+                        return@isRunning
                     info(" $timeMillis isRunning called on binding.recycler.itemAnimator")
                     busy.set(false)
-                    binding.appbar.setExpanded(true)
-                    if (inserting.first)
-                        navigateToSleepEvent.value = inserting.second
+                    val (isInserting, nightId) = inserting
+                    if (isInserting)
+                        navigateToSleepEvent.value = nightId
+                    else
+                        binding.appbar.setExpanded(true, false)
                 }
             }
-            clear?.isVisible = nights.isNotEmpty()
+            clear?.isEnabled = nights.isNotEmpty()
         }
 
         startKey = context?.hash
@@ -132,44 +164,23 @@ class JournalFragment : BaseFragment() {
 
     private fun preLoad() {
         info(" preLoad")
-        binding.sleep.apply { scaleX = 0f; scaleY = 0f }
-        compatActivity()?.delayed(200, Lifecycle.State.STARTED) {
-            TransitionManager.beginDelayedTransition(binding.root, TransitionSet().apply {
+        binding.fab.apply { scaleX = 0f; scaleY = 0f }
+        viewLifecycleOwner.delayed(200, Lifecycle.State.STARTED) {
+            TransitionManager.beginDelayedTransition(activity!!.contentView as ViewGroup, TransitionSet().apply {
                 ordering = TransitionSet.ORDERING_SEQUENTIAL
                 addTransition(Slide(Gravity.START)) // empty text will disappeared to start
-                addTransition(Fade(Fade.IN)) // recycler will appeared with fade in
-                addTransition(ChangeTransform()) // sleep fab will appear from nothing
+                addTransition(Fade(Fade.IN))        // recycler will appeared with fade in
+                addTransition(ChangeTransform())    // fab will appear from zero
             })
             doLoad()
-            binding.sleep.apply { scaleX = 1f; scaleY = 1f }
+            binding.fab.apply { scaleX = 1f; scaleY = 1f }
+            activity!!.invalidateOptionsMenu()
         }
     }
 
-    private var clear : MenuItem? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.journal_menu, menu)
-        clear = menu.findItem(R.id.clear).apply {
-            isVisible = loaded.get() && model.hasNights.value == true
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem) = when {
-        busy.get() -> false
-        item == clear -> requireActivity().alert(R.string.confirm_clearing) {
-            positiveButton(R.string.yes) {
-                model.clearData(); clear?.isVisible = false
-            }
-            negativeButton(R.string.cancel) { it.dismiss() }
-            show()
-        }.let { true }
-        else -> super.onOptionsItemSelected(item)
+    // a little optimization of the UI when user can swipe appbar layout out via its dragging - looks not good
+    private val appbarCantDrag = object: AppBarLayout.Behavior.DragCallback() {
+        override fun canDrag(appBarLayout: AppBarLayout) = false
     }
 
 }

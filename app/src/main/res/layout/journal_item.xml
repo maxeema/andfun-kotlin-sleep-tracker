@@ -5,7 +5,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable name="night" type="maxeem.america.sleep.data.Night" />
+        <variable name="img" type="Integer" />
+        <variable name="date" type="String" />
+        <variable name="count" type="String" />
         <variable name="clickListener" type="android.view.View.OnClickListener"/>
         <variable name="longClickListener" type="android.view.View.OnLongClickListener"/>
     </data>
@@ -14,8 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:selectableItemBackground"
-        android:onClick="@{clickListener}"
-        android:onLongClick="@{longClickListener}"
+        android:onClick="@{ clickListener }"
+        android:onLongClick="@{ longClickListener }"
         android:paddingStart="8dp"
         android:paddingTop="20dp"
         android:paddingEnd="8dp"
@@ -24,32 +26,46 @@
 
         <ImageView
             android:id="@+id/icon"
-            srcOfNightCached="@{night}"
-            android:layout_width="@dimen/item_icon_size"
-            android:layout_height="@dimen/item_icon_size"
-            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/undefined"
+            app:imageResource="@{ img }"
+            android:layout_width="@dimen/adapter_icon_size"
+            android:layout_height="@dimen/adapter_icon_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/excellent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/info"
+            android:id="@+id/label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:ellipsize="end"
             android:marqueeRepeatLimit="1"
             android:singleLine="true"
-            textOfNightPeriodEnd="@{night}"
-            android:textSize="@dimen/text_size_item"
-            android:textColor="@color/colorInfo"
+            android:text="@{ date }"
+            android:textSize="@dimen/text_item"
+            android:textColor="@color/info"
             app:layout_constrainedHeight="true"
             app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/icon"
-            tools:text="Aug 11, 6:41 am" />
+            tools:text="Aug 15" />
+
+        <TextView
+            android:id="@+id/textView"
+            goneIf="@{ count == null }"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX=".8"
+            android:scaleY=".8"
+            android:text="@{ count }"
+            android:textColor="@color/face"
+            android:textSize="@dimen/text_small"
+            app:layout_constraintBottom_toTopOf="@+id/label"
+            app:layout_constraintStart_toEndOf="@+id/label"
+            app:layout_constraintTop_toTopOf="@+id/label"
+            tools:text="2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

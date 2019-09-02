@@ -17,3 +17,6 @@ class App : Application() {
 }
 
 val App.handler by lazy { Handler(app.mainLooper) }
+
+val App.packageInfo
+    get() = packageManager.getPackageInfo(packageName, 0)

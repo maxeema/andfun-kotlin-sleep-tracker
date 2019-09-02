@@ -8,14 +8,14 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import maxeem.america.sleep.databinding.FragmentQualityBinding
 import maxeem.america.sleep.ext.hash
-import maxeem.america.sleep.viewmodel.QualityViewModel
+import maxeem.america.sleep.model.QualityModel
 import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.info
 
 class QualityFragment : BaseFragment() {
 
-    override val model by viewModels<QualityViewModel> {
-        QualityViewModel.FACTORY(QualityFragmentArgs.fromBundle(requireArguments()).nightId)
+    override val model by viewModels<QualityModel> {
+        QualityModel.FACTORY(QualityFragmentArgs.fromBundle(requireArguments()).nightId)
     }
 
     override fun consumeBackPressed() = true.apply {
@@ -27,7 +27,7 @@ class QualityFragment : BaseFragment() {
 
         val binding = FragmentQualityBinding.inflate(inflater, container, false)
 
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.model = model
 
         model.onComplete = { // val quality = it as Night.Quality

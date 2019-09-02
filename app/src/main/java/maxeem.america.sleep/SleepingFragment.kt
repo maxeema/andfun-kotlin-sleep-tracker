@@ -4,33 +4,36 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.*
 import android.widget.ImageView
-import androidx.databinding.ObservableBoolean
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.transition.*
+import androidx.transition.ChangeTransform
+import androidx.transition.TransitionManager
+import androidx.transition.TransitionSet
 import maxeem.america.sleep.databinding.FragmentSleepingBinding
-import maxeem.america.sleep.ext.*
+import maxeem.america.sleep.ext.animFadeIn
+import maxeem.america.sleep.ext.hash
+import maxeem.america.sleep.ext.invisibleFadeOutDelayed
+import maxeem.america.sleep.ext.startIfItAnimatable
 import maxeem.america.sleep.misc.Utils
-import maxeem.america.sleep.ext.delayed
-import maxeem.america.sleep.viewmodel.SleepingViewModel
+import maxeem.america.sleep.model.SleepingModel
 import org.jetbrains.anko.design.snackbar
-import org.jetbrains.anko.dip
 import org.jetbrains.anko.info
 import java.util.concurrent.TimeUnit.MINUTES
 import java.util.concurrent.TimeUnit.SECONDS
+import kotlin.math.abs
+import kotlin.random.Random
 
 class SleepingFragment : BaseFragment() {
 
     private  val  args by navArgs<SleepingFragmentArgs>()
-    override val model by viewModels<SleepingViewModel> { SleepingViewModel.FACTORY(args.nightId) }
+    override val model by viewModels<SleepingModel> { SleepingModel.FACTORY(args.nightId) }
 
     private lateinit var binding : FragmentSleepingBinding
-    private val loaded = ObservableBoolean()
 
     private val screen by lazy { Screen(SECONDS.toMillis(3), MINUTES.toMillis(10),
                                         activity!!.window, binding.root, binding.sleepingImage) }
+    private var firstStart = true
 
     override fun consumeBackPressed() = true.apply {
         screen.awake()
@@ -42,16 +45,14 @@ class SleepingFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         info("$hash onCreateView, $savedInstanceState")
+        firstStart = savedInstanceState == null
 
         binding = FragmentSleepingBinding.inflate(inflater, container, false)
 
         binding.model = model
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
-        return binding.root
-    }
-
-    private fun doLoad() {
+        binding.sleepingImage.drawable.startIfItAnimatable()
         binding.sleepingImage.setOnClickListener {
             binding.tip.visibility = View.VISIBLE
             binding.tip.animFadeIn()
@@ -62,39 +63,17 @@ class SleepingFragment : BaseFragment() {
             findNavController().navigate(SleepingFragmentDirections.actionSleepingFragToQualityFrag(args.nightId))
             model.onComplete = null
         }
-        loaded.set(true)
-    }
 
-    private fun preLoad() {
-        compatActivity()?.delayed(200) {
-            if (lifecycle.currentState < Lifecycle.State.STARTED) return@delayed
-            TransitionManager.beginDelayedTransition(binding.root, TransitionSet().apply {
-                addTransition(Slide(Gravity.BOTTOM))
-            }.addListener(object: TransitionListenerAdapter() {
-                override fun onTransitionEnd(transition: Transition) {
-                    compatActivity()?.delayed(200) {
-                        if (lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED))
-                            TransitionManager.beginDelayedTransition(binding.root, TransitionSet().apply {
-                                addTransition(Explode())
-                            })
-                        binding.sleepingImage.visibility = View.VISIBLE
-                        binding.sleepingImage.drawable.startIfItAnimatable()
-                        binding.tip.invisibleFadeOutDelayed(2000)
-                        screen.awake()
-                    }
-                }
-            }))
-            doLoad()
-            binding.tip.visibility = View.VISIBLE
-        }
+        return binding.root
     }
 
     override fun onStart() { super.onStart()
         screen.lock()
-        if (!loaded.get()) {
-            preLoad()
-        } else {
-            screen.awake()
+        screen.awake()
+        if (firstStart) {
+            firstStart = false
+            binding.tip.visibility = View.VISIBLE
+            binding.tip.invisibleFadeOutDelayed(2000)
         }
     }
     override fun onStop() { super.onStop()
@@ -102,7 +81,11 @@ class SleepingFragment : BaseFragment() {
     }
 
     private class Screen(val dimTimeout: Long, val animateInterval: Long,
-                         val window: Window, val root: ViewGroup, img: ImageView) {
+                         val window: Window,   val root: ViewGroup, img: ImageView) {
+        companion object {
+            const val TRANSITION_DURATION = 1_500L
+            const val NEXT_TRANSLATION_MIN_FACTOR = .15f
+        }
 
         private val h by lazy { Handler() }
         private val saver = Saver(root, img)
@@ -152,16 +135,23 @@ class SleepingFragment : BaseFragment() {
             fun animate() {
                 img.apply {
                     TransitionManager.beginDelayedTransition(root, TransitionSet().apply {
+                        duration = TRANSITION_DURATION
                         addTransition(ChangeTransform())
                     })
-                    translationY = context!!.dip(kotlin.random.Random.nextInt(-50, 50)).toFloat()
-                    translationX = context!!.dip(kotlin.random.Random.nextInt(-50, 50)).toFloat()
+                    var newTransX : Float; var newTransY : Float
+                    val curTransX: Float = translationX; val curTransY = translationY
+                    do {
+                        newTransX = Random.nextInt(-left, root.width - right).toFloat()
+                        newTransY = Random.nextInt(-top, root.height - bottom).toFloat()
+                    } while (!(abs(newTransX - curTransX) > NEXT_TRANSLATION_MIN_FACTOR.times(root.width)
+                            || abs(newTransY - curTransY) > NEXT_TRANSLATION_MIN_FACTOR.times(root.height)))
+                    translationX = newTransX
+                    translationY = newTransY
                 }
             }
             fun dim() = dim(true)
             fun dim(value: Boolean) = Utils.dim(value, img)
         }
     }
-
 
 }

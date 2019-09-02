@@ -15,12 +15,12 @@
   -->
 
 <resources>
-    <dimen name="margin">12dp</dimen>
-    <dimen name="item_icon_size">52dp</dimen>
+    <dimen name="adapter_icon_size">58dp</dimen>
     <dimen name="snackbar_margin_vertical">10dp</dimen>
     <dimen name="snackbar_margin_horizontal">30dp</dimen>
-    <dimen name="text_size">14sp</dimen>
-    <dimen name="text_size_small">12sp</dimen>
-    <dimen name="text_size_item">12sp</dimen>
-    <dimen name="text_size_large">16sp</dimen>
+    <dimen name="text_item">13sp</dimen>
+    <dimen name="text_small">14sp</dimen>
+    <dimen name="text">16sp</dimen>
+    <dimen name="text_large">18sp</dimen>
+    <dimen name="text_name">30sp</dimen>
 </resources>

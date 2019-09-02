@@ -51,6 +51,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-runtime-ktx:2.2.0-alpha01'
     implementation 'androidx.navigation:navigation-ui-ktx:2.2.0-alpha01'
     implementation "androidx.room:room-runtime:2.1.0"
+    implementation "com.google.android.material:material:1.1.0-alpha09"
     implementation "com.github.bumptech.glide:glide:4.9.0"
     implementation "org.jetbrains.anko:anko-commons:0.10.8"
     implementation "org.jetbrains.anko:anko-design:0.10.8"

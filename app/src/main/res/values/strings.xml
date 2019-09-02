@@ -2,19 +2,21 @@
 
 <resources>
 
-    <string name="zzz">zzz…</string>
-    <string name="clear">Clear Journal</string>
-
     <!-- App title and fragment titles -->
     <string name="app_name">Sleep Journal</string>
     <string name="app_label">Sleep</string>
-    <string name="journal_fragment">@string/app_name</string>
-    <string name="quality_fragment">How Was the Sleep?</string>
-    <string name="details_fragment">Sleep Info</string>
-    <string name="sleeping_fragment"/>
+    <string name="app_author">© Maxeem America, 2019</string>
+    <string name="app_description" formatted="false">
+        <![CDATA[
+            Made by taking <a href="https://www.udacity.com/course/developing-android-apps-with-kotlin--ud9012">Udacity course</a>
+            <br/><br/>
+            App <a href="https://github.com/maxeema/andfun-kotlin-sleep-tracker/tree/work">GitHub page</a>
+        ]]>
+    </string>
+    <string name="about">About</string>
 
     <!-- Sleep quality -->
-    <string name="undefined">"﹖   "</string>
+    <string name="undefined">﹖</string>
     <string name="very_bad">Very bad</string>
     <string name="poor">Poor</string>
     <string name="so_so">So-so</string>
@@ -24,19 +26,25 @@
 
     <string name="cleared_data_message">All the sleeping data is gone</string>
     <string name="sorry">Sorry, error has occurred</string>
+    <string name="details">Details</string>
     <string name="wait">Please, try a bit later</string>
     <string name="no_nights_yet">Your sleep journal \n is empty</string>
     <string name="loading_nights">Loading the journal…</string>
     <string name="confirm_clearing">Clear the sleep journal. Really?</string>
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
-    <string name="details">Details</string>
+    <string name="sleep_details">Sleep Details</string>
+    <string name="sleep_quality">Sleep Quality</string>
     <string name="on_waking_up"><![CDATA[Waking up <b>Push</b> the Smile]]></string>
 
     <string name="qualify_sleep_first">You have to Qualify the sleep first</string>
     <string name="finish_sleep_first">You have to Finish the sleep first</string>
+    <string name="how_it_was">How Was the Sleep?</string>
 
     <string name="confirm_deleting">Delete this event. Sure?</string>
     <string name="deleted_item_message">The event is gone</string>
+
+    <string name="zzz">zzz…</string>
+    <string name="clear">Clear Journal</string>
 
 </resources>

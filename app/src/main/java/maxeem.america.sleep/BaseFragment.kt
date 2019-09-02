@@ -7,17 +7,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import maxeem.america.sleep.ext.hash
 import maxeem.america.sleep.misc.Utils
-import maxeem.america.sleep.viewmodel.BaseViewModel
+import maxeem.america.sleep.model.BaseModel
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.alert
-import org.jetbrains.anko.design.snackbar
+import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.info
 
 open class BaseFragment : Fragment(), AnkoLogger {
 
     init { info("$hash init") }
 
-    protected open val model : BaseViewModel? = null
+    protected open val model : BaseModel? = null
 
     open fun consumeBackPressed() = false
     open fun handleUserInteracted() = Unit
@@ -28,8 +28,8 @@ open class BaseFragment : Fragment(), AnkoLogger {
 
         model?.messageEvent?.observe(viewLifecycleOwner) { msg ->
             msg ?: return@observe
-            view.snackbar(msg.msg).apply {
-                if (msg is BaseViewModel.MessageEvent.Error)
+            view.longSnackbar(msg.msg).apply {
+                if (msg is BaseModel.MessageEvent.Error)
                     setAction(R.string.details) { requireActivity().alert(Utils.formatError(msg.msg, msg.err)).show() }
             }
             model!!.messageEventConsumed()

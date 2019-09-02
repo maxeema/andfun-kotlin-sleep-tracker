@@ -33,11 +33,11 @@ object Utils {
             into(view)
         }
 
-    fun dim(dim: Boolean, clockView: View) {
+    fun dim(dim: Boolean, view: View) {
         val paint = Paint()
         paint.color = Color.WHITE
         paint.colorFilter = PorterDuffColorFilter(if (dim) 0x40FFFFFF else 0xC0FFFFFF.toInt(), Mode.MULTIPLY)
-        clockView.setLayerType(View.LAYER_TYPE_HARDWARE, paint)
+        view.setLayerType(View.LAYER_TYPE_HARDWARE, paint)
     }
 
 }

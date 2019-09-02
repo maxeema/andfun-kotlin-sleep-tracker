@@ -14,63 +14,71 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
-            app:liftOnScroll="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:liftOnScroll="true">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
-                app:title="@string/sleep_details"
                 style="@style/Widget.MaterialComponents.Toolbar.Surface"
+                app:title="@string/sleep_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
         </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.9"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/period_end_time"
             goneIf="@{ !model.hasData }"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@{ model.isFinished ? model.endTime : @string/undefined }"
             android:textAlignment="center"
             android:textColor="@color/text"
             android:textSize="@dimen/text"
-            app:layout_constraintBottom_toTopOf="@+id/sleep_image"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-            app:layout_constraintHorizontal_bias="0.46"
+            app:chainUseRtl="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/sleep_image"
+            app:layout_constraintHorizontal_bias="0.42"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/appbar"
-            app:layout_constraintVertical_bias="0.175"
+            app:layout_constraintVertical_bias="0.148"
             tools:text="6:25 AM" />
 
         <View
             android:id="@+id/period_end_line"
             goneIf="@{ !model.hasData || !model.isFinished}"
             android:layout_width="0dp"
-            android:layout_height="3dp"
-            android:layout_marginStart="8dp"
+            android:layout_height="2dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/dash_bg" android:layerType="software"
+            app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="@+id/period_end_time"
-            app:layout_constraintEnd_toStartOf="@+id/period_end_time"
-            app:layout_constraintStart_toEndOf="@+id/period_end_date"
-            app:layout_constraintTop_toTopOf="@+id/period_end_time" />
+            app:layout_constraintEnd_toStartOf="@id/period_end_time"
+            app:layout_constraintTop_toTopOf="@+id/period_end_time"
+            app:layout_constraintWidth_min="20dp"
+            app:layout_constraintWidth_percent=".05" />
 
         <TextView
             android:id="@+id/period_end_date"
             goneIf="@{ !model.hasData || !model.isFinished}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:text="@{ model.isFinished ? model.endDate : @string/undefined }"
             android:textColor="@color/info"
             android:textSize="@dimen/text_small"
             app:layout_constraintBaseline_toBaselineOf="@+id/period_end_time"
-            app:layout_constraintEnd_toStartOf="@+id/period_end_time"
-            app:layout_constraintHorizontal_bias="0.41"
-            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintEnd_toStartOf="@+id/period_end_line"
             tools:text="Aug 29" />
 
         <View
@@ -91,7 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:srcCompat="@drawable/ic_duration"
+            android:src="@drawable/ic_duration"
             android:tint="@color/text"
             app:layout_constraintEnd_toEndOf="@+id/period_end_time"
             app:layout_constraintStart_toStartOf="@+id/period_end_time"
@@ -107,7 +115,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/period_length"
             app:layout_constraintStart_toEndOf="@+id/length_icon"
             app:layout_constraintTop_toTopOf="@+id/period_length"
-            app:layout_constraintWidth_percent=".04" />
+            app:layout_constraintWidth_percent=".05" />
 
         <TextView
             android:id="@+id/period_length"
@@ -133,84 +141,84 @@
             app:layout_constraintEnd_toEndOf="@+id/length_icon"
             app:layout_constraintHeight_percent=".05"
             app:layout_constraintStart_toStartOf="@+id/length_icon"
-            app:layout_constraintTop_toBottomOf="@+id/length_icon" />
-
-        <TextView
-            android:id="@+id/period_start_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
-            android:text="@{ model.startTime }"
-            android:textAlignment="center"
-            android:textColor="@color/text"
-            android:textSize="@dimen/text"
-            app:layout_constraintEnd_toEndOf="@+id/period_end_time"
-            app:layout_constraintStart_toStartOf="@+id/period_end_time"
-            app:layout_constraintTop_toBottomOf="@+id/length_bottom_line"
-            tools:text="23:05 PM" />
-
-        <View
-            android:id="@+id/period_start_line"
-            goneIf="@{ !model.hasData }"
-            android:layout_width="0dp"
-            android:layout_height="3dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/dash_bg" android:layerType="software"
-            app:layout_constraintBottom_toBottomOf="@+id/period_start_time"
-            app:layout_constraintEnd_toStartOf="@+id/period_start_time"
-            app:layout_constraintStart_toEndOf="@+id/period_start_date"
-            app:layout_constraintTop_toTopOf="@+id/period_start_time" />
+            app:layout_constraintTop_toBottomOf="@+id/period_length" />
 
         <TextView
             android:id="@+id/period_start_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:text="@{ model.startDate }"
             android:textColor="@color/info"
             android:textSize="@dimen/text_small"
             app:layout_constraintBaseline_toBaselineOf="@+id/period_start_time"
-            app:layout_constraintEnd_toEndOf="@+id/period_end_date"
-            app:layout_constraintStart_toStartOf="@+id/period_end_date"
+            app:layout_constraintEnd_toStartOf="@id/period_start_line"
             tools:text="Aug 28" />
+
+        <View
+            android:id="@+id/period_start_line"
+            goneIf="@{ !model.hasData }"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/dash_bg" android:layerType="software"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="@+id/period_start_time"
+            app:layout_constraintEnd_toStartOf="@+id/period_start_time"
+            app:layout_constraintTop_toTopOf="@+id/period_start_time"
+            app:layout_constraintWidth_min="20dp"
+            app:layout_constraintWidth_percent=".05" />
+
+        <TextView
+            android:id="@+id/period_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{ model.startTime }"
+            android:textAlignment="center"
+            android:textColor="@color/text"
+            android:textSize="@dimen/text"
+            app:layout_constraintEnd_toEndOf="@+id/length_icon"
+            app:layout_constraintStart_toStartOf="@+id/length_icon"
+            app:layout_constraintTop_toBottomOf="@+id/length_bottom_line"
+            tools:text="23:05 PM" />
 
         <ImageView
             android:id="@+id/sleep_image"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="8dp"
             android:background="?android:selectableItemBackground"
             android:onClick="@{() -> model.onComplete.invoke(0)}"
             android:padding="10dp"
             app:imageResource="@{ model.icon }"
             app:layout_constrainedHeight="true"
             app:layout_constrainedWidth="true"
-            app:layout_constraintBottom_toTopOf="@id/sleep_quality"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-            app:layout_constraintHorizontal_bias="0.675"
-            app:layout_constraintStart_toStartOf="@+id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/period_start_time"
-            app:layout_constraintVertical_bias="0.35000002"
-            app:layout_constraintHeight_percent=".25"
-            app:layout_constraintHeight_max="180dp"
-            app:layout_constraintWidth_max="180dp"
-            app:srcCompat="@drawable/pretty_good" />
+            app:layout_constraintHeight_max="150dp"
+            app:layout_constraintHeight_percent=".4"
+            app:layout_constraintHorizontal_bias="0.4"
+            app:layout_constraintStart_toEndOf="@+id/period_length"
+            app:layout_constraintTop_toBottomOf="@+id/appbar"
+            app:layout_constraintVertical_bias="0.23000002"
+            app:layout_constraintWidth_max="150dp"
+            app:srcCompat="@drawable/so_so" />
 
         <View
             android:id="@+id/sleep_image_line"
             goneIf="@{ !model.hasData }"
             android:layout_width="1dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
             android:background="@color/face"
             app:layout_constraintBottom_toTopOf="@+id/sleep_quality"
             app:layout_constraintEnd_toEndOf="@+id/sleep_image"
-            app:layout_constraintHeight_min="20dp"
+            app:layout_constraintHeight_percent=".07"
             app:layout_constraintHorizontal_bias="0.37"
             app:layout_constraintStart_toStartOf="@+id/sleep_image"
-            app:layout_constraintTop_toBottomOf="@+id/sleep_image" />
+            app:layout_constraintTop_toBottomOf="@+id/sleep_image"
+            app:layout_constraintVertical_bias="0.48000002" />
 
         <TextView
             android:id="@+id/sleep_quality"
@@ -220,41 +228,24 @@
             android:text="@{ model.quality }"
             android:textColor="@color/text"
             android:textSize="@dimen/text_large"
-            app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintEnd_toEndOf="@+id/sleep_image_line"
             app:layout_constraintStart_toStartOf="@+id/sleep_image_line"
-            app:layout_constraintTop_toBottomOf="@+id/sleep_image"
+            app:layout_constraintTop_toBottomOf="@+id/sleep_image_line"
             tools:text="@string/pretty_good" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_end"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent=".95" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent=".05" />
-
-        <view
-            android:id="@+id/period_time_barrier"
-            class="androidx.constraintlayout.widget.Barrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="start"
-            app:constraint_referenced_ids="period_start_time,period_end_time"
-            tools:layout_editor_absoluteX="86dp" />
+            app:layout_constraintGuide_percent="0.07" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.97" />
+            android:id="@+id/guideline_end"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".98" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
