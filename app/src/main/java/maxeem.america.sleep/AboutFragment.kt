@@ -31,12 +31,11 @@ class AboutFragment : BaseFragment() {
             }
             author.apply {
                 val mail = Intent(Intent.ACTION_SENDTO)
-                        .setData(Uri.parse("mailto:"))
+                        .setData(Uri.parse("mailto:${R.string.author_email.asString()}"))
                 isClickable = mail.resolveActivity(app.packageManager) != null
                 if (isClickable) onClick {
                     startActivity(mail.apply {
-                        putExtra(Intent.EXTRA_EMAIL, "Maxeem.America@gmail.com")
-                        putExtra(Intent.EXTRA_SUBJECT, """Hello Max! From "${R.string.app_name.asString()}" app.""")
+                        putExtra(Intent.EXTRA_SUBJECT, R.string.email_subject.asString(R.string.app_name.asString()))
                     })
                 }
             }

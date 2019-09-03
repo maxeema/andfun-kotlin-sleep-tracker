@@ -13,6 +13,8 @@
             App <a href="https://github.com/maxeema/andfun-kotlin-sleep-tracker/tree/work">GitHub page</a>
         ]]>
     </string>
+    <string name="author_email">Maxeem.America@gmail.com</string>
+    <string name="email_subject">Hello Max! From \"%s\" app.</string>
     <string name="app_on_google_play">See on Google Play</string>
     <string name="about">About</string>
 
@@ -25,6 +27,7 @@
     <string name="pretty_good">Pretty good</string>
     <string name="excellent">Excellent!</string>
 
+    <!-- misc -->
     <string name="cleared_data_message">All the sleeping data is gone</string>
     <string name="sorry">Sorry, error has occurred</string>
     <string name="details">Details</string>

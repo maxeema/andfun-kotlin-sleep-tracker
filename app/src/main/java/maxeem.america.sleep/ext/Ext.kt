@@ -50,8 +50,10 @@ fun AppCompatActivity.delayed(delay: Long, stateAtLeast: Lifecycle.State = Lifec
     }
 }
 
-fun Fragment.materialAlert(@StringRes msg: Int, code: MaterialAlertDialogBuilder.()->Unit) =
+fun Fragment.materialAlert(@StringRes msg: Int, code: (MaterialAlertDialogBuilder.()->Unit)? = null)
+        = materialAlert(app.getString(msg), code)
+fun Fragment.materialAlert(msg: CharSequence, code: (MaterialAlertDialogBuilder.()->Unit)? = null) =
     MaterialAlertDialogBuilder(context).apply {
         setMessage(msg)
-        code()
+        code?.invoke(this)
     }.show()
