@@ -79,10 +79,10 @@ class JournalFragment : BaseFragment() {
             setOnMenuItemClickListener { when {
                 busy.get() -> false
                 it == clear -> materialAlert(R.string.confirm_clearing) {
-                    setPositiveButton(R.string.yes) { d, w ->
+                    setPositiveButton(R.string.yes) { _, _ ->
                         model.clearData(); clear?.isEnabled = false
                     }
-                    setNegativeButton(R.string.cancel) { d, w -> }
+                    setNegativeButton(R.string.cancel) { _, _ -> }
                 }.let { true }
                 it.itemId == R.id.aboutFragment -> findNavController().navigate(JournalFragmentDirections.toAbout()).let { true }
                 else -> false
