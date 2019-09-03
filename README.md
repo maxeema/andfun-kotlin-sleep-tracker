@@ -24,9 +24,11 @@ It also uses and builds on the following techniques from previous lessons:
 
 ## Screenshots
 
-![Screenshot1](screenshots/sleep_quality_tracker_start.png)
-![Screenshot2](screenshots/sleep_quality_tracker_stop.png)
-![Screenshot3](screenshots/sleep_quality_tracker_quality.png)
+![Screenshot](screenshots/screen0.png)
+![Screenshot1](screenshots/screen1.png)
+![Screenshot2](screenshots/screen2.png)
+![Screenshot4](screenshots/screen3.png)
+![Screenshot3](screenshots/screen4.png)
 
 ## How to use this repo while taking the course
 
