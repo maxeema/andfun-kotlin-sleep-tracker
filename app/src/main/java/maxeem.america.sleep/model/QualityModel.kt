@@ -20,7 +20,7 @@ class QualityModel(private val nightId: Long) : BaseModel() {
     fun onSetQuality(quality: Night.Quality) = action {
         val updated = dao { updateQuality(nightId, quality) }
         require(updated == 1) { "updated $updated of 1" }
-        Prefs.lastNightQualified = true
+        Prefs.lastNightHasToQualified = false
         onComplete?.let { it(quality) }
     }
 

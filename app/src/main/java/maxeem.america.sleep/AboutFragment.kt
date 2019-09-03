@@ -9,7 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import maxeem.america.sleep.databinding.FragmentAboutBinding
+import maxeem.america.sleep.ext.asString
 import maxeem.america.sleep.ext.compatActivity
+import maxeem.america.sleep.ext.onClick
 import maxeem.america.sleep.model.AboutModel
 
 class AboutFragment : BaseFragment() {
@@ -27,16 +29,31 @@ class AboutFragment : BaseFragment() {
                 setSupportActionBar(toolbar)
                 NavigationUI.setupActionBarWithNavController(this, findNavController())
             }
-            googlePlay.setOnClickListener {
-                Intent(Intent.ACTION_VIEW).apply {
-                    data = Uri.parse(
-                            "https://play.google.com/store/apps/details?id=${app.packageName}")
-//                            "https://play.google.com/store/apps/details?id=com.google.android.apps.maps")
-                    setPackage("com.android.vending")
-                    startActivity(this)
+            author.apply {
+                val mail = Intent(Intent.ACTION_SENDTO)
+                        .setData(Uri.parse("mailto:"))
+                isClickable = mail.resolveActivity(app.packageManager) != null
+                if (isClickable) onClick {
+                    startActivity(mail.apply {
+                        putExtra(Intent.EXTRA_EMAIL, "Maxeem.America@gmail.com")
+                        putExtra(Intent.EXTRA_SUBJECT, """Hello Max! From "${R.string.app_name.asString()}" app.""")
+                    })
                 }
             }
-            logo.setOnClickListener { findNavController().popBackStack() }
+            googlePlay.onClick {
+                Intent(Intent.ACTION_VIEW).apply {
+                    data = Uri.parse("https://play.google.com/store/apps/details?id=${app.packageName}")
+//                            "https://play.google.com/store/apps/details?id=com.google.android.apps.maps")
+                    `package` = "com.android.vending"
+                    if (resolveActivity(app.packageManager) != null) {
+                        startActivity(this)
+                    } else {
+                        `package` = null
+                        startActivity(this)
+                    }
+                }
+            }
+            logo.onClick { findNavController().popBackStack() }
         }.root
 
 }

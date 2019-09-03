@@ -9,6 +9,9 @@ interface NightsDao {
     @Insert
     fun insert(item: Night) : Long
 
+    @Insert
+    fun insert(vararg items: Night): List<Long>
+
     @Update
     fun update(item: Night) : Int
 

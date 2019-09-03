@@ -8,8 +8,8 @@ import org.jetbrains.anko.defaultSharedPreferences
 object Prefs {
 
     private const val LAST_NIGHT_ID = "last_night_id"
-    private const val LAST_NIGHT_ACTIVE = "last_night_active"
-    private const val LAST_NIGHT_QUALIFIED = "last_night_qualified"
+    private const val LAST_NIGHT_WAS_FINISHED = "last_night_was_finished"
+    private const val LAST_NIGHT_HAS_TO_QUALIFIED = "last_night_has_to_qualified"
 
     private val prefs = app.defaultSharedPreferences
 
@@ -22,12 +22,12 @@ object Prefs {
             prefs.edit { value?.apply { putLong(LAST_NIGHT_ID, value) } ?: clear() }
         }
 
-    var lastNightActive
-        get() = prefs.getBoolean(LAST_NIGHT_ACTIVE, false)
-        set(value) = prefs.edit { putBoolean(LAST_NIGHT_ACTIVE, value) }
+    var lastNightWasFinished
+        get() = prefs.getBoolean(LAST_NIGHT_WAS_FINISHED, false)
+        set(value) = prefs.edit { putBoolean(LAST_NIGHT_WAS_FINISHED, value) }
 
-    var lastNightQualified
-        get() = prefs.getBoolean(LAST_NIGHT_QUALIFIED, false)
-        set(value) = prefs.edit { putBoolean(LAST_NIGHT_QUALIFIED, value) }
+    var lastNightHasToQualified
+        get() = prefs.getBoolean(LAST_NIGHT_HAS_TO_QUALIFIED, false)
+        set(value) = prefs.edit { putBoolean(LAST_NIGHT_HAS_TO_QUALIFIED, value) }
 
 }

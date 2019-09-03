@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import maxeem.america.sleep.databinding.FragmentQualityBinding
 import maxeem.america.sleep.ext.hash
 import maxeem.america.sleep.ext.onClick
+import maxeem.america.sleep.misc.Prefs
 import maxeem.america.sleep.model.QualityModel
 import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.info
@@ -31,7 +32,10 @@ class QualityFragment : BaseFragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.model = model
 
-        binding.skip.onClick(::openJournal)
+        binding.skip.onClick {
+            Prefs.lastNightHasToQualified = false
+            openJournal()
+        }
 
         model.onComplete = { // val quality = it as Night.Quality
             openJournal()

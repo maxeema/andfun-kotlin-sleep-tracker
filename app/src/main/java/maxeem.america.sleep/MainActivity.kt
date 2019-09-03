@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         navHostFrag.findNavController().apply {
             info(" startOn ${graph.startDestination}, cur ${currentDestination?.id}")
             if (graph.startDestination == currentDestination?.id) when {
-                Prefs.run { hasData.get() && !lastNightQualified }
+                Prefs.run { hasData.get() && lastNightHasToQualified }
                     -> BaseFragmentDirections.actionNavigationFragToQualityFrag(requireNotNull(Prefs.lastNightId))
                 else -> BaseFragmentDirections.actionNavigationFragToJournalFrag()
             }.let { navigate(it) }

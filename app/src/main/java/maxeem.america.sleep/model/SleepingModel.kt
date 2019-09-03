@@ -16,7 +16,7 @@ class SleepingModel(private val nightId: Long) : BaseModel() {
         val updated = dao { get(nightId)!!.run { wakeup(); update(this) } }
         info(" updated $updated")
         require(updated == 1) { "updated $updated of 1" }
-        Prefs.lastNightActive = false
+        Prefs.lastNightWasFinished = true
         onComplete?.invoke(Unit)
     }.let { true }
 
