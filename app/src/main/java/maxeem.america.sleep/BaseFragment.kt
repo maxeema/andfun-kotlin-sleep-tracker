@@ -6,10 +6,10 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import maxeem.america.sleep.ext.hash
+import maxeem.america.sleep.ext.materialAlert
 import maxeem.america.sleep.misc.Utils
 import maxeem.america.sleep.model.BaseModel
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.alert
 import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.info
 
@@ -30,7 +30,7 @@ open class BaseFragment : Fragment(), AnkoLogger {
             msg ?: return@observe
             view.longSnackbar(msg.msg).apply {
                 if (msg is BaseModel.MessageEvent.Error)
-                    setAction(R.string.details) { requireActivity().alert(Utils.formatError(msg.msg, msg.err)).show() }
+                    setAction(R.string.details) { materialAlert(Utils.formatError(msg.msg, msg.err)) }
             }
             model!!.messageEventConsumed()
         }
