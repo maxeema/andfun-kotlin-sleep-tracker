@@ -44,12 +44,9 @@ class AboutFragment : BaseFragment() {
                     data = Uri.parse("https://play.google.com/store/apps/details?id=${app.packageName}")
 //                            "https://play.google.com/store/apps/details?id=com.google.android.apps.maps")
                     `package` = "com.android.vending"
-                    if (resolveActivity(app.packageManager) != null) {
-                        startActivity(this)
-                    } else {
+                    if (resolveActivity(app.packageManager) == null)
                         `package` = null
-                        startActivity(this)
-                    }
+                    startActivity(this)
                 }
             }
             logo.onClick { findNavController().popBackStack() }
