@@ -92,6 +92,7 @@
             android:alpha=".5"
             android:textSize="@dimen/text"
             android:translationY="10sp"
+            android:text="@{ maxeem.america.sleep.App.VERSION }"
             app:layout_constrainedHeight="true"
             app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="parent"

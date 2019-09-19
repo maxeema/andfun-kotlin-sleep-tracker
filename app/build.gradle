@@ -19,8 +19,6 @@ android {
     }
     buildTypes {
         release {
-            applicationIdSuffix '.demo'
-            versionNameSuffix '-demo'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

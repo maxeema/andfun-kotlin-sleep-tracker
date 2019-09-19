@@ -2,6 +2,7 @@ package maxeem.america.sleep
 
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -23,7 +24,11 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
-        build.text = app.packageInfo.versionName.substringAfter('-').toUpperCase()
+
+        if (BuildConfig.DEBUG)
+            build.text = App.VERSION.substringAfter('-').toUpperCase()
+        else
+            build.visibility = View.GONE
 
         navHostFrag.findNavController().apply {
             info(" startOn ${graph.startDestination}, cur ${currentDestination?.id}")

@@ -50,7 +50,6 @@ class JournalFragment : BaseFragment() {
         info("$hash onCreateView, savedInstanceState: $savedInstanceState")
 
         binding = FragmentJournalBinding.inflate(inflater, container, false)
-        binding.toolbar.menu
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.model = model

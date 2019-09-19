@@ -38,6 +38,7 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.appbar.MaterialToolbar
+                app:popupTheme="@style/SecondaryElevationOverlay"
                 android:id="@+id/toolbar"
                 app:title="@string/app_name"
                 style="@style/Widget.MaterialComponents.Toolbar.Surface"

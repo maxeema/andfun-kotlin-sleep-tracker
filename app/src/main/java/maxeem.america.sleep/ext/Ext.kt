@@ -9,6 +9,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import maxeem.america.sleep.R
 import maxeem.america.sleep.app
 import maxeem.america.sleep.handler
 import maxeem.america.sleep.misc.Utils
@@ -53,7 +54,7 @@ fun AppCompatActivity.delayed(delay: Long, stateAtLeast: Lifecycle.State = Lifec
 fun Fragment.materialAlert(@StringRes msg: Int, code: (MaterialAlertDialogBuilder.()->Unit)? = null)
         = materialAlert(app.getString(msg), code)
 fun Fragment.materialAlert(msg: CharSequence, code: (MaterialAlertDialogBuilder.()->Unit)? = null) =
-    MaterialAlertDialogBuilder(context).apply {
+    MaterialAlertDialogBuilder(context, R.style.AlertTheme).apply {
         setMessage(msg)
         code?.invoke(this)
     }.show()

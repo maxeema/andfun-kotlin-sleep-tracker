@@ -17,6 +17,7 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@color/background</item>
         <item name="fontFamily">@font/quantico</item>
         <item name="android:fontFamily">@font/quantico</item>
@@ -44,5 +45,10 @@
         <item name="android:layout_marginStart">@dimen/snackbar_margin_horizontal</item>
         <item name="android:layout_marginEnd">@dimen/snackbar_margin_horizontal</item>
     </style>
+
+    <style name="AlertTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="colorOnSurface">@android:color/white</item>
+    </style>
+    <style name="SecondaryElevationOverlay"> <item name="elevationOverlayColor">?colorSecondary</item> </style>
 
 </resources>

@@ -26,7 +26,7 @@
             android:paddingEnd="4dp"
             android:textColor="@android:color/holo_orange_dark"
             android:textSize="24sp"
-            tools:text="DEMO" />
+            tools:text="DEV" />
 
     </FrameLayout>
 

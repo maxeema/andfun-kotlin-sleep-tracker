@@ -10,6 +10,8 @@ class App : Application() {
     companion object {
         private var initializer : (()-> App)? = null
         val instance by lazy { requireNotNull(initializer).apply{ initializer = null }()  }
+        @JvmStatic
+        val VERSION by lazy { instance.packageManager.getPackageInfo(instance.packageName, 0).versionName }
     }
 
     init { initializer = { this } }
@@ -17,6 +19,3 @@ class App : Application() {
 }
 
 val App.handler by lazy { Handler(app.mainLooper) }
-
-val App.packageInfo
-    get() = packageManager.getPackageInfo(packageName, 0)
