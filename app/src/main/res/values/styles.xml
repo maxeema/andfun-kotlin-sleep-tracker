@@ -46,9 +46,15 @@
         <item name="android:layout_marginEnd">@dimen/snackbar_margin_horizontal</item>
     </style>
 
-    <style name="AlertTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+    <style name="AlertThemeOverlay">
         <item name="colorOnSurface">@android:color/white</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/materialAlertDialogBodyText</item>
     </style>
+    <style name="materialAlertDialogBodyText" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
+        <item name="fontFamily">@font/quantico</item>
+        <item name="android:fontFamily">@font/quantico</item>
+    </style>
+
     <style name="SecondaryElevationOverlay"> <item name="elevationOverlayColor">?colorSecondary</item> </style>
 
 </resources>
