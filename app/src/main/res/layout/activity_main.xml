@@ -5,10 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <fragment
             android:id="@+id/navHostFrag"
             android:name="androidx.navigation.fragment.NavHostFragment"
@@ -16,18 +12,5 @@
             android:layout_height="match_parent"
             app:defaultNavHost="true"
             app:navGraph="@navigation/navigation" />
-
-        <TextView
-            android:id="@+id/build"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:alpha=".15"
-            android:paddingEnd="4dp"
-            android:textColor="@android:color/holo_orange_dark"
-            android:textSize="24sp"
-            tools:text="DEV" />
-
-    </FrameLayout>
 
 </merge>

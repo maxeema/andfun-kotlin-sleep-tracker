@@ -41,6 +41,4 @@ object SleepDuration {
     private fun minutesIn(millis: Long) = ((millis + SECOND_IN_MILLIS.times(30)) / MINUTE_IN_MILLIS).toInt()
     private fun secondsIn(millis: Long) = (max(1000, millis).toFloat() / SECOND_IN_MILLIS).roundToInt()
 
-
-
 }

@@ -53,7 +53,6 @@
             tools:text="Aug 15" />
 
         <TextView
-            android:id="@+id/textView"
             goneIf="@{ count == null }"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
