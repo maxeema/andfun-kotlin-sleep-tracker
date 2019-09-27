@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.view.View
 import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import maxeem.america.sleep.app
@@ -22,7 +23,7 @@ class JournalAdapterDecoration(@ColorRes color: Int) : RecyclerView.ItemDecorati
 
     private val mPaint = Paint().apply{
         this.pathEffect = DashPathEffect(PATH_INTERVALS, 0f)
-        this.color = app.resources.getColor(color)
+        this.color = ContextCompat.getColor(app, color)
         this.strokeWidth = LINE_SIZE.toFloat()
     }
     private val mBounds = Rect()
