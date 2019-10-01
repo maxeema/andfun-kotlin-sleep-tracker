@@ -26,9 +26,10 @@ It also uses and builds on the following techniques from previous lessons:
 
 ![Screenshot](screenshots/screen0.png)
 ![Screenshot1](screenshots/screen1.png)
+![Screenshot1c](screenshots/screen1c.png)
 ![Screenshot2](screenshots/screen2.png)
-![Screenshot4](screenshots/screen3.png)
-![Screenshot3](screenshots/screen4.png)
+![Screenshot3](screenshots/screen3.png)
+![Screenshot4](screenshots/screen4.png)
 
 ## How to use this repo while taking the course
 
