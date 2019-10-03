@@ -9,6 +9,8 @@ import org.jetbrains.anko.info
 
 class JournalRealModel : JournalModel() {
 
+    companion object {}
+
     override val nights    = dao.getAll()
     override val hasNights = nights.map { !it.isNullOrEmpty() }
 

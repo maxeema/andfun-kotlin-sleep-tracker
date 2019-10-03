@@ -5,6 +5,7 @@ package maxeem.america.sleep.misc
  */
 
 const val DATABASE_NAME = "nights-db"
+const val MOCK_DATA = false
 
 typealias Str = String
 typealias Bool = Boolean

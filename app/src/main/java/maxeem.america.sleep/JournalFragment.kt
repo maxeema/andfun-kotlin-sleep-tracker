@@ -23,7 +23,10 @@ import maxeem.america.sleep.ext.delayed
 import maxeem.america.sleep.ext.grid
 import maxeem.america.sleep.ext.hash
 import maxeem.america.sleep.ext.materialAlert
+import maxeem.america.sleep.misc.MOCK_DATA
 import maxeem.america.sleep.misc.timeMillis
+import maxeem.america.sleep.model.JournalMockModel
+import maxeem.america.sleep.model.JournalModel
 import maxeem.america.sleep.model.JournalRealModel
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.info
@@ -34,7 +37,9 @@ class JournalFragment : BaseFragment() {
         private var startKey : Int? = null
     }
 
-    override val model by viewModels<JournalRealModel>()
+    override val model : JournalModel by
+        if (MOCK_DATA) viewModels<JournalMockModel>() else viewModels<JournalRealModel>()
+
     private lateinit var binding : FragmentJournalBinding
 
     private val busy   = ObservableBoolean()
@@ -149,6 +154,8 @@ class JournalFragment : BaseFragment() {
             }
             clear?.isEnabled = nights.isNotEmpty()
         }
+        if (MOCK_DATA)
+            binding.fab.visibility = View.INVISIBLE
 
         startKey = context?.hash
         loaded.set(true)
