@@ -10,17 +10,14 @@ import androidx.navigation.ui.NavigationUI
 import maxeem.america.sleep.databinding.FragmentDetailsBinding
 import maxeem.america.sleep.ext.compatActivity
 import maxeem.america.sleep.ext.hash
-import maxeem.america.sleep.misc.MOCK_DATA
-import maxeem.america.sleep.model.DetailsMockModel
 import maxeem.america.sleep.model.DetailsModel
-import maxeem.america.sleep.model.DetailsRealModel
 import org.jetbrains.anko.info
 
 class DetailsFragment : BaseFragment() {
 
     override val model by viewModels<DetailsModel> {
         val nightId = DetailsFragmentArgs.fromBundle(requireArguments()).nightId
-        if (MOCK_DATA) DetailsMockModel.FACTORY(nightId) else DetailsRealModel.FACTORY(nightId)
+        DetailsModel.FACTORY(nightId)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

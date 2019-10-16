@@ -25,9 +25,7 @@ import maxeem.america.sleep.ext.hash
 import maxeem.america.sleep.ext.materialAlert
 import maxeem.america.sleep.misc.MOCK_DATA
 import maxeem.america.sleep.misc.timeMillis
-import maxeem.america.sleep.model.JournalMockModel
 import maxeem.america.sleep.model.JournalModel
-import maxeem.america.sleep.model.JournalRealModel
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.info
 
@@ -37,8 +35,7 @@ class JournalFragment : BaseFragment() {
         private var startKey : Int? = null
     }
 
-    override val model : JournalModel by
-        if (MOCK_DATA) viewModels<JournalMockModel>() else viewModels<JournalRealModel>()
+    override val model : JournalModel by viewModels()
 
     private lateinit var binding : FragmentJournalBinding
 

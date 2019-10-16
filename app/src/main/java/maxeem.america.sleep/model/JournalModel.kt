@@ -1,19 +1,48 @@
 package maxeem.america.sleep.model
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
+import maxeem.america.sleep.R
 import maxeem.america.sleep.data.Night
-import maxeem.america.sleep.misc.Bool
+import maxeem.america.sleep.ext.asMutable
 import maxeem.america.sleep.misc.Prefs
+import org.jetbrains.anko.info
 
-abstract class JournalModel : BaseModel() {
+class JournalModel : BaseModel() {
 
-    abstract val nights    : LiveData<List<Night>?>
-    abstract val hasNights : LiveData<Bool>
+    val nights    = dao.getAll()
+    val hasNights = nights.map { !it.isNullOrEmpty() }
 
     val hasData = Prefs.hasData
 
-    open fun doSleep() {}
-    open fun deleteItem(item: Night) {}
-    open fun clearData() {}
+    fun doSleep() = action {
+        val insertedId = dao { insert(Night()) }
+        info(" inserted $insertedId")
+        require(insertedId > 0) { "inserted id is $insertedId" }
+        Prefs.apply {
+            lastNightId = insertedId
+            lastNightWasFinished = false
+            lastNightHasToQualified = true
+        }
+        onComplete?.invoke(insertedId)
+    }
+
+    fun deleteItem(item: Night) = action {
+        val size = nights.value!!.size
+        val deleted = dao { delete(item) }
+        info(" deleted $deleted")
+        require(1 == deleted) { "deleted $deleted of 1" }
+        if (size == 1)
+            Prefs.lastNightId = null
+        messageEvent.asMutable().value = MessageEvent.Info(R.string.deleted_item_message)
+    }
+
+    fun clearData() = action {
+        val size = nights.value!!.size
+        val cleared = dao { clear() }
+        info(" cleared $cleared of $size")
+        require(size == cleared) { "cleared $cleared of $size" }
+        Prefs.lastNightId = null
+        messageEvent.asMutable().value = MessageEvent.Info(R.string.cleared_data_message)
+    }
 
 }
