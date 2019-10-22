@@ -2,6 +2,7 @@ package maxeem.america.sleep.data
 
 import androidx.room.Room
 import maxeem.america.sleep.app
+import maxeem.america.sleep.misc.Prefs
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.random.Random
@@ -18,7 +19,8 @@ abstract class NightsDatabaseFakeImpl : NightsDatabase() {
                     Night(id = System.currentTimeMillis()+ Random.nextInt(), quality = Night.Quality.of(info[0].toInt()),
                             period=Night.Period(format.parse(info[1]).time, format.parse(info[2]).time))
                 }.reversed().also {
-                    nightsDao.insert(*it.toTypedArray())
+                    val ids = nightsDao.insert(*it.toTypedArray())
+                    Prefs.lastNightId = ids.last()
                 }
             }
         }
