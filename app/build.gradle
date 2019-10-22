@@ -18,6 +18,16 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("Object", "databaseImpl", "null")
     }
+    signingConfigs {
+        debug {
+            def debugKeystoreProps = new Properties()
+            debugKeystoreProps.load(new FileInputStream(rootProject.file('key.properties')))
+            keyAlias debugKeystoreProps['keyAlias']
+            keyPassword debugKeystoreProps['keyPassword']
+            storeFile file(debugKeystoreProps['storeFile'])
+            storePassword debugKeystoreProps['storePassword']
+        }
+    }
     buildTypes {
         release {
             applicationIdSuffix '.demo'
@@ -26,10 +36,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
+            signingConfig signingConfigs.debug
             applicationIdSuffix '.dev'
             versionNameSuffix '-dev'
         }
         fake {
+            signingConfig signingConfigs.debug
             applicationIdSuffix '.fake'
             versionNameSuffix '-fake'
             buildConfigField("Object", "databaseImpl",
