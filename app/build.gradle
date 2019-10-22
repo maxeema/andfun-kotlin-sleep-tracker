@@ -16,6 +16,7 @@ android {
         versionCode 1
         versionName "0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("Object", "databaseImpl", "null")
     }
     buildTypes {
         release {
@@ -27,6 +28,12 @@ android {
         debug {
             applicationIdSuffix '.dev'
             versionNameSuffix '-dev'
+        }
+        fake {
+            applicationIdSuffix '.fake'
+            versionNameSuffix '-fake'
+            buildConfigField("Object", "databaseImpl",
+                    "maxeem.america.sleep.data.NightsDatabaseFakeImpl.Companion.getInstance()")
         }
     }
     dataBinding {
@@ -40,6 +47,11 @@ android {
         jvmTarget = "1.8"
     }
     sourceSets {
+        fake {
+            java {
+                srcDirs 'src/fake/java', 'src/fake/kotlin'
+            }
+        }
         main.java.srcDirs += 'src/main/kotlin'
     }
     buildToolsVersion = '29.0.2'

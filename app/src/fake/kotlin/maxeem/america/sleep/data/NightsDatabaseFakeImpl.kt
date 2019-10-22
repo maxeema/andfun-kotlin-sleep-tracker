@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.random.Random
 
-abstract class NightsDemoDatabase : NightsDatabase() {
+abstract class NightsDatabaseFakeImpl : NightsDatabase() {
 
     companion object {
         val instance by lazy {

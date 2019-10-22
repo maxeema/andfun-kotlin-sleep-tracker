@@ -4,7 +4,7 @@ import androidx.room.Room
 import maxeem.america.sleep.app
 import maxeem.america.sleep.misc.DATABASE_NAME
 
-abstract class NightsRealDatabase : NightsDatabase() {
+abstract class NightsDatabaseImpl : NightsDatabase() {
 
     companion object {
         val instance by lazy {
