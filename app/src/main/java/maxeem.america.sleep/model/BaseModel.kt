@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import maxeem.america.sleep.R
 import maxeem.america.sleep.data.NightsDao
+import maxeem.america.sleep.data.NightsDatabase
 import maxeem.america.sleep.ext.asImmutable
 import maxeem.america.sleep.ext.asMutable
 import maxeem.america.sleep.ext.hash
@@ -23,7 +24,8 @@ open class BaseModel : ViewModel(), AnkoLogger, KoinComponent {
 
     val messageEvent = MutableLiveData<MessageEvent?>().asImmutable()
 
-    protected val dao : NightsDao by inject()
+    private val db : NightsDatabase by inject();
+    protected val dao = db.nightsDao;
 
     private var job : Job? = null
     private fun checkIsActive() = job?.isActive?.takeIf { it }

@@ -11,7 +11,7 @@ import org.koin.dsl.module
 val app = App.instance
 
 private val appModule = module {
-    single { NightsRealDatabase.instance.nightsDao }
+    single { NightsRealDatabase.instance }
 }
 
 class App : Application() {
