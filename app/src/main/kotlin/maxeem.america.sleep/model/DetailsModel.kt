@@ -1,8 +1,6 @@
 package maxeem.america.sleep.model
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
-import maxeem.america.sleep.data.Night
 import maxeem.america.sleep.ext.*
 
 class DetailsModel(nightId: Long) : BaseModel() {
@@ -11,14 +9,7 @@ class DetailsModel(nightId: Long) : BaseModel() {
         val FACTORY = singleArgViewModelFactory(::DetailsModel)
     }
 
-    val night = MutableLiveData<Night>()
-    init {
-        dao.getAsLive(nightId).map {
-            night.value = it
-        }.apply {
-            action { night.value = dao { get(nightId) } }
-        }
-    }
+    val night = dao.getAsLive(nightId)
 
     val hasData    = night.map { it != null }
     val isFinished = night.map { it?.isActive()?.not() ?: false }

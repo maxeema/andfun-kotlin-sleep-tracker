@@ -18,7 +18,7 @@ class QualityModel(private val nightId: Long) : BaseModel() {
     val date = night.map { it?.logPeriod() }
 
     fun onSetQuality(quality: Night.Quality) = action {
-        val updated = dao { updateQuality(nightId, quality) }
+        val updated = dao.updateQuality(nightId, quality)
         require(updated == 1) { "updated $updated of 1" }
         Prefs.lastNightHasToQualified = false
         onComplete?.let { it(quality) }

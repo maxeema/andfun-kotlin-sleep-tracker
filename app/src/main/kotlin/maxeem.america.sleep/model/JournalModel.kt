@@ -15,7 +15,7 @@ class JournalModel : BaseModel() {
     val hasData = Prefs.hasData
 
     fun doSleep() = action {
-        val insertedId = dao { insert(Night()) }
+        val insertedId = dao.insert(Night())
         info(" inserted $insertedId")
         require(insertedId > 0) { "inserted id is $insertedId" }
         Prefs.apply {
@@ -28,7 +28,7 @@ class JournalModel : BaseModel() {
 
     fun deleteItem(item: Night) = action {
         val size = nights.value!!.size
-        val deleted = dao { delete(item) }
+        val deleted = dao.delete(item)
         info(" deleted $deleted")
         require(1 == deleted) { "deleted $deleted of 1" }
         if (size == 1)
@@ -38,7 +38,7 @@ class JournalModel : BaseModel() {
 
     fun clearData() = action {
         val size = nights.value!!.size
-        val cleared = dao { clear() }
+        val cleared = dao.clear()
         info(" cleared $cleared of $size")
         require(size == cleared) { "cleared $cleared of $size" }
         Prefs.lastNightId = null

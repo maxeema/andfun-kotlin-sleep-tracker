@@ -13,7 +13,10 @@ class SleepingModel(private val nightId: Long) : BaseModel() {
     val night = dao.getAsLive(nightId)
 
     fun onWakeUp() = action {
-        val updated = dao { get(nightId)!!.run { wakeup(); update(this) } }
+        val updated = dao.get(nightId)?.run {
+            wakeup()
+            dao.update(this)
+        } ?: 0
         info(" updated $updated")
         require(updated == 1) { "updated $updated of 1" }
         Prefs.lastNightWasFinished = true

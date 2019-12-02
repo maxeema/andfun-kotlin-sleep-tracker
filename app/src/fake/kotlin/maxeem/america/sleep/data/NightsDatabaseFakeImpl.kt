@@ -1,6 +1,8 @@
 package maxeem.america.sleep.data
 
 import androidx.room.Room
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import maxeem.america.sleep.app
 import maxeem.america.sleep.misc.Prefs
 import java.text.SimpleDateFormat
@@ -12,15 +14,16 @@ abstract class NightsDatabaseFakeImpl : NightsDatabase() {
     companion object {
         val instance by lazy {
             Room.inMemoryDatabaseBuilder(app, NightsDatabase::class.java)
-                    .allowMainThreadQueries()
                     .build().apply {
                 data.trimIndent().split("\n").map {
                     val info = it.split(", ", " to ")
                     Night(id = System.currentTimeMillis()+ Random.nextInt(), quality = Night.Quality.of(info[0].toInt()),
                             period=Night.Period(format.parse(info[1]).time, format.parse(info[2]).time))
                 }.reversed().also {
-                    val ids = nightsDao.insert(*it.toTypedArray())
-                    Prefs.lastNightId = ids.last()
+                    GlobalScope.launch {
+                        val ids = nightsDao.insert(*it.toTypedArray())
+                        Prefs.lastNightId = ids.last()
+                    }
                 }
             }
         }
