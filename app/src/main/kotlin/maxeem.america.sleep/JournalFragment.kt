@@ -7,19 +7,21 @@ import androidx.databinding.ObservableBoolean
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.*
 import com.google.android.material.appbar.AppBarLayout
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import maxeem.america.sleep.adapter.JournalAdapter
 import maxeem.america.sleep.adapter.JournalAdapterDecoration
 import maxeem.america.sleep.adapter.hasOnlyOneRealItem
 import maxeem.america.sleep.adapter.isVirtualAt
 import maxeem.america.sleep.data.Night
 import maxeem.america.sleep.databinding.FragmentJournalBinding
-import maxeem.america.sleep.ext.delayed
 import maxeem.america.sleep.ext.grid
 import maxeem.america.sleep.ext.hash
 import maxeem.america.sleep.ext.materialAlert
@@ -136,7 +138,8 @@ class JournalFragment : BaseFragment() {
 
             adapter.submitData(nights)
             busy.set(true)
-            viewLifecycleOwner.delayed(500) {
+            viewLifecycleOwner.lifecycleScope.launch {
+                delay(500)
                 binding.recycler.itemAnimator?.isRunning {
                     if (lifecycle.currentState < Lifecycle.State.CREATED)
                         return@isRunning
@@ -169,7 +172,8 @@ class JournalFragment : BaseFragment() {
     private fun preLoad() {
         info(" preLoad")
         binding.fab.apply { scaleX = 0f; scaleY = 0f }
-        viewLifecycleOwner.delayed(200, Lifecycle.State.STARTED) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            delay(200)
             TransitionManager.beginDelayedTransition(activity!!.contentView as ViewGroup, TransitionSet().apply {
                 ordering = TransitionSet.ORDERING_SEQUENTIAL
                 addTransition(Slide(Gravity.START)) // empty text will disappeared to start
