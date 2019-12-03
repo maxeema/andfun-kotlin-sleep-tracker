@@ -28,13 +28,12 @@ open class BaseFragment : Fragment(), AnkoLogger {
         super.onViewCreated(view, savedInstanceState)
         info("$hash onViewCreated, savedInstanceState: $savedInstanceState")
 
-        model?.messageEvent?.observe(viewLifecycleOwner) { msg ->
-            msg ?: return@observe
+        model?.messageEvent?.observe(viewLifecycleOwner) {
+            val msg = it.consume() ?: return@observe
             view.longSnackbar(msg.msg).apply {
                 if (msg is BaseModel.MessageEvent.Error)
                     setAction(R.string.details) { materialAlert(Utils.formatError(msg.msg, msg.err)) }
             }
-            model!!.messageEventConsumed()
         }
     }
 

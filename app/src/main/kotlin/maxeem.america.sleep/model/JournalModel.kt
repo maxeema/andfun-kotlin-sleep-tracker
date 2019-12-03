@@ -4,6 +4,7 @@ import androidx.lifecycle.map
 import maxeem.america.sleep.R
 import maxeem.america.sleep.data.Night
 import maxeem.america.sleep.ext.asMutable
+import maxeem.america.sleep.misc.Consumable
 import maxeem.america.sleep.misc.Prefs
 import org.jetbrains.anko.info
 
@@ -33,7 +34,7 @@ class JournalModel : BaseModel() {
         require(1 == deleted) { "deleted $deleted of 1" }
         if (size == 1)
             Prefs.lastNightId = null
-        messageEvent.asMutable().value = MessageEvent.Info(R.string.deleted_item_message)
+        messageEvent.asMutable().value = Consumable of MessageEvent.Info(R.string.deleted_item_message)
     }
 
     fun clearData() = action {
@@ -42,7 +43,7 @@ class JournalModel : BaseModel() {
         info(" cleared $cleared of $size")
         require(size == cleared) { "cleared $cleared of $size" }
         Prefs.lastNightId = null
-        messageEvent.asMutable().value = MessageEvent.Info(R.string.cleared_data_message)
+        messageEvent.asMutable().value = Consumable of MessageEvent.Info(R.string.cleared_data_message)
     }
 
 }
