@@ -171,7 +171,7 @@ class JournalFragment : BaseFragment() {
     private fun preLoad() {
         info(" preLoad")
         binding.fab.apply { scaleX = 0f; scaleY = 0f }
-        viewLifecycleOwner.lifecycleScope.launch {
+        viewOwner?.lifecycleScope?.launch {
             delay(200)
             TransitionManager.beginDelayedTransition(activity!!.contentView as ViewGroup, TransitionSet().apply {
                 ordering = TransitionSet.ORDERING_SEQUENTIAL
