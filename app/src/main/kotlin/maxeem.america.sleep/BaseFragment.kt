@@ -17,6 +17,8 @@ open class BaseFragment : Fragment(), AnkoLogger {
 
     init { info("$hash init") }
 
+    val viewOwner get() = runCatching { viewLifecycleOwner }.getOrNull()
+
     protected open val model : BaseModel? = null
 
     open fun consumeBackPressed() = false

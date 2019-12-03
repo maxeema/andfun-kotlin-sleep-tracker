@@ -5,7 +5,6 @@ import android.view.*
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.databinding.ObservableBoolean
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
@@ -138,18 +137,18 @@ class JournalFragment : BaseFragment() {
 
             adapter.submitData(nights)
             busy.set(true)
-            viewLifecycleOwner.lifecycleScope.launch {
+            viewOwner?.lifecycleScope?.launch {
                 delay(500)
                 binding.recycler.itemAnimator?.isRunning {
-                    if (lifecycle.currentState < Lifecycle.State.CREATED)
-                        return@isRunning
-                    info(" $timeMillis isRunning called on binding.recycler.itemAnimator")
-                    busy.set(false)
-                    val (isInserting, nightId) = inserting
-                    if (isInserting)
-                        navigateToSleepEvent.value = nightId
-                    else
-                        binding.appbar.setExpanded(true, false)
+                    viewOwner?.lifecycleScope?.launchWhenStarted {
+                        info(" $timeMillis isRunning called on binding.recycler.itemAnimator")
+                        busy.set(false)
+                        val (isInserting, nightId) = inserting
+                        if (isInserting)
+                            navigateToSleepEvent.value = nightId
+                        else
+                            binding.appbar.setExpanded(true, false)
+                    }
                 }
             }
             clear?.isEnabled = nights.isNotEmpty()
