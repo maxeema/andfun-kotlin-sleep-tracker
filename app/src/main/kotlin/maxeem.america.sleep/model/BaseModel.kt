@@ -35,15 +35,14 @@ open class BaseModel : ViewModel(), AnkoLogger, KoinComponent {
 
     protected fun action(code: suspend CoroutineScope.()->Unit) {
         if (checkIsActive()) return
-        viewModelScope.launch {
-            job = this as Job
+        job = viewModelScope.launch {
             runCatching {
                 this.code()
             }.onFailure { err ->
                 messageEvent.asMutable().value = Consumable of MessageEvent.Error(R.string.sorry, err)
             }
-        }.invokeOnCompletion {
-            job = null
+        }.apply {
+            invokeOnCompletion { if (job == this) job = null }
         }
     }
 
